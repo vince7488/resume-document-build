@@ -1,71 +1,82 @@
 /* ==========================================================================
    RESUME DOCUMENT BUILD: Deterministic Print Scaffold (US Letter & ISO A4)
    Zero-dependency, CSS paged-media layout backed by local typography & vector assets.
-   House Style: Spectral (Serif) + Public Sans / Source Sans 3 (Sans)
+   House Style: Playfair (Serif) + Rubik (Sans)
    ========================================================================== */
 
-/* Offline Typography Hooks (Zero network requests guaranteed) */
+/* Offline Typography Hooks (Zero network requests guaranteed via local WOFF2) */
 @font-face {
-  font-family: 'Spectral';
+  font-family: 'Playfair';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Spectral SemiBold'), local('Spectral-SemiBold'),
-       url('assets/fonts/Spectral-SemiBold.ttf') format('truetype');
+  src:
+    local('Playfair'),
+    local('Playfair Regular'),
+    local('Playfair Display'),
+    url('assets/fonts/Playfair-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Spectral';
+  font-family: 'Playfair';
   font-style: italic;
-  font-weight: 500;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Spectral Medium Italic'), local('Spectral-MediumItalic'),
-       url('assets/fonts/Spectral-MediumItalic.ttf') format('truetype');
+  src:
+    local('Playfair Italic'),
+    local('Playfair-Italic'),
+    local('Playfair Display Italic'),
+    url('assets/fonts/Playfair-Italic-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Public Sans';
+  font-family: 'Playfair Display';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Public Sans Regular'), local('PublicSans-Regular'),
-       url('assets/fonts/PublicSans-Regular.ttf') format('truetype');
+  src:
+    local('Playfair Display'),
+    local('Playfair'),
+    url('assets/fonts/Playfair-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Public Sans';
-  font-style: normal;
-  font-weight: 500;
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Public Sans Medium'), local('PublicSans-Medium'),
-       url('assets/fonts/PublicSans-Medium.ttf') format('truetype');
+  src:
+    local('Playfair Display Italic'),
+    local('Playfair Italic'),
+    url('assets/fonts/Playfair-Italic-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Public Sans';
+  font-family: 'Rubik';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Public Sans SemiBold'), local('PublicSans-SemiBold'),
-       url('assets/fonts/PublicSans-SemiBold.ttf') format('truetype');
+  src:
+    local('Rubik'),
+    local('Rubik Regular'),
+    url('assets/fonts/Rubik-Variable.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Public Sans';
-  font-style: normal;
-  font-weight: 700;
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 400 700;
   font-display: swap;
-  src: local('Public Sans Bold'), local('PublicSans-Bold'),
-       url('assets/fonts/PublicSans-Bold.ttf') format('truetype');
+  src:
+    local('Rubik Italic'),
+    local('Rubik-Italic'),
+    url('assets/fonts/Rubik-Italic-Variable.woff2') format('woff2');
 }
-
-/* CDN Fallback (Cached if connected; graceful degradation if airgapped) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
 
 :root {
   /* --- Default House Color Palette --- */
-  --ink: #231F20;
-  --accent: #594B2F;
+  --ink: #231f20;
+  --accent: #594b2f;
   --accent2: #591236;
   --muted: #6d666a;
   --faint: #777074;
@@ -73,8 +84,8 @@
   --page-bg: #ffffff;
 
   /* --- Default Typography --- */
-  --display-font: 'Spectral', Georgia, 'Times New Roman', serif;
-  --body-font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --display-font: 'Playfair', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --body-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* --- Density Tuning Root Tokens (Adjustable by agent or studio UI) --- */
   --body-size: 8.8pt;
@@ -110,7 +121,7 @@
 /* ==========================================================================
    Paper Format Presets: Letter & A4
    ========================================================================== */
-[data-paper="letter"] {
+[data-paper='letter'] {
   --paper-name: 'Letter';
   --page-width: 8.5in;
   --page-height: 11in;
@@ -121,7 +132,7 @@
   --margin-left: 0.5in;
 }
 
-[data-paper="a4"] {
+[data-paper='a4'] {
   --paper-name: 'A4';
   --page-width: 210mm;
   --page-height: 297mm;
@@ -135,7 +146,7 @@
 /* ==========================================================================
    Density Presets
    ========================================================================== */
-[data-density="compact"] {
+[data-density='compact'] {
   --body-size: 8.2pt;
   --body-line-height: 1.32;
   --section-gap: 6.5px;
@@ -143,7 +154,7 @@
   --bullet-gap: 1.4px;
 }
 
-[data-density="normal"] {
+[data-density='normal'] {
   --body-size: 8.8pt;
   --body-line-height: 1.38;
   --section-gap: 10px;
@@ -151,7 +162,7 @@
   --bullet-gap: 2.2px;
 }
 
-[data-density="relaxed"] {
+[data-density='relaxed'] {
   --body-size: 9.3pt;
   --body-line-height: 1.44;
   --section-gap: 14px;
@@ -160,7 +171,7 @@
 }
 
 /* --- Theme Overrides --- */
-[data-theme="federal-navy"] {
+[data-theme='federal-navy'] {
   --ink: #111827;
   --accent: #910045;
   --accent2: #1e3a8a;
@@ -169,7 +180,7 @@
   --hair: #e5e7eb;
 }
 
-[data-theme="modern-obsidian"] {
+[data-theme='modern-obsidian'] {
   --ink: #0f172a;
   --accent: #0f766e;
   --accent2: #0284c7;
@@ -178,7 +189,7 @@
   --hair: #cbd5e1;
 }
 
-[data-theme="monochrome"] {
+[data-theme='monochrome'] {
   --ink: #000000;
   --accent: #262626;
   --accent2: #404040;
@@ -188,20 +199,27 @@
 }
 
 /* --- Font Preset Overrides --- */
-[data-font="spectral-source"] {
-  --display-font: 'Spectral', Georgia, serif;
-  --body-font: 'Source Sans 3', sans-serif;
+[data-font='playfair-rubik'] {
+  --display-font: 'Playfair', 'Playfair Display', Georgia, serif;
+  --body-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-[data-font="serif-poppins"] {
-  --display-font: 'Spectral', Georgia, serif;
-  --body-font: 'Poppins', sans-serif;
+[data-font='playfair-system'] {
+  --display-font: 'Playfair', 'Playfair Display', Georgia, serif;
+  --body-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+[data-font='rubik-all'] {
+  --display-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --body-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* ==========================================================================
    Base & Reset
    ========================================================================== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -410,7 +428,9 @@ a {
   border: 1px solid #374151;
   border-radius: 12px;
   min-width: 320px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
   padding: 6px;
   display: none;
   flex-direction: column;
@@ -504,7 +524,7 @@ a {
   transition: transform 0.2s ease;
 }
 
-.dropdown-wrapper[aria-expanded="true"] .chevron-icon,
+.dropdown-wrapper[aria-expanded='true'] .chevron-icon,
 .dropdown-menu.is-open ~ .control-btn .chevron-icon {
   transform: rotate(180deg);
 }
@@ -520,7 +540,9 @@ a {
   border: 1px solid #374151;
   border-radius: 12px;
   width: 290px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
   padding: 14px 16px;
   z-index: 2000;
   animation: dropdownFadeIn 0.15s ease-out;
@@ -575,7 +597,7 @@ a {
   color: var(--studio-text-bright);
 }
 
-.popover-row input[type="range"] {
+.popover-row input[type='range'] {
   width: 100%;
   accent-color: var(--studio-primary);
   cursor: pointer;
@@ -640,7 +662,7 @@ a {
   gap: 32px;
 }
 
-/* 
+/*
    THE SHEET: Exact US Letter (8.5in x 11in) or ISO A4 (210mm x 297mm)
    Screen view simulates the printed paper.
    Print media overrides to zero-margin sheet or native @page.
@@ -659,20 +681,20 @@ a {
 }
 
 /* Editable mode visual hint */
-body.is-editing .sheet [contenteditable="true"] {
+body.is-editing .sheet [contenteditable='true'] {
   outline: 1px dashed rgba(59, 130, 246, 0.35);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-body.is-editing .sheet [contenteditable="true"]:focus {
+body.is-editing .sheet [contenteditable='true']:focus {
   outline: 2px solid #2563eb;
   background: rgba(37, 99, 235, 0.04);
 }
 
 /* Visual Print Margin Guides Overlay */
 .sheet.show-guides::after {
-  content: "";
+  content: '';
   position: absolute;
   top: var(--margin-top);
   left: var(--margin-left);
@@ -684,11 +706,11 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 }
 
 .sheet.show-guides::before {
-  content: "US Letter (8.5\" × 11\") Print-Safe Bounding Box";
+  content: 'US Letter (8.5" × 11") Print-Safe Bounding Box';
   position: absolute;
   top: calc(var(--margin-top) - 18px);
   right: var(--margin-right);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 9px;
   color: #ef4444;
   letter-spacing: 0.05em;
@@ -697,8 +719,8 @@ body.is-editing .sheet [contenteditable="true"]:focus {
   z-index: 999;
 }
 
-[data-paper="a4"] .sheet.show-guides::before {
-  content: "ISO A4 (210 × 297mm) Print-Safe Bounding Box";
+[data-paper='a4'] .sheet.show-guides::before {
+  content: 'ISO A4 (210 × 297mm) Print-Safe Bounding Box';
 }
 
 .sheet-wrapper {
@@ -708,7 +730,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
   align-items: center;
 }
 
-[data-layout="1page"] .sheet-wrapper:nth-of-type(2) {
+[data-layout='1page'] .sheet-wrapper:nth-of-type(2) {
   display: none !important;
 }
 
@@ -734,7 +756,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
   font-family: var(--display-font);
   font-weight: 600;
   font-size: 23.5pt;
-  line-height: 1.0;
+  line-height: 1;
   letter-spacing: -0.015em;
   color: var(--ink);
 }
@@ -928,6 +950,7 @@ ul.bullets {
 ul.bullets li {
   position: relative;
   padding-left: 11px;
+  text-wrap-style: pretty;
   margin-bottom: var(--bullet-gap);
   font-size: var(--body-size);
   line-height: var(--body-line-height);
@@ -935,7 +958,7 @@ ul.bullets li {
 }
 
 ul.bullets li::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0.48em;
@@ -1028,6 +1051,7 @@ ul.bullets li::before {
 #header,
 #summary,
 #skills,
+#skills-continued,
 #experience,
 #experience-continued,
 #education,
@@ -1041,6 +1065,7 @@ ul.bullets li::before {
   overflow-wrap: break-word;
   word-break: normal;
   hyphens: auto;
+  text-wrap-style: pretty;
 }
 
 #experience .role,
@@ -1090,80 +1115,96 @@ p,
    ========================================================================== */
 
 /* In 1-Page mode, calibrated margins and density defaults */
-[data-layout="1page"][data-paper="letter"],
-[data-layout="1page"]:not([data-paper="a4"]) {
+[data-layout='1page'][data-paper='letter'],
+[data-layout='1page']:not([data-paper='a4']) {
   --margin-top: 0.42in;
-  --margin-bottom: 0.40in;
+  --margin-bottom: 0.4in;
 }
 
-[data-layout="1page"][data-paper="a4"] {
+[data-layout='1page'][data-paper='a4'] {
   --margin-top: 10.5mm;
   --margin-bottom: 10mm;
 }
 
-[data-layout="1page"] {
+[data-layout='1page'] {
   --section-gap: 7px;
   --role-gap: 5px;
   --bullet-gap: 1.4px;
 }
 
-[data-layout="1page"] #sheet-1 {
+[data-layout='1page'] #sheet-1 {
   padding-top: var(--margin-top) !important;
   padding-bottom: var(--margin-bottom) !important;
 }
 
-[data-layout="1page"] #sheet-2 {
+[data-layout='1page'] #sheet-2 {
   display: none !important;
 }
 
-[data-layout="1page"] .edu-cert-1page {
+[data-layout='1page'] .edu-cert-1page {
   display: block;
 }
 
-[data-layout="1page"] .bullet-p2-only {
+[data-layout='1page'] .skills-1page {
+  display: block;
+}
+
+[data-layout='1page'] .skills-2page {
   display: none !important;
 }
 
-[data-layout="1page"] .summary-p2-only {
+[data-layout='1page'] .bullet-p2-only {
+  display: none !important;
+}
+
+[data-layout='1page'] .summary-p2-only {
   display: none !important;
 }
 
 /* In 2-Page mode, display both sheets with generous narrative spacing */
-[data-layout="2page"][data-paper="letter"],
-[data-layout="2page"]:not([data-paper="a4"]) {
+[data-layout='2page'][data-paper='letter'],
+[data-layout='2page']:not([data-paper='a4']) {
   --margin-top: 0.44in;
   --margin-bottom: 0.42in;
 }
 
-[data-layout="2page"][data-paper="a4"] {
+[data-layout='2page'][data-paper='a4'] {
   --margin-top: 11mm;
   --margin-bottom: 10.5mm;
 }
 
-[data-layout="2page"] {
+[data-layout='2page'] {
   --section-gap: 9px;
   --role-gap: 6.5px;
   --bullet-gap: 1.8px;
 }
 
-[data-layout="2page"] #sheet-1 {
+[data-layout='2page'] #sheet-1 {
   padding-top: var(--margin-top) !important;
   padding-bottom: var(--margin-bottom) !important;
 }
 
-[data-layout="2page"] #sheet-2 {
+[data-layout='2page'] #sheet-2 {
   display: block;
 }
 
-[data-layout="2page"] .edu-cert-1page {
+[data-layout='2page'] .edu-cert-1page {
   display: none !important;
 }
 
-[data-layout="2page"] .bullet-p2-only {
+[data-layout='2page'] .skills-1page {
+  display: none !important;
+}
+
+[data-layout='2page'] .skills-2page {
+  display: block;
+}
+
+[data-layout='2page'] .bullet-p2-only {
   display: list-item !important;
 }
 
-[data-layout="2page"] .summary-p2-only {
+[data-layout='2page'] .summary-p2-only {
   display: inline !important;
 }
 
@@ -1266,7 +1307,8 @@ p,
     margin: 0;
   }
 
-  html, body {
+  html,
+  body {
     width: 100% !important;
     height: auto !important;
     margin: 0 !important;
@@ -1300,8 +1342,8 @@ p,
   }
 
   /* Sheet sizing for US Letter */
-  [data-paper="letter"] .sheet,
-  html:not([data-paper="a4"]) .sheet {
+  [data-paper='letter'] .sheet,
+  html:not([data-paper='a4']) .sheet {
     page: page-letter;
     width: 8.5in !important;
     height: 11in !important;
@@ -1319,7 +1361,7 @@ p,
   }
 
   /* Sheet sizing for ISO A4 */
-  [data-paper="a4"] .sheet {
+  [data-paper='a4'] .sheet {
     page: page-a4;
     width: 210mm !important;
     height: 297mm !important;
@@ -1343,23 +1385,38 @@ p,
   }
 
   /* Strict anti-orphan styling */
-  .keep, .role, .skill-row, .ec, .sec-label, .role-head, .twocol, #experience .role, #experience-continued .role {
+  .keep,
+  .role,
+  .skill-row,
+  .ec,
+  .sec-label,
+  .role-head,
+  .twocol,
+  #experience .role,
+  #experience-continued .role {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
 
-  .sec-label, h1, h2, h3, .role-head, .continuation-header {
+  .sec-label,
+  h1,
+  h2,
+  h3,
+  .role-head,
+  .continuation-header {
     break-after: avoid !important;
     page-break-after: avoid !important;
   }
 
-  p, .bullets, .bullets li {
+  p,
+  .bullets,
+  .bullets li {
     orphans: 3 !important;
     widows: 3 !important;
   }
 
   /* Ensure text selections and edit outlines are clear on paper */
-  [contenteditable="true"] {
+  [contenteditable='true'] {
     outline: none !important;
   }
 }

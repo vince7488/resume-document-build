@@ -1,38 +1,36 @@
-# Offline Font Files Directory
+# Offline Variable Font Files Directory
 
-Place your offline TTF/OTF font files in this folder (`assets/fonts/`).
-The CSS `@font-face` rules in `resume.css` will automatically prioritize these local font files over web fonts whenever present.
+This folder (`assets/fonts/`) contains self-hosted, airgapped **WOFF2** variable font files for the resume typography.
+Zero network requests are made to any remote font CDN or Google Fonts API.
 
-## Expected File Names
+## Active Fonts
 
-### 1. Spectral (Display Serif)
-- `Spectral-Regular.ttf` (Weight: 400, Normal)
-- `Spectral-Medium.ttf` (Weight: 500, Normal)
-- `Spectral-SemiBold.ttf` (Weight: 600, Normal)
-- `Spectral-Bold.ttf` (Weight: 700, Normal)
-- `Spectral-Italic.ttf` (Weight: 400, Italic)
-- `Spectral-SemiBoldItalic.ttf` (Weight: 600, Italic)
+### 1. Playfair (Display Serif)
+- **`Playfair-Variable.woff2`** (Variable Weight: 400–700, Normal)
+- **`Playfair-Italic-Variable.woff2`** (Variable Weight: 400–700, Italic)
+- **CSS Family**: `'Playfair'`, `'Playfair Display'`, Georgia, serif
+- **Optimization**: Extra axes (`opsz` pinned to 12pt, `wdth` pinned to 100/Normal) trimmed via `fonttools varLib.instancer` with `wght=400:700`, subsetted to Latin + Latin-ext + typographic symbols, and compressed via `woff2_compress`.
 
-### 2. Public Sans (Federal / USWDS Body)
-- `PublicSans-Regular.ttf` (Weight: 400, Normal)
-- `PublicSans-Medium.ttf` (Weight: 500, Normal)
-- `PublicSans-SemiBold.ttf` (Weight: 600, Normal)
-- `PublicSans-Bold.ttf` (Weight: 700, Normal)
-- `PublicSans-Italic.ttf` (Weight: 400, Italic)
+### 2. Rubik (Body Sans)
+- **`Rubik-Variable.woff2`** (Variable Weight: 400–700, Normal)
+- **`Rubik-Italic-Variable.woff2`** (Variable Weight: 400–700, Italic)
+- **CSS Family**: `'Rubik'`, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+- **Optimization**: Weight axis trimmed to `wght=400:700` via `fonttools varLib.instancer`, subsetted to Latin + Latin-ext + typographic symbols, and compressed via `woff2_compress`.
 
-### 3. Source Sans 3 (Commercial Body)
-- `SourceSans3-Regular.ttf` (Weight: 400, Normal)
-- `SourceSans3-SemiBold.ttf` (Weight: 600, Normal)
-- `SourceSans3-Bold.ttf` (Weight: 700, Normal)
-- `SourceSans3-Italic.ttf` (Weight: 400, Italic)
-*(Or variable font `SourceSans3-VF.ttf`)*
+## CSS `@font-face` Integration
 
-### 4. Poppins (Modern Body)
-- `Poppins-Regular.ttf` (Weight: 400, Normal)
-- `Poppins-Medium.ttf` (Weight: 500, Normal)
-- `Poppins-SemiBold.ttf` (Weight: 600, Normal)
-- `Poppins-Bold.ttf` (Weight: 700, Normal)
-- `Poppins-Italic.ttf` (Weight: 400, Italic)
+`resume.css` binds these fonts directly via:
+```css
+@font-face {
+  font-family: 'Playfair';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local('Playfair'),
+       local('Playfair Regular'),
+       local('Playfair Display'),
+       url('assets/fonts/Playfair-Variable.woff2') format('woff2');
+}
+```
 
----
-*Note: If any font file is not present locally, `resume.css` automatically falls back to online Google Fonts or local system typography seamlessly.*
+The `local(...)` declarations ensure that if the font is installed in the host OS (e.g., macOS Font Book / `~/Library/Fonts`), it is utilized immediately; otherwise, the bundled offline WOFF2 file is loaded deterministically.

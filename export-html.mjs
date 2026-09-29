@@ -51,8 +51,11 @@ const srcFontsDir = resolve(__dirname, 'assets/fonts');
 if (existsSync(srcFontsDir)) {
   const fontFiles = readdirSync(srcFontsDir);
   fontFiles.forEach(f => {
-    copyFileSync(join(srcFontsDir, f), join(FONTS_DIR, f));
-    console.log(`  + assets/fonts/${f}`);
+    const srcFile = join(srcFontsDir, f);
+    if (statSync(srcFile).isFile()) {
+      copyFileSync(srcFile, join(FONTS_DIR, f));
+      console.log(`  + assets/fonts/${f}`);
+    }
   });
 }
 
