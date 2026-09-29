@@ -24,12 +24,13 @@ const BUILD_DIR = resolve(__dirname, 'resume-build');
 const ASSETS_DIR = join(BUILD_DIR, 'assets');
 const IMAGES_DIR = join(ASSETS_DIR, 'images');
 const FONTS_DIR = join(ASSETS_DIR, 'fonts');
+const DOCS_DIR = join(ASSETS_DIR, 'documents');
 
 console.log('\n=== Exporting HTML Resume Build ===');
 console.log(`Target Directory: ${BUILD_DIR}`);
 
 // 1. Create Directories
-[BUILD_DIR, ASSETS_DIR, IMAGES_DIR, FONTS_DIR].forEach(dir => {
+[BUILD_DIR, ASSETS_DIR, IMAGES_DIR, FONTS_DIR, DOCS_DIR].forEach(dir => {
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
@@ -102,6 +103,7 @@ resume-build/
   ├── resume.js          # Studio interaction & layout sentinel
   ├── ats_resume.txt     # Formatted plain-text ATS master
   └── assets/
+      ├── documents/     # Compiled PDF distribution files
       ├── images/        # Vector SVGs (logo, icons)
       └── fonts/         # Offline TTF font storage directory
 `);

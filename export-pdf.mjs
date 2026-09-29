@@ -6,12 +6,17 @@
  */
 
 import { execSync } from 'node:child_process';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const DOCS_DIR = resolve(__dirname, 'resume-build/assets/documents');
+if (!existsSync(DOCS_DIR)) {
+  mkdirSync(DOCS_DIR, { recursive: true });
+}
 
 const CHROME_PATHS = [
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
@@ -40,7 +45,7 @@ const sourceHtml = readFileSync(resolve(__dirname, 'index.html'), 'utf-8');
 const is2Page = pageMode === '2';
 const targetLayout = is2Page ? '2page' : '1page';
 const outputPdfName = is2Page ? 'vmercader-resume-complete.pdf' : 'vmercader-resume-executive.pdf';
-const outputPdfPath = resolve(__dirname, outputPdfName);
+const outputPdfPath = resolve(DOCS_DIR, outputPdfName);
 
 const stagedHtmlContent = sourceHtml.replace(
   /data-layout="[^"]*"/,

@@ -283,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const zip = new JSZip();
         const buildFolder = zip.folder('resume-build');
         const assetsFolder = buildFolder.folder('assets');
+        const docsFolder = assetsFolder.folder('documents');
         const imagesFolder = assetsFolder.folder('images');
         const fontsFolder = assetsFolder.folder('fonts');
 
@@ -331,6 +332,18 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (e) {}
         }
 
+        // Include compiled PDFs if present in build output
+        for (const pdfName of ['vmercader-resume-executive.pdf', 'vmercader-resume-complete.pdf']) {
+          try {
+            let pdfRes = await fetch(`resume-build/assets/documents/${pdfName}`);
+            if (!pdfRes || !pdfRes.ok) pdfRes = await fetch(`assets/documents/${pdfName}`);
+            if (pdfRes && pdfRes.ok) {
+              const pdfBlob = await pdfRes.blob();
+              docsFolder.file(pdfName, pdfBlob);
+            }
+          } catch (e) {}
+        }
+
         const zipBlob = await zip.generateAsync({ type: 'blob' });
         triggerDownload(zipBlob, 'resume-build.zip');
 
@@ -346,11 +359,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Helper to resolve PDF path whether running from root studio or exported build
+  async function downloadPdf(filename) {
+    const directPath = `assets/documents/${filename}`;
+    const buildPath = `resume-build/assets/documents/${filename}`;
+    try {
+      const res = await fetch(directPath, { method: 'HEAD' });
+      if (res.ok) {
+        triggerDownload(directPath, filename);
+        return;
+      }
+    } catch (e) {}
+    triggerDownload(buildPath, filename);
+  }
+
   // Action: Export 1-Page PDF
   if (btnExportPdf1Page) {
     btnExportPdf1Page.addEventListener('click', () => {
       closeExportMenu();
-      triggerDownload('vmercader-resume-executive.pdf', 'vmercader-resume-executive.pdf');
+      downloadPdf('vmercader-resume-executive.pdf');
     });
   }
 
@@ -358,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnExportPdf2Page) {
     btnExportPdf2Page.addEventListener('click', () => {
       closeExportMenu();
-      triggerDownload('vmercader-resume-complete.pdf', 'vmercader-resume-complete.pdf');
+      downloadPdf('vmercader-resume-complete.pdf');
     });
   }
 
