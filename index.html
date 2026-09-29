@@ -86,11 +86,52 @@
         ATS Text
       </button>
 
-      <!-- Print Trigger -->
-      <button id="btn-print" class="control-btn btn-primary" title="Print or save as PDF (Cmd+P)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        Print / Save PDF
-      </button>
+      <!-- Export As Dropdown Menu -->
+      <div class="dropdown-wrapper">
+        <button id="btn-export-dropdown" class="control-btn btn-primary" aria-haspopup="true" aria-expanded="false" title="Export resume in multiple formats">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Export As</span>
+          <svg class="chevron-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="export-menu" class="dropdown-menu" role="menu">
+          <button class="dropdown-item" id="export-html-zip" role="menuitem">
+            <span class="item-badge">HTML Build</span>
+            <div class="item-details">
+              <strong class="item-title">📦 HTML Build Package (.zip)</strong>
+              <span class="item-desc">Self-contained <code>resume-build/</code> folder with HTML, CSS &amp; assets</span>
+            </div>
+          </button>
+          <button class="dropdown-item" id="export-pdf-1page" role="menuitem">
+            <span class="item-badge">PDF</span>
+            <div class="item-details">
+              <strong class="item-title">📄 1-Page Executive PDF</strong>
+              <span class="item-desc">Deterministic 1-page Letter PDF download</span>
+            </div>
+          </button>
+          <button class="dropdown-item" id="export-pdf-2page" role="menuitem">
+            <span class="item-badge">PDF</span>
+            <div class="item-details">
+              <strong class="item-title">📑 2-Page Complete PDF</strong>
+              <span class="item-desc">Comprehensive 2-page timeline narrative download</span>
+            </div>
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="export-browser-print" role="menuitem">
+            <span class="item-badge">Print</span>
+            <div class="item-details">
+              <strong class="item-title">🖨️ Browser Print / Save PDF...</strong>
+              <span class="item-desc">System print dialog with @page rules (Cmd+P)</span>
+            </div>
+          </button>
+          <button class="dropdown-item" id="export-ats-txt" role="menuitem">
+            <span class="item-badge">ATS</span>
+            <div class="item-details">
+              <strong class="item-title">📋 ATS Plain Text (.txt)</strong>
+              <span class="item-desc">Download formatted ATS text file directly</span>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -423,6 +464,7 @@
     </div>
   </div>
 
+  <script src="assets/jszip.min.js"></script>
   <script src="resume.js"></script>
 </body>
 </html>

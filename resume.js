@@ -211,10 +211,176 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sheet1) observer.observe(sheet1, { childList: true, subtree: true, characterData: true });
   if (sheet2) observer.observe(sheet2, { childList: true, subtree: true, characterData: true });
 
-  // --- Print Trigger ---
+  // --- Export As Dropdown & Actions ---
+  const btnExportDropdown = document.getElementById('btn-export-dropdown');
+  const exportMenu = document.getElementById('export-menu');
+  const btnExportHtmlZip = document.getElementById('export-html-zip');
+  const btnExportPdf1Page = document.getElementById('export-pdf-1page');
+  const btnExportPdf2Page = document.getElementById('export-pdf-2page');
+  const btnExportBrowserPrint = document.getElementById('export-browser-print');
+  const btnExportAtsTxt = document.getElementById('export-ats-txt');
+
+  function closeExportMenu() {
+    if (exportMenu) {
+      exportMenu.classList.remove('is-open');
+      if (btnExportDropdown) btnExportDropdown.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  if (btnExportDropdown && exportMenu) {
+    btnExportDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = exportMenu.classList.toggle('is-open');
+      btnExportDropdown.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!exportMenu.contains(e.target) && e.target !== btnExportDropdown) {
+        closeExportMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeExportMenu();
+    });
+  }
+
+  function triggerDownload(blobOrUrl, filename) {
+    const a = document.createElement('a');
+    if (typeof blobOrUrl === 'string') {
+      a.href = blobOrUrl;
+    } else {
+      a.href = URL.createObjectURL(blobOrUrl);
+    }
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      if (typeof blobOrUrl !== 'string') URL.revokeObjectURL(a.href);
+    }, 600);
+  }
+
+  // Action: Export HTML Build Package (.zip)
+  if (btnExportHtmlZip) {
+    btnExportHtmlZip.addEventListener('click', async () => {
+      closeExportMenu();
+      const originalText = btnExportHtmlZip.querySelector('.item-title').innerHTML;
+      btnExportHtmlZip.querySelector('.item-title').innerHTML = '⏳ Building Package...';
+
+      try {
+        if (typeof JSZip === 'undefined') {
+          // Fallback: If JSZip script hasn't loaded, try loading it dynamically
+          await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'assets/jszip.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+          });
+        }
+
+        const zip = new JSZip();
+        const buildFolder = zip.folder('resume-build');
+        const assetsFolder = buildFolder.folder('assets');
+        const imagesFolder = assetsFolder.folder('images');
+        const fontsFolder = assetsFolder.folder('fonts');
+
+        // Current live HTML content
+        const currentHtml = document.documentElement.outerHTML;
+        const cleanResumeHtml = currentHtml
+          .replace(/<!-- =+[\s\S]*?STUDIO WORKSPACE CONTROLS[\s\S]*?<\/header>/i, '')
+          .replace(/<!-- Deterministic HUD[\s\S]*?<\/div>\s*<\/div>/i, '')
+          .replace(/<button id="btn-edit-toggle"[\s\S]*?<\/button>/i, '')
+          .replace(/class="sheet-badge no-print">PAGE \d · [^<]*<\/span>/g, '');
+
+        buildFolder.file('resume.html', cleanResumeHtml);
+        buildFolder.file('index.html', currentHtml);
+
+        // Fetch CSS, JS, and ATS files
+        try {
+          const cssRes = await fetch('resume.css');
+          if (cssRes.ok) buildFolder.file('resume.css', await cssRes.text());
+        } catch (e) {}
+
+        try {
+          const jsRes = await fetch('resume.js');
+          if (jsRes.ok) buildFolder.file('resume.js', await jsRes.text());
+        } catch (e) {}
+
+        try {
+          const atsRes = await fetch('ats_resume.txt');
+          if (atsRes.ok) buildFolder.file('ats_resume.txt', await atsRes.text());
+        } catch (e) {}
+
+        // Add Fonts README
+        fontsFolder.file('README.md', `# Offline Font Files Directory\n\nPlace your offline TTF/OTF font files in this folder (assets/fonts/).\nThe CSS @font-face rules in resume.css will automatically load them whenever present.\n`);
+
+        // Add SVGs
+        const svgList = [
+          'logo.svg', 'icon-email.svg', 'icon-phone.svg', 'icon-location.svg',
+          'icon-globe.svg', 'icon-linkedin.svg', 'icon-github.svg', 'icon-shield.svg'
+        ];
+
+        for (const svg of svgList) {
+          try {
+            const svgRes = await fetch(`assets/images/${svg}`);
+            if (svgRes.ok) {
+              imagesFolder.file(svg, await svgRes.text());
+            }
+          } catch (e) {}
+        }
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        triggerDownload(zipBlob, 'resume-build.zip');
+
+        btnExportHtmlZip.querySelector('.item-title').innerHTML = '✅ Downloaded resume-build.zip!';
+        setTimeout(() => {
+          btnExportHtmlZip.querySelector('.item-title').innerHTML = originalText;
+        }, 2500);
+      } catch (err) {
+        console.error('Error generating ZIP:', err);
+        btnExportHtmlZip.querySelector('.item-title').innerHTML = originalText;
+        alert('Could not generate ZIP automatically. You can also run "npm run export:html" in the terminal.');
+      }
+    });
+  }
+
+  // Action: Export 1-Page PDF
+  if (btnExportPdf1Page) {
+    btnExportPdf1Page.addEventListener('click', () => {
+      closeExportMenu();
+      triggerDownload('vmercader-resume-executive.pdf', 'vmercader-resume-executive.pdf');
+    });
+  }
+
+  // Action: Export 2-Page PDF
+  if (btnExportPdf2Page) {
+    btnExportPdf2Page.addEventListener('click', () => {
+      closeExportMenu();
+      triggerDownload('vmercader-resume-complete.pdf', 'vmercader-resume-complete.pdf');
+    });
+  }
+
+  // Action: Browser Print / Save PDF
+  if (btnExportBrowserPrint) {
+    btnExportBrowserPrint.addEventListener('click', () => {
+      closeExportMenu();
+      window.print();
+    });
+  }
+
+  // Action: ATS Plain Text Download
+  if (btnExportAtsTxt) {
+    btnExportAtsTxt.addEventListener('click', () => {
+      closeExportMenu();
+      triggerDownload('ats_resume.txt', 'ats_resume.txt');
+    });
+  }
+
+  // Legacy Print button fallback if present
   if (btnPrint) {
     btnPrint.addEventListener('click', () => {
-      // Advise optimal print settings on screen first
       window.print();
     });
   }

@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "npx serve . -l 3000",
-    "export-pdf": "node export-pdf.mjs",
-    "export-pdf:1page": "node export-pdf.mjs --page 1",
-    "export-pdf:2page": "node export-pdf.mjs --page 2"
+    "build": "npm run export:all",
+    "export:html": "node export-html.mjs",
+    "export:pdf": "node export-pdf.mjs",
+    "export:pdf:1page": "node export-pdf.mjs --page 1",
+    "export:pdf:2page": "node export-pdf.mjs --page 2",
+    "export:all": "node export-html.mjs && node export-pdf.mjs --page 1 && node export-pdf.mjs --page 2"
   },
   "keywords": [
     "resume",
@@ -15,10 +18,13 @@
     "print-ready",
     "html-resume",
     "weasyprint",
-    "puppeteer",
+    "headless-chrome",
     "agentic-ai",
     "us-letter"
   ],
   "author": "Vernard Mercader <talkto@vernard.net>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jszip": "^3.10.1"
+  }
 }
