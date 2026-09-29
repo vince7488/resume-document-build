@@ -1,7 +1,8 @@
 /**
  * RESUME DOCUMENT BUILD: Interactive Print Studio Controller
- * Handles deterministic page budgeting, theme/font switching, 
- * persona presets, ATS text modal, and browser print triggers.
+ * Handles deterministic page budgeting, paper format switching (Letter & A4),
+ * density root token tuning (--body-size, --section-gap), theme/font switching,
+ * persona presets, ATS text modal, and multi-format exports.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeSelect = document.getElementById('theme-select');
   const fontSelect = document.getElementById('font-select');
   const personaSelect = document.getElementById('persona-select');
+  const paperSelect = document.getElementById('paper-select');
+  const densitySelect = document.getElementById('density-select');
   const btn1Page = document.getElementById('btn-1page');
   const btn2Page = document.getElementById('btn-2page');
   const btnPrint = document.getElementById('btn-print');
@@ -22,10 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const atsTextarea = document.getElementById('ats-textarea');
   const hudPage1 = document.getElementById('hud-page-1');
   const hudPage2 = document.getElementById('hud-page-2');
+  const badgeFormat = document.querySelector('.badge-format');
+
+  // Density Popover Elements
+  const btnDensityPopover = document.getElementById('btn-density-popover');
+  const densityPopover = document.getElementById('density-popover');
+  const inputBodySize = document.getElementById('input-body-size');
+  const inputSectionGap = document.getElementById('input-section-gap');
+  const inputRoleGap = document.getElementById('input-role-gap');
+  const valBodySize = document.getElementById('val-body-size');
+  const valSectionGap = document.getElementById('val-section-gap');
+  const valRoleGap = document.getElementById('val-role-gap');
+  const btnResetDensity = document.getElementById('btn-reset-density');
+  const btnCloseDensity = document.getElementById('btn-close-density');
 
   // Sheets
   const sheet1 = document.getElementById('sheet-1');
   const sheet2 = document.getElementById('sheet-2');
+  const sheetBadges = document.querySelectorAll('.sheet-badge');
 
   // Persona Presets Data
   const personaData = {
@@ -42,6 +59,127 @@ document.addEventListener('DOMContentLoaded', () => {
       summary: 'Senior UI/UX Engineer holding active TS/SCI clearance with verified experience delivering secure, mission-critical user interfaces for the Department of Defense, U.S. Air Force (Platform One, Iron Bank, ShOC), and U.S. Coast Guard. Proven success modernizing defense web applications, migrating legacy architectures to Material UI and React TypeScript, establishing USWDS-derived design systems in SCIF environments, and reducing operator mission task completion times by up to 54%.'
     }
   };
+
+  // --- Paper Format Controller (Letter vs A4) ---
+  function setPaperFormat(format) {
+    htmlEl.setAttribute('data-paper', format);
+    localStorage.setItem('resume_paper', format);
+
+    if (badgeFormat) {
+      badgeFormat.textContent = format === 'a4' ? 'ISO A4 · 210 × 297mm' : 'US Letter · 8.5" × 11"';
+    }
+
+    if (sheetBadges.length >= 2) {
+      sheetBadges[0].textContent = format === 'a4' ? 'PAGE 1 · A4 (210 × 297mm)' : 'PAGE 1 · 8.5" × 11"';
+      sheetBadges[1].textContent = format === 'a4' ? 'PAGE 2 · A4 (210 × 297mm)' : 'PAGE 2 · 8.5" × 11"';
+    }
+
+    setTimeout(checkPageOverflow, 120);
+  }
+
+  if (paperSelect) {
+    paperSelect.addEventListener('change', (e) => {
+      setPaperFormat(e.target.value);
+    });
+    const savedPaper = localStorage.getItem('resume_paper') || htmlEl.getAttribute('data-paper') || 'letter';
+    paperSelect.value = savedPaper;
+    setPaperFormat(savedPaper);
+  }
+
+  // --- Density Tuning Controller (Root Tokens: --body-size, --section-gap) ---
+  function setDensityPreset(density) {
+    htmlEl.setAttribute('data-density', density);
+    localStorage.setItem('resume_density', density);
+
+    // Clear inline property overrides to restore preset defaults
+    htmlEl.style.removeProperty('--body-size');
+    htmlEl.style.removeProperty('--section-gap');
+    htmlEl.style.removeProperty('--role-gap');
+
+    // Update slider readouts based on active preset
+    const computed = window.getComputedStyle(htmlEl);
+    const bodySize = computed.getPropertyValue('--body-size').trim() || '8.8pt';
+    const sectionGap = computed.getPropertyValue('--section-gap').trim() || '10px';
+    const roleGap = computed.getPropertyValue('--role-gap').trim() || '7px';
+
+    if (inputBodySize) inputBodySize.value = parseFloat(bodySize);
+    if (inputSectionGap) inputSectionGap.value = parseFloat(sectionGap);
+    if (inputRoleGap) inputRoleGap.value = parseFloat(roleGap);
+
+    if (valBodySize) valBodySize.textContent = bodySize;
+    if (valSectionGap) valSectionGap.textContent = sectionGap;
+    if (valRoleGap) valRoleGap.textContent = roleGap;
+
+    setTimeout(checkPageOverflow, 80);
+  }
+
+  if (densitySelect) {
+    densitySelect.addEventListener('change', (e) => {
+      setDensityPreset(e.target.value);
+    });
+    const savedDensity = localStorage.getItem('resume_density') || htmlEl.getAttribute('data-density') || 'normal';
+    densitySelect.value = savedDensity;
+    setDensityPreset(savedDensity);
+  }
+
+  // Fine-Tuning Sliders
+  if (btnDensityPopover && densityPopover) {
+    btnDensityPopover.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = densityPopover.hasAttribute('hidden');
+      if (isHidden) {
+        densityPopover.removeAttribute('hidden');
+      } else {
+        densityPopover.setAttribute('hidden', '');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!densityPopover.contains(e.target) && e.target !== btnDensityPopover) {
+        densityPopover.setAttribute('hidden', '');
+      }
+    });
+
+    if (btnCloseDensity) {
+      btnCloseDensity.addEventListener('click', () => {
+        densityPopover.setAttribute('hidden', '');
+      });
+    }
+
+    if (btnResetDensity) {
+      btnResetDensity.addEventListener('click', () => {
+        if (densitySelect) densitySelect.value = 'normal';
+        setDensityPreset('normal');
+      });
+    }
+  }
+
+  if (inputBodySize) {
+    inputBodySize.addEventListener('input', (e) => {
+      const val = `${e.target.value}pt`;
+      htmlEl.style.setProperty('--body-size', val);
+      if (valBodySize) valBodySize.textContent = val;
+      checkPageOverflow();
+    });
+  }
+
+  if (inputSectionGap) {
+    inputSectionGap.addEventListener('input', (e) => {
+      const val = `${e.target.value}px`;
+      htmlEl.style.setProperty('--section-gap', val);
+      if (valSectionGap) valSectionGap.textContent = val;
+      checkPageOverflow();
+    });
+  }
+
+  if (inputRoleGap) {
+    inputRoleGap.addEventListener('input', (e) => {
+      const val = `${e.target.value}px`;
+      htmlEl.style.setProperty('--role-gap', val);
+      if (valRoleGap) valRoleGap.textContent = val;
+      checkPageOverflow();
+    });
+  }
 
   // --- Theme Controller ---
   if (themeSelect) {
@@ -94,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn1Page.addEventListener('click', () => setLayoutMode('1page'));
     btn2Page.addEventListener('click', () => setLayoutMode('2page'));
     
-    // Check if data-layout was pre-configured on html element
     const initialLayout = htmlEl.getAttribute('data-layout') || localStorage.getItem('resume_layout') || '1page';
     setLayoutMode(initialLayout);
   }
@@ -153,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Live Edit
         `;
-        // Save edits to localStorage
         const resumeContainer = document.querySelector('.document-viewport');
         if (resumeContainer) {
           localStorage.setItem('resume_user_edits', resumeContainer.innerHTML);
@@ -161,28 +297,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       checkPageOverflow();
     });
-
-    // Restore saved edits if available
-    const savedEdits = localStorage.getItem('resume_user_edits');
-    if (savedEdits) {
-      // Provide an unobtrusive option to restore or reset
-      console.log('Found saved resume edits in localStorage.');
-    }
   }
 
   // --- Deterministic Height & Overflow Sentinel ---
   function checkPageOverflow() {
-    // 11 inches at 96 DPI = 1056px
-    const TARGET_HEIGHT_PX = 1056;
+    // Determine Target Height Budget (US Letter: 1056px | ISO A4: 1123px)
+    const isA4 = htmlEl.getAttribute('data-paper') === 'a4';
+    const TARGET_HEIGHT_PX = isA4 ? 1123 : 1056;
+    const paperLabel = isA4 ? 'A4' : 'Letter';
 
     if (sheet1) {
       const scrollH1 = sheet1.scrollHeight;
       const pct1 = Math.round((scrollH1 / TARGET_HEIGHT_PX) * 100);
       if (hudPage1) {
         if (scrollH1 > TARGET_HEIGHT_PX) {
-          hudPage1.innerHTML = `<span class="hud-dot warning"></span> Page 1: <strong style="color:#ef4444">${scrollH1}px / ${TARGET_HEIGHT_PX}px (${pct1}%) - OVERFLOW!</strong>`;
+          hudPage1.innerHTML = `<span class="hud-dot warning"></span> Page 1 (${paperLabel}): <strong style="color:#ef4444">${scrollH1}px / ${TARGET_HEIGHT_PX}px (${pct1}%) - OVERFLOW! (Tweak --body-size or --section-gap to fit)</strong>`;
         } else {
-          hudPage1.innerHTML = `<span class="hud-dot"></span> Page 1: <strong>${scrollH1}px / ${TARGET_HEIGHT_PX}px (${pct1}%) - Print Safe</strong>`;
+          hudPage1.innerHTML = `<span class="hud-dot"></span> Page 1 (${paperLabel}): <strong>${scrollH1}px / ${TARGET_HEIGHT_PX}px (${pct1}%) - Print Safe</strong>`;
         }
       }
     }
@@ -192,9 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const pct2 = Math.round((scrollH2 / TARGET_HEIGHT_PX) * 100);
       if (hudPage2) {
         if (scrollH2 > TARGET_HEIGHT_PX) {
-          hudPage2.innerHTML = `<span class="hud-dot warning"></span> Page 2: <strong style="color:#ef4444">${scrollH2}px / ${TARGET_HEIGHT_PX}px (${pct2}%) - OVERFLOW!</strong>`;
+          hudPage2.innerHTML = `<span class="hud-dot warning"></span> Page 2 (${paperLabel}): <strong style="color:#ef4444">${scrollH2}px / ${TARGET_HEIGHT_PX}px (${pct2}%) - OVERFLOW! (Tweak --body-size or --section-gap to fit)</strong>`;
         } else {
-          hudPage2.innerHTML = `<span class="hud-dot"></span> Page 2: <strong>${scrollH2}px / ${TARGET_HEIGHT_PX}px (${pct2}%) - Print Safe</strong>`;
+          hudPage2.innerHTML = `<span class="hud-dot"></span> Page 2 (${paperLabel}): <strong>${scrollH2}px / ${TARGET_HEIGHT_PX}px (${pct2}%) - Print Safe</strong>`;
         }
       }
     } else if (hudPage2) {
@@ -215,8 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnExportDropdown = document.getElementById('btn-export-dropdown');
   const exportMenu = document.getElementById('export-menu');
   const btnExportHtmlZip = document.getElementById('export-html-zip');
-  const btnExportPdf1Page = document.getElementById('export-pdf-1page');
-  const btnExportPdf2Page = document.getElementById('export-pdf-2page');
   const btnExportBrowserPrint = document.getElementById('export-browser-print');
   const btnExportAtsTxt = document.getElementById('export-ats-txt');
 
@@ -270,7 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         if (typeof JSZip === 'undefined') {
-          // Fallback: If JSZip script hasn't loaded, try loading it dynamically
           await new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = 'assets/jszip.min.js';
@@ -314,12 +442,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (atsRes.ok) buildFolder.file('ats_resume.txt', await atsRes.text());
         } catch (e) {}
 
-        // Add Fonts README
-        fontsFolder.file('README.md', `# Offline Font Files Directory\n\nPlace your offline TTF/OTF font files in this folder (assets/fonts/).\nThe CSS @font-face rules in resume.css will automatically load them whenever present.\n`);
+        fontsFolder.file('README.md', `# Offline Font Files Directory\n\nPlace offline TTF/OTF font files in this folder (assets/fonts/).\nCSS @font-face rules in resume.css automatically bind local files.\n`);
 
-        // Add SVGs
+        // Add SVGs and Sprite
         const svgList = [
-          'logo.svg', 'icon-email.svg', 'icon-phone.svg', 'icon-location.svg',
+          'logo.svg', 'sprite.svg', 'icon-email.svg', 'icon-phone.svg', 'icon-location.svg',
           'icon-globe.svg', 'icon-linkedin.svg', 'icon-github.svg', 'icon-shield.svg'
         ];
 
@@ -333,7 +460,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Include compiled PDFs if present in build output
-        for (const pdfName of ['vmercader-resume-executive.pdf', 'vmercader-resume-complete.pdf']) {
+        const pdfFiles = [
+          'vmercader-resume-executive.pdf', 'vmercader-resume-executive-a4.pdf',
+          'vmercader-resume-complete.pdf', 'vmercader-resume-complete-a4.pdf'
+        ];
+        for (const pdfName of pdfFiles) {
           try {
             let pdfRes = await fetch(`resume-build/assets/documents/${pdfName}`);
             if (!pdfRes || !pdfRes.ok) pdfRes = await fetch(`assets/documents/${pdfName}`);
@@ -354,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         console.error('Error generating ZIP:', err);
         btnExportHtmlZip.querySelector('.item-title').innerHTML = originalText;
-        alert('Could not generate ZIP automatically. You can also run "npm run export:html" in the terminal.');
+        alert('Could not generate ZIP automatically. Run "npm run export:html" in terminal.');
       }
     });
   }
@@ -373,21 +504,26 @@ document.addEventListener('DOMContentLoaded', () => {
     triggerDownload(buildPath, filename);
   }
 
-  // Action: Export 1-Page PDF
-  if (btnExportPdf1Page) {
-    btnExportPdf1Page.addEventListener('click', () => {
-      closeExportMenu();
-      downloadPdf('vmercader-resume-executive.pdf');
-    });
-  }
+  // Bind Export PDF items (both Letter and A4)
+  const pdfItemBindings = [
+    { id: 'export-pdf-1page-letter', file: 'vmercader-resume-executive.pdf' },
+    { id: 'export-pdf-1page-a4', file: 'vmercader-resume-executive-a4.pdf' },
+    { id: 'export-pdf-2page-letter', file: 'vmercader-resume-complete.pdf' },
+    { id: 'export-pdf-2page-a4', file: 'vmercader-resume-complete-a4.pdf' },
+    // Legacy IDs fallback
+    { id: 'export-pdf-1page', file: 'vmercader-resume-executive.pdf' },
+    { id: 'export-pdf-2page', file: 'vmercader-resume-complete.pdf' }
+  ];
 
-  // Action: Export 2-Page PDF
-  if (btnExportPdf2Page) {
-    btnExportPdf2Page.addEventListener('click', () => {
-      closeExportMenu();
-      downloadPdf('vmercader-resume-complete.pdf');
-    });
-  }
+  pdfItemBindings.forEach(({ id, file }) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('click', () => {
+        closeExportMenu();
+        downloadPdf(file);
+      });
+    }
+  });
 
   // Action: Browser Print / Save PDF
   if (btnExportBrowserPrint) {

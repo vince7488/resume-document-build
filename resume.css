@@ -1,8 +1,65 @@
 /* ==========================================================================
-   RESUME DOCUMENT BUILD: Deterministic Print Scaffold (US Letter 8.5" x 11")
-   House Style Specification: Spectral (Serif) + Public Sans / Source Sans 3 (Sans)
+   RESUME DOCUMENT BUILD: Deterministic Print Scaffold (US Letter & ISO A4)
+   Zero-dependency, CSS paged-media layout backed by local typography & vector assets.
+   House Style: Spectral (Serif) + Public Sans / Source Sans 3 (Sans)
    ========================================================================== */
 
+/* Offline Typography Hooks (Zero network requests guaranteed) */
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Spectral SemiBold'), local('Spectral-SemiBold'),
+       url('assets/fonts/Spectral-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Spectral Medium Italic'), local('Spectral-MediumItalic'),
+       url('assets/fonts/Spectral-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Public Sans Regular'), local('PublicSans-Regular'),
+       url('assets/fonts/PublicSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Public Sans Medium'), local('PublicSans-Medium'),
+       url('assets/fonts/PublicSans-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Public Sans SemiBold'), local('PublicSans-SemiBold'),
+       url('assets/fonts/PublicSans-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Public Sans Bold'), local('PublicSans-Bold'),
+       url('assets/fonts/PublicSans-Bold.ttf') format('truetype');
+}
+
+/* CDN Fallback (Cached if connected; graceful degradation if airgapped) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
 
 :root {
@@ -17,11 +74,20 @@
 
   /* --- Default Typography --- */
   --display-font: 'Spectral', Georgia, 'Times New Roman', serif;
-  --body-font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --body-font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-  /* --- Print Calibration Constants (US Letter at 96 DPI) --- */
+  /* --- Density Tuning Root Tokens (Adjustable by agent or studio UI) --- */
+  --body-size: 8.8pt;
+  --body-line-height: 1.38;
+  --section-gap: 10px;
+  --role-gap: 7px;
+  --bullet-gap: 2.2px;
+
+  /* --- Paper Calibration (US Letter at 96 DPI Default) --- */
+  --paper-name: 'Letter';
   --page-width: 8.5in;
   --page-height: 11in;
+  --page-target-px: 1056;
   --margin-top: 0.5in;
   --margin-right: 0.5in;
   --margin-bottom: 0.46in;
@@ -39,6 +105,58 @@
   --studio-success: #10b981;
   --studio-warning: #f59e0b;
   --studio-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   Paper Format Presets: Letter & A4
+   ========================================================================== */
+[data-paper="letter"] {
+  --paper-name: 'Letter';
+  --page-width: 8.5in;
+  --page-height: 11in;
+  --page-target-px: 1056;
+  --margin-top: 0.5in;
+  --margin-right: 0.5in;
+  --margin-bottom: 0.46in;
+  --margin-left: 0.5in;
+}
+
+[data-paper="a4"] {
+  --paper-name: 'A4';
+  --page-width: 210mm;
+  --page-height: 297mm;
+  --page-target-px: 1123;
+  --margin-top: 12mm;
+  --margin-right: 12mm;
+  --margin-bottom: 11mm;
+  --margin-left: 12mm;
+}
+
+/* ==========================================================================
+   Density Presets
+   ========================================================================== */
+[data-density="compact"] {
+  --body-size: 8.2pt;
+  --body-line-height: 1.32;
+  --section-gap: 6.5px;
+  --role-gap: 4.8px;
+  --bullet-gap: 1.4px;
+}
+
+[data-density="normal"] {
+  --body-size: 8.8pt;
+  --body-line-height: 1.38;
+  --section-gap: 10px;
+  --role-gap: 7px;
+  --bullet-gap: 2.2px;
+}
+
+[data-density="relaxed"] {
+  --body-size: 9.3pt;
+  --body-line-height: 1.44;
+  --section-gap: 14px;
+  --role-gap: 10px;
+  --bullet-gap: 3.2px;
 }
 
 /* --- Theme Overrides --- */
@@ -99,7 +217,7 @@ html {
 body {
   font-family: var(--body-font);
   color: var(--ink);
-  line-height: 1.42;
+  line-height: var(--body-line-height);
   min-height: 100vh;
 }
 
@@ -190,6 +308,7 @@ a {
   border-radius: 8px;
   padding: 3px;
   gap: 2px;
+  position: relative;
 }
 
 .control-label {
@@ -215,6 +334,10 @@ a {
   align-items: center;
   gap: 6px;
   font-family: inherit;
+}
+
+.control-btn.icon-only {
+  padding: 6px 8px;
 }
 
 .control-btn:hover {
@@ -301,23 +424,28 @@ a {
 }
 
 @keyframes dropdownFadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-item {
   background: transparent;
   border: none;
-  padding: 8px 12px;
   border-radius: 8px;
+  padding: 10px 12px;
+  color: #f3f4f6;
+  text-align: left;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  cursor: pointer;
-  text-align: left;
-  color: var(--studio-text-bright);
-  transition: all 0.12s ease;
-  font-family: inherit;
+  transition: all 0.15s ease;
   width: 100%;
 }
 
@@ -326,18 +454,25 @@ a {
   color: #ffffff;
 }
 
+.dropdown-item:active {
+  background: rgba(37, 99, 235, 0.3);
+}
+
 .dropdown-item .item-badge {
-  font-size: 9.5px;
-  text-transform: uppercase;
+  font-size: 10px;
   font-weight: 700;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 3px 6px;
-  border-radius: 4px;
+  border-radius: 5px;
   background: rgba(255, 255, 255, 0.08);
-  color: var(--studio-accent-cyan);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  min-width: 58px;
-  text-align: center;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.dropdown-item:hover .item-badge {
+  background: rgba(37, 99, 235, 0.3);
+  color: #93c5fd;
 }
 
 .dropdown-item .item-details {
@@ -347,70 +482,158 @@ a {
 }
 
 .dropdown-item .item-title {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .dropdown-item .item-desc {
-  font-size: 10.5px;
+  font-size: 11px;
   color: #9ca3af;
-  line-height: 1.25;
-}
-
-.dropdown-item .item-desc code {
-  color: #38bdf8;
-  font-size: 10px;
 }
 
 .dropdown-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #374151;
   margin: 4px 6px;
 }
 
-/* --- Status / Overflow HUD (Screen only) --- */
+.chevron-icon {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-wrapper[aria-expanded="true"] .chevron-icon,
+.dropdown-menu.is-open ~ .control-btn .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* --- Density Fine-Tuning Popover (Screen only) --- */
+.density-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: rgba(17, 24, 39, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #374151;
+  border-radius: 12px;
+  width: 290px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  z-index: 2000;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+.density-popover[hidden] {
+  display: none;
+}
+
+.popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #1f2937;
+  padding-bottom: 8px;
+}
+
+.popover-header strong {
+  font-size: 13px;
+  color: var(--studio-text-bright);
+}
+
+.popover-tag {
+  font-size: 10px;
+  color: var(--studio-accent-cyan);
+  background: rgba(6, 182, 212, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.popover-row {
+  margin-bottom: 12px;
+}
+
+.popover-label-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  color: var(--studio-text);
+  margin-bottom: 5px;
+}
+
+.popover-label-group code {
+  color: #38bdf8;
+  font-size: 10px;
+}
+
+.popover-val {
+  font-weight: 600;
+  color: var(--studio-text-bright);
+}
+
+.popover-row input[type="range"] {
+  width: 100%;
+  accent-color: var(--studio-primary);
+  cursor: pointer;
+}
+
+.popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px solid #1f2937;
+}
+
+/* --- Deterministic Height & Budget HUD (Screen only) --- */
 .studio-hud {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 8px 24px;
-  background: rgba(15, 23, 42, 0.7);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 11px;
+  gap: 20px;
+  padding: 8px 16px;
+  background: #0f1523;
+  border-bottom: 1px solid #1e293b;
+  font-size: 12px;
   color: var(--studio-text);
+  flex-wrap: wrap;
 }
 
 .hud-item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
 }
 
 .hud-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--studio-success);
-  box-shadow: 0 0 8px var(--studio-success);
+  display: inline-block;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
 }
 
 .hud-dot.warning {
-  background: var(--studio-warning);
-  box-shadow: 0 0 8px var(--studio-warning);
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
 }
 
 .hud-tip {
   color: #64748b;
-  font-style: italic;
+  font-size: 11px;
 }
 
 /* ==========================================================================
-   Document Container & Printable Sheets
+   Document Viewport: Screen Container
    ========================================================================== */
 .document-viewport {
-  padding: 32px 16px 64px 16px;
+  padding: 40px 16px 80px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -418,7 +641,7 @@ a {
 }
 
 /* 
-   THE SHEET: Exact US Letter dimensions (8.5in x 11in)
+   THE SHEET: Exact US Letter (8.5in x 11in) or ISO A4 (210mm x 297mm)
    Screen view simulates the printed paper.
    Print media overrides to zero-margin sheet or native @page.
 */
@@ -461,17 +684,21 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 }
 
 .sheet.show-guides::before {
-  content: "8.5\" × 11\" Print-Safe Bounding Box";
+  content: "US Letter (8.5\" × 11\") Print-Safe Bounding Box";
   position: absolute;
   top: calc(var(--margin-top) - 18px);
   right: var(--margin-right);
-  font-family: -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 9px;
   color: #ef4444;
   letter-spacing: 0.05em;
   font-weight: 600;
   pointer-events: none;
   z-index: 999;
+}
+
+[data-paper="a4"] .sheet.show-guides::before {
+  content: "ISO A4 (210 × 297mm) Print-Safe Bounding Box";
 }
 
 .sheet-wrapper {
@@ -497,15 +724,6 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 
 /* ==========================================================================
    Deterministic Resume House Typography & Component Styles
-   Based on user canonical specifications:
-   - Name: ~31px (23.5pt) Spectral 600
-   - Tagline: ~12.6px (9.5pt) Spectral Italic
-   - Contact: 8.7px (8pt) Public Sans 500 / 600
-   - Section Label: 8.8px (8pt) Public Sans 700 UPPERCASE
-   - Body/Summary: 9.2pt - 9.5px Public Sans 400
-   - Role Title: 13px (10.2pt) Spectral 600
-   - Employer: 9.1px (8.6pt) Public Sans 600
-   - Bullets: 9.15px (8.8pt) Public Sans 400, line-height 1.42
    ========================================================================== */
 
 .resume-header {
@@ -562,18 +780,18 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 }
 
 .section {
-  margin-top: 10px;
+  margin-top: var(--section-gap);
 }
 
 .sec-label {
   font-family: var(--body-font);
   font-weight: 700;
-  font-size: 8pt;
+  font-size: calc(var(--body-size) * 0.91);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--accent);
   padding-bottom: 3px;
-  margin-bottom: 6px;
+  margin-bottom: calc(var(--section-gap) * 0.45);
   border-bottom: 1px solid var(--hair);
   display: flex;
   justify-content: space-between;
@@ -590,8 +808,8 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 
 .summary {
   font-family: var(--body-font);
-  font-size: 9.2pt;
-  line-height: 1.45;
+  font-size: calc(var(--body-size) * 1.045);
+  line-height: calc(var(--body-line-height) * 1.04);
   color: var(--ink);
 }
 
@@ -599,7 +817,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 .skill-grid {
   display: flex;
   flex-direction: column;
-  gap: 3.5px;
+  gap: calc(var(--bullet-gap) * 0.8 + 1.5px);
 }
 
 .skill-row {
@@ -611,7 +829,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
   flex: 0 0 24%;
   font-family: var(--body-font);
   font-weight: 700;
-  font-size: 7.6pt;
+  font-size: calc(var(--body-size) * 0.86);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--ink);
@@ -621,25 +839,26 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 .skill-items {
   flex: 1;
   font-family: var(--body-font);
-  font-size: 8.6pt;
+  font-size: calc(var(--body-size) * 0.98);
   color: var(--muted);
-  line-height: 1.34;
+  line-height: var(--body-line-height);
 }
 
 /* Professional Role Entries */
 .role {
-  margin-bottom: 8.5px;
+  margin-bottom: var(--role-gap);
   border-bottom: 1px dotted var(--hair);
-  padding-bottom: 7px;
+  padding-bottom: calc(var(--role-gap) * 0.8);
 }
 
 .role:last-child {
   border-bottom: none;
   padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .role.tight {
-  margin-bottom: 6px;
+  margin-bottom: calc(var(--role-gap) * 0.7);
 }
 
 .role-head {
@@ -657,7 +876,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 .pos {
   font-family: var(--display-font);
   font-weight: 600;
-  font-size: 10.2pt;
+  font-size: calc(var(--body-size) * 1.16);
   line-height: 1.16;
   color: var(--ink);
 }
@@ -665,7 +884,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 .org {
   font-family: var(--body-font);
   font-weight: 600;
-  font-size: 8.6pt;
+  font-size: calc(var(--body-size) * 0.98);
   color: var(--accent);
   margin-top: 1px;
 }
@@ -684,7 +903,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 .dates {
   font-family: var(--body-font);
   font-weight: 600;
-  font-size: 7.6pt;
+  font-size: calc(var(--body-size) * 0.86);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink);
@@ -693,7 +912,7 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 
 .loc {
   font-family: var(--body-font);
-  font-size: 7.4pt;
+  font-size: calc(var(--body-size) * 0.84);
   color: var(--faint);
   margin-top: 0.5px;
   white-space: nowrap;
@@ -709,9 +928,9 @@ ul.bullets {
 ul.bullets li {
   position: relative;
   padding-left: 11px;
-  margin-bottom: 2.2px;
-  font-size: 8.8pt;
-  line-height: 1.39;
+  margin-bottom: var(--bullet-gap);
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
   color: var(--ink);
 }
 
@@ -748,19 +967,18 @@ ul.bullets li::before {
 }
 
 .ec.tight {
-  margin-bottom: 3.5px;
+  margin-bottom: 2px;
 }
 
 .ec .deg {
-  font-family: var(--body-font);
+  font-size: calc(var(--body-size) * 0.98);
   font-weight: 600;
-  font-size: 8.6pt;
   color: var(--ink);
   line-height: 1.25;
 }
 
 .ec .meta {
-  font-size: 7.9pt;
+  font-size: calc(var(--body-size) * 0.9);
   color: var(--muted);
   margin-top: 0.5px;
   line-height: 1.3;
@@ -775,12 +993,6 @@ ul.bullets li::before {
   display: inline-block;
   font-weight: 700;
   color: var(--accent2);
-}
-
-/* Avoid page split inside critical elements */
-.keep, .role, .skill-row, .ec, .sec-label {
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 
 /* Continuation Header for Page 2 */
@@ -811,12 +1023,93 @@ ul.bullets li::before {
 }
 
 /* ==========================================================================
+   Semantic Content Slots & Strict Bounding Rules
+   ========================================================================== */
+#header,
+#summary,
+#skills,
+#experience,
+#experience-continued,
+#education,
+#education-complete {
+  position: relative;
+  width: 100%;
+  contain: layout style;
+}
+
+#summary .summary {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+#experience .role,
+#experience-continued .role {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+#education .twocol,
+#education-complete .twocol {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* ==========================================================================
+   Anti-Orphan & Split Point Page Break Rules
+   ========================================================================== */
+.sec-label,
+.section > h2,
+.section > h3,
+.role-head,
+.continuation-header {
+  break-after: avoid !important;
+  page-break-after: avoid !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+.role,
+.ec,
+.skill-row,
+.twocol,
+.keep {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+p,
+.bullets,
+.bullets li {
+  orphans: 3;
+  widows: 3;
+}
+
+/* ==========================================================================
    Layout Modes: 1-Page vs 2-Page
    ========================================================================== */
-/* In 1-Page mode, hide sheet 2 and 2-page-only content */
+
+/* In 1-Page mode, calibrated margins and density defaults */
+[data-layout="1page"][data-paper="letter"],
+[data-layout="1page"]:not([data-paper="a4"]) {
+  --margin-top: 0.42in;
+  --margin-bottom: 0.40in;
+}
+
+[data-layout="1page"][data-paper="a4"] {
+  --margin-top: 10.5mm;
+  --margin-bottom: 10mm;
+}
+
+[data-layout="1page"] {
+  --section-gap: 7px;
+  --role-gap: 5px;
+  --bullet-gap: 1.4px;
+}
+
 [data-layout="1page"] #sheet-1 {
-  padding-top: 0.42in !important;
-  padding-bottom: 0.40in !important;
+  padding-top: var(--margin-top) !important;
+  padding-bottom: var(--margin-bottom) !important;
 }
 
 [data-layout="1page"] #sheet-2 {
@@ -835,36 +1128,27 @@ ul.bullets li::before {
   display: none !important;
 }
 
-[data-layout="1page"] .section {
-  margin-top: 6.5px;
+/* In 2-Page mode, display both sheets with generous narrative spacing */
+[data-layout="2page"][data-paper="letter"],
+[data-layout="2page"]:not([data-paper="a4"]) {
+  --margin-top: 0.44in;
+  --margin-bottom: 0.42in;
 }
 
-[data-layout="1page"] .sec-label {
-  margin-bottom: 3.5px;
-  padding-bottom: 2px;
+[data-layout="2page"][data-paper="a4"] {
+  --margin-top: 11mm;
+  --margin-bottom: 10.5mm;
 }
 
-[data-layout="1page"] .role {
-  margin-bottom: 4.5px;
+[data-layout="2page"] {
+  --section-gap: 9px;
+  --role-gap: 6.5px;
+  --bullet-gap: 1.8px;
 }
 
-[data-layout="1page"] ul.bullets li {
-  margin-bottom: 1.2px;
-  line-height: 1.34;
-}
-
-[data-layout="1page"] .summary {
-  line-height: 1.38;
-}
-
-[data-layout="1page"] .ec.tight {
-  margin-bottom: 1.5px;
-}
-
-/* In 2-Page mode, display both sheets */
 [data-layout="2page"] #sheet-1 {
-  padding-top: 0.44in !important;
-  padding-bottom: 0.42in !important;
+  padding-top: var(--margin-top) !important;
+  padding-bottom: var(--margin-bottom) !important;
 }
 
 [data-layout="2page"] #sheet-2 {
@@ -881,24 +1165,6 @@ ul.bullets li::before {
 
 [data-layout="2page"] .summary-p2-only {
   display: inline !important;
-}
-
-[data-layout="2page"] .section {
-  margin-top: 8px;
-}
-
-[data-layout="2page"] .sec-label {
-  margin-bottom: 4px;
-  padding-bottom: 2px;
-}
-
-[data-layout="2page"] .role {
-  margin-bottom: 6px;
-}
-
-[data-layout="2page"] ul.bullets li {
-  margin-bottom: 1.6px;
-  line-height: 1.36;
 }
 
 /* ==========================================================================
@@ -981,12 +1247,22 @@ ul.bullets li::before {
 }
 
 /* ==========================================================================
-   PRINT MEDIA RULES (Deterministic 8.5 x 11 output)
+   PRINT MEDIA RULES (Deterministic US Letter & ISO A4 Output)
    ========================================================================== */
 @media print {
-  /* Enforce exact US Letter size and suppress browser margins */
+  /* Enforce exact page sizes and suppress browser margins */
   @page {
     size: letter portrait;
+    margin: 0;
+  }
+
+  @page page-letter {
+    size: letter portrait;
+    margin: 0;
+  }
+
+  @page page-a4 {
+    size: a4 portrait;
     margin: 0;
   }
 
@@ -1004,6 +1280,7 @@ ul.bullets li::before {
   .no-print,
   .studio-topbar,
   .studio-hud,
+  .density-popover,
   .sheet-badge,
   .sheet::after,
   .sheet::before,
@@ -1022,13 +1299,33 @@ ul.bullets li::before {
     display: contents !important;
   }
 
-  /* Each sheet represents exactly one physical 8.5 x 11 page */
-  .sheet {
+  /* Sheet sizing for US Letter */
+  [data-paper="letter"] .sheet,
+  html:not([data-paper="a4"]) .sheet {
+    page: page-letter;
     width: 8.5in !important;
     height: 11in !important;
     min-height: 11in !important;
     max-height: 11in !important;
-    padding: 0.5in 0.5in 0.46in 0.5in !important;
+    padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left) !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    position: relative !important;
+  }
+
+  /* Sheet sizing for ISO A4 */
+  [data-paper="a4"] .sheet {
+    page: page-a4;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left) !important;
     margin: 0 !important;
     box-shadow: none !important;
     border: none !important;
@@ -1046,9 +1343,19 @@ ul.bullets li::before {
   }
 
   /* Strict anti-orphan styling */
-  .keep, .role, .skill-row, .ec, .sec-label, .role-head, .twocol {
+  .keep, .role, .skill-row, .ec, .sec-label, .role-head, .twocol, #experience .role, #experience-continued .role {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  .sec-label, h1, h2, h3, .role-head, .continuation-header {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  p, .bullets, .bullets li {
+    orphans: 3 !important;
+    widows: 3 !important;
   }
 
   /* Ensure text selections and edit outlines are clear on paper */

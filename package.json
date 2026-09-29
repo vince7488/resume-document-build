@@ -8,9 +8,13 @@
     "build": "npm run export:all",
     "export:html": "node export-html.mjs",
     "export:pdf": "node export-pdf.mjs",
-    "export:pdf:1page": "node export-pdf.mjs --page 1",
-    "export:pdf:2page": "node export-pdf.mjs --page 2",
-    "export:all": "node export-html.mjs && node export-pdf.mjs --page 1 && node export-pdf.mjs --page 2"
+    "export:pdf:1page": "node export-pdf.mjs --page 1 --paper letter",
+    "export:pdf:1page:letter": "node export-pdf.mjs --page 1 --paper letter",
+    "export:pdf:1page:a4": "node export-pdf.mjs --page 1 --paper a4",
+    "export:pdf:2page": "node export-pdf.mjs --page 2 --paper letter",
+    "export:pdf:2page:letter": "node export-pdf.mjs --page 2 --paper letter",
+    "export:pdf:2page:a4": "node export-pdf.mjs --page 2 --paper a4",
+    "export:all": "node export-html.mjs && node export-pdf.mjs --page 1 --paper letter && node export-pdf.mjs --page 1 --paper a4 && node export-pdf.mjs --page 2 --paper letter && node export-pdf.mjs --page 2 --paper a4"
   },
   "keywords": [
     "resume",
@@ -20,7 +24,8 @@
     "weasyprint",
     "headless-chrome",
     "agentic-ai",
-    "us-letter"
+    "us-letter",
+    "iso-a4"
   ],
   "author": "Vernard Mercader <talkto@vernard.net>",
   "license": "MIT",

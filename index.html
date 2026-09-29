@@ -1,13 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="house-bronze" data-font="spectral-public" data-layout="1page">
+<html lang="en" data-theme="house-bronze" data-font="spectral-public" data-layout="1page" data-paper="letter" data-density="normal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vernard Mercader - Hybrid UX Designer & Frontend UI Engineer. Deterministic print-ready resume engineered for US Letter 8.5x11 printing.">
-  <title>Vernard Mercader | Resume (Print-Ready US Letter 8.5" × 11")</title>
+  <meta name="description" content="Vernard Mercader - Hybrid UX Designer & Frontend UI Engineer. Deterministic print-ready resume engineered for US Letter and A4 pagination.">
+  <title>Vernard Mercader | Resume (Deterministic Print-Ready Scaffold)</title>
   <link rel="stylesheet" href="resume.css">
 </head>
 <body>
+
+  <!-- ========================================================================
+       OFFLINE LOCAL VECTOR ASSETS (SVG Sprite Definition)
+       Guarantees zero network requests during headless rendering
+       ======================================================================== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true">
+    <symbol id="icon-email" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
+    </symbol>
+    <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    </symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    </symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+      <rect x="2" y="9" width="4" height="12"/>
+      <circle cx="4" cy="4" r="2"/>
+    </symbol>
+    <symbol id="icon-location" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </symbol>
+    <symbol id="logo" viewBox="0 0 48 48" fill="none">
+      <rect width="48" height="48" rx="10" fill="#231F20"/>
+      <path d="M12 14L20 34H24L16 14H12Z" fill="#594B2F"/>
+      <path d="M22 14L29 31L36 14H40L31 34H27L20 17L22 14Z" fill="#FFFFFF"/>
+      <circle cx="36" cy="32" r="2.5" fill="#591236"/>
+    </symbol>
+  </svg>
 
   <!-- ========================================================================
        STUDIO WORKSPACE CONTROLS (Screen-Only Floating Header)
@@ -35,6 +76,63 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h12v16H4v-3"/><rect x="8" y="7" width="12" height="14" rx="2"/></svg>
           2-Page Complete
         </button>
+      </div>
+
+      <!-- Paper Sizing (Letter vs A4) -->
+      <div class="control-group">
+        <span class="control-label">Paper:</span>
+        <select id="paper-select" class="control-select" aria-label="Paper Format">
+          <option value="letter">US Letter (8.5" × 11")</option>
+          <option value="a4">ISO A4 (210 × 297mm)</option>
+        </select>
+      </div>
+
+      <!-- Density Tuning Control -->
+      <div class="control-group density-group">
+        <span class="control-label">Density:</span>
+        <select id="density-select" class="control-select" aria-label="Layout Density">
+          <option value="normal">Normal</option>
+          <option value="compact">Compact</option>
+          <option value="relaxed">Relaxed</option>
+        </select>
+        <button id="btn-density-popover" class="control-btn icon-only" title="Fine-tune root tokens (--body-size, --section-gap)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+
+        <!-- Density Tuning Popover -->
+        <div id="density-popover" class="density-popover no-print" hidden>
+          <div class="popover-header">
+            <strong>Density Fine-Tuner</strong>
+            <span class="popover-tag">Root Tokens</span>
+          </div>
+          <div class="popover-body">
+            <div class="popover-row">
+              <div class="popover-label-group">
+                <label for="input-body-size">Body Font Size <code>--body-size</code></label>
+                <span id="val-body-size" class="popover-val">8.8pt</span>
+              </div>
+              <input type="range" id="input-body-size" min="7.6" max="10.2" step="0.1" value="8.8">
+            </div>
+            <div class="popover-row">
+              <div class="popover-label-group">
+                <label for="input-section-gap">Section Spacing <code>--section-gap</code></label>
+                <span id="val-section-gap" class="popover-val">10px</span>
+              </div>
+              <input type="range" id="input-section-gap" min="5" max="22" step="0.5" value="10">
+            </div>
+            <div class="popover-row">
+              <div class="popover-label-group">
+                <label for="input-role-gap">Role Spacing <code>--role-gap</code></label>
+                <span id="val-role-gap" class="popover-val">7px</span>
+              </div>
+              <input type="range" id="input-role-gap" min="4" max="16" step="0.5" value="7">
+            </div>
+            <div class="popover-actions">
+              <button id="btn-reset-density" class="control-btn">Reset</button>
+              <button id="btn-close-density" class="control-btn btn-primary">Done</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Persona Switcher -->
@@ -75,7 +173,7 @@
       </button>
 
       <!-- Print Guides Toggle -->
-      <button id="btn-guides-toggle" class="control-btn" title="Toggle visual 8.5x11 print margin lines">
+      <button id="btn-guides-toggle" class="control-btn" title="Toggle visual print margin bounding box">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         Guides
       </button>
@@ -98,21 +196,35 @@
             <span class="item-badge">HTML Build</span>
             <div class="item-details">
               <strong class="item-title">📦 HTML Build Package (.zip)</strong>
-              <span class="item-desc">Self-contained <code>resume-build/</code> folder with HTML, CSS &amp; assets</span>
+              <span class="item-desc">Self-contained <code>resume-build/</code> folder with HTML, CSS, SVG sprite &amp; assets</span>
             </div>
           </button>
-          <button class="dropdown-item" id="export-pdf-1page" role="menuitem">
-            <span class="item-badge">PDF</span>
+          <button class="dropdown-item" id="export-pdf-1page-letter" role="menuitem">
+            <span class="item-badge">PDF · Letter</span>
             <div class="item-details">
-              <strong class="item-title">📄 1-Page Executive PDF</strong>
-              <span class="item-desc">Deterministic 1-page Letter PDF download</span>
+              <strong class="item-title">📄 1-Page Executive PDF (Letter)</strong>
+              <span class="item-desc">Strict 8.5" × 11" single-page executive download</span>
             </div>
           </button>
-          <button class="dropdown-item" id="export-pdf-2page" role="menuitem">
-            <span class="item-badge">PDF</span>
+          <button class="dropdown-item" id="export-pdf-1page-a4" role="menuitem">
+            <span class="item-badge">PDF · A4</span>
             <div class="item-details">
-              <strong class="item-title">📑 2-Page Complete PDF</strong>
-              <span class="item-desc">Comprehensive 2-page timeline narrative download</span>
+              <strong class="item-title">📄 1-Page Executive PDF (A4)</strong>
+              <span class="item-desc">Strict 210 × 297mm single-page executive download</span>
+            </div>
+          </button>
+          <button class="dropdown-item" id="export-pdf-2page-letter" role="menuitem">
+            <span class="item-badge">PDF · Letter</span>
+            <div class="item-details">
+              <strong class="item-title">📑 2-Page Complete PDF (Letter)</strong>
+              <span class="item-desc">Comprehensive 8.5" × 11" 2-page chronological PDF</span>
+            </div>
+          </button>
+          <button class="dropdown-item" id="export-pdf-2page-a4" role="menuitem">
+            <span class="item-badge">PDF · A4</span>
+            <div class="item-details">
+              <strong class="item-title">📑 2-Page Complete PDF (A4)</strong>
+              <span class="item-desc">Comprehensive 210 × 297mm 2-page chronological PDF</span>
             </div>
           </button>
           <div class="dropdown-divider"></div>
@@ -120,7 +232,7 @@
             <span class="item-badge">Print</span>
             <div class="item-details">
               <strong class="item-title">🖨️ Browser Print / Save PDF...</strong>
-              <span class="item-desc">System print dialog with @page rules (Cmd+P)</span>
+              <span class="item-desc">System print dialog with @page rules pre-applied (Cmd+P)</span>
             </div>
           </button>
           <button class="dropdown-item" id="export-ats-txt" role="menuitem">
@@ -158,282 +270,282 @@
          ---------------------------------------------------------------------- -->
     <div class="sheet-wrapper">
       <article id="sheet-1" class="sheet" aria-label="Resume Page 1">
-        <!-- Primary Candidate Header -->
-      <header class="resume-header">
-        <h1 class="name">Vernard Mercader</h1>
-        <div class="tagline">Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance</div>
-        <div class="contact">
-          <span>Western Massachusetts</span>
-          <span class="sep">·</span>
-          <span>413-354-9506</span>
-          <span class="sep">·</span>
-          <a href="mailto:talkto@vernard.net">talkto@vernard.net</a>
-          <span class="sep">·</span>
-          <a href="https://vernard.net" target="_blank" rel="noopener">vernard.net</a>
-          <span class="sep">·</span>
-          <a href="https://www.linkedin.com/in/vjmercader" target="_blank" rel="noopener">linkedin.com/in/vjmercader</a>
-          <span class="sep">·</span>
-          <a href="https://github.com/vince7488" target="_blank" rel="noopener">github.com/vince7488</a>
-        </div>
-        <div class="rule-top" role="separator"></div>
-      </header>
-
-      <!-- Professional Summary -->
-      <section class="section" aria-labelledby="sec-summary">
-        <h2 id="sec-summary" class="sec-label">Summary</h2>
-        <p class="summary summary-text">
-          Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA &amp; AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures.<span class="summary-p2-only"> Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.</span>
-        </p>
-      </section>
-
-      <!-- Core Competencies / Categorized Skills -->
-      <section class="section" aria-labelledby="sec-skills">
-        <h2 id="sec-skills" class="sec-label">Core Competencies</h2>
-        <div class="skill-grid">
-          <div class="skill-row">
-            <span class="skill-cat">Accessibility & Standards</span>
-            <span class="skill-items">WCAG 2.1/2.2 AA &amp; AAA, Section 508, ARIA Semantics, Assistive Tech Audits (Screen Readers, Voice Control), Color Contrast Calibration</span>
+        <!-- Primary Candidate Header (Slot: header) -->
+        <header id="header" class="resume-header" data-slot="header">
+          <h1 class="name">Vernard Mercader</h1>
+          <div class="tagline">Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance</div>
+          <div class="contact">
+            <span>Western Massachusetts</span>
+            <span class="sep">·</span>
+            <span>413-354-9506</span>
+            <span class="sep">·</span>
+            <a href="mailto:talkto@vernard.net">talkto@vernard.net</a>
+            <span class="sep">·</span>
+            <a href="https://vernard.net" target="_blank" rel="noopener">vernard.net</a>
+            <span class="sep">·</span>
+            <a href="https://www.linkedin.com/in/vjmercader" target="_blank" rel="noopener">linkedin.com/in/vjmercader</a>
+            <span class="sep">·</span>
+            <a href="https://github.com/vince7488" target="_blank" rel="noopener">github.com/vince7488</a>
           </div>
-          <div class="skill-row">
-            <span class="skill-cat">UX & Product Design</span>
-            <span class="skill-items">Heuristic Evaluation, Journey Mapping, Service Blueprinting, Information Architecture, Usability Testing, Rapid Prototyping, Figma, Miro</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-cat">Frontend Engineering</span>
-            <span class="skill-items">React, TypeScript, Next.js, Angular, JavaScript (ES6+), HTML5, CSS3/SCSS, Material UI (MUI), Bootstrap, U.S. Web Design System (USWDS)</span>
-          </div>
-          <div class="skill-row">
-            <span class="skill-cat">Cloud & Platforms</span>
-            <span class="skill-items">AWS Amplify, GraphQL, REST APIs, Git/GitLab, Docker, DevSecOps, ArcGIS Geospatial COP, WordPress Multisite, Linux</span>
-          </div>
-        </div>
-      </section>
+          <div class="rule-top" role="separator"></div>
+        </header>
 
-      <!-- Professional Background (Sheet 1 Roles) -->
-      <section class="section" aria-labelledby="sec-experience-1">
-        <h2 id="sec-experience-1" class="sec-label">Professional Background</h2>
+        <!-- Professional Summary (Slot: summary) -->
+        <section id="summary" class="section" aria-labelledby="sec-summary" data-slot="summary">
+          <h2 id="sec-summary" class="sec-label">Summary</h2>
+          <p class="summary summary-text">
+            Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA &amp; AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures.<span class="summary-p2-only"> Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.</span>
+          </p>
+        </section>
 
-        <!-- Role 1: Krozak Technologies (US Coast Guard) -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">Frontend UI Developer</div>
-              <div class="org">Krozak Technologies <span class="sub-org">(United States Coast Guard)</span></div>
+        <!-- Core Competencies / Categorized Skills (Slot: skills) -->
+        <section id="skills" class="section" aria-labelledby="sec-skills" data-slot="skills">
+          <h2 id="sec-skills" class="sec-label">Core Competencies</h2>
+          <div class="skill-grid">
+            <div class="skill-row">
+              <span class="skill-cat">Accessibility & Standards</span>
+              <span class="skill-items">WCAG 2.1/2.2 AA &amp; AAA, Section 508, ARIA Semantics, Assistive Tech Audits (Screen Readers, Voice Control), Color Contrast Calibration</span>
             </div>
-            <div class="role-right">
-              <div class="dates">JUL 2026 – PRESENT</div>
-              <div class="loc">Silver Spring, MD (Remote)</div>
+            <div class="skill-row">
+              <span class="skill-cat">UX & Product Design</span>
+              <span class="skill-items">Heuristic Evaluation, Journey Mapping, Service Blueprinting, Information Architecture, Usability Testing, Rapid Prototyping, Figma, Miro</span>
+            </div>
+            <div class="skill-row">
+              <span class="skill-cat">Frontend Engineering</span>
+              <span class="skill-items">React, TypeScript, Next.js, Angular, JavaScript (ES6+), HTML5, CSS3/SCSS, Material UI (MUI), Bootstrap, U.S. Web Design System (USWDS)</span>
+            </div>
+            <div class="skill-row">
+              <span class="skill-cat">Cloud & Platforms</span>
+              <span class="skill-items">AWS Amplify, GraphQL, REST APIs, Git/GitLab, Docker, DevSecOps, ArcGIS Geospatial COP, WordPress Multisite, Linux</span>
             </div>
           </div>
-          <ul class="bullets">
-            <li>Design and engineer responsive, accessible <strong class="metric">React and TypeScript</strong> user interfaces for Coast Guard applications, translating complex operational UX requirements and Figma wireframes into production component libraries.</li>
-            <li>Develop and integrate frontend data workflows utilizing <strong class="metric">AWS Amplify, GraphQL, and REST APIs</strong> within an Agile/DevSecOps delivery pipeline.</li>
-            <li>Architect mobile-ready and offline-capable interface experiences while enforcing strict adherence to <strong class="metric">WCAG 2.1 AA</strong> accessibility standards and military usability baselines.</li>
-            <li class="bullet-p2-only">Support frontend feature implementation for the U.S. Coast Guard MISLE/MASS common operating picture platform, interfacing <strong class="metric">ArcGIS</strong> geospatial layers with AWS Lambda services.</li>
-          </ul>
-        </div>
+        </section>
 
-        <!-- Role 2: Logias -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">Independent Consultant & Founder</div>
-              <div class="org">Logias <span class="sub-org">(UX & Accessibility Consultancy)</span></div>
+        <!-- Professional Background (Slot: experience) -->
+        <section id="experience" class="section" aria-labelledby="sec-experience-1" data-slot="experience">
+          <h2 id="sec-experience-1" class="sec-label">Professional Background</h2>
+
+          <!-- Role 1: Krozak Technologies (US Coast Guard) -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">Frontend UI Developer</div>
+                <div class="org">Krozak Technologies <span class="sub-org">(United States Coast Guard)</span></div>
+              </div>
+              <div class="role-right">
+                <div class="dates">JUL 2026 – PRESENT</div>
+                <div class="loc">Silver Spring, MD (Remote)</div>
+              </div>
             </div>
-            <div class="role-right">
-              <div class="dates">NOV 2025 – PRESENT</div>
-              <div class="loc">Western Massachusetts</div>
+            <ul class="bullets">
+              <li>Design and engineer responsive, accessible <strong class="metric">React and TypeScript</strong> user interfaces for Coast Guard applications, translating complex operational UX requirements and Figma wireframes into production component libraries.</li>
+              <li>Develop and integrate frontend data workflows utilizing <strong class="metric">AWS Amplify, GraphQL, and REST APIs</strong> within an Agile/DevSecOps delivery pipeline.</li>
+              <li>Architect mobile-ready and offline-capable interface experiences while enforcing strict adherence to <strong class="metric">WCAG 2.1 AA</strong> accessibility standards and military usability baselines.</li>
+              <li class="bullet-p2-only">Support frontend feature implementation for the U.S. Coast Guard MISLE/MASS common operating picture platform, interfacing <strong class="metric">ArcGIS</strong> geospatial layers with AWS Lambda services.</li>
+            </ul>
+          </div>
+
+          <!-- Role 2: Logias -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">Independent Consultant & Founder</div>
+                <div class="org">Logias <span class="sub-org">(UX & Accessibility Consultancy)</span></div>
+              </div>
+              <div class="role-right">
+                <div class="dates">NOV 2025 – PRESENT</div>
+                <div class="loc">Western Massachusetts</div>
+              </div>
+            </div>
+            <ul class="bullets">
+              <li>Increased mobile-order adoption <strong class="metric">16%</strong> and reduced customer order complaints by <strong class="metric">42%</strong> for Burger King by auditing conversion friction and restructuring pickup location selection flows.</li>
+              <li>Delivered comprehensive <strong class="metric">WCAG baseline audits and 6-page heuristic evaluations</strong> against Nielsen standards for EDMO (Edventure More), projecting a 20–35% lift in enrollment conversions.</li>
+              <li>Authored veteran-player retention audit for Niantic's Pokémon GO, identifying critical cognitive overhead, multi-tap interaction friction, and clunky inventory routines driving user churn.</li>
+              <li class="bullet-p2-only">Advise enterprise and agency engineering teams on automated and manual Section 508/WCAG compliance remediation backed by functional code sandboxes.</li>
+            </ul>
+          </div>
+
+          <!-- Role 3: Oteemo (USAF Platform One) -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">UI Engineer & UX Design Lead</div>
+                <div class="org">Oteemo <span class="sub-org">(United States Air Force – Platform One)</span></div>
+              </div>
+              <div class="role-right">
+                <div class="dates">MAY 2023 – NOV 2025</div>
+                <div class="loc">Reston, VA (Remote)</div>
+              </div>
+            </div>
+            <ul class="bullets">
+              <li>Elevated internal accessibility score from <strong class="metric">62 to 91 points</strong> by directing the UI overhaul and brand transition of the Vulnerability Assessment Tool (VAT) for Iron Bank under Platform One.</li>
+              <li>Rearchitected frontend infrastructure by migrating legacy Bootstrap to <strong class="metric">Material UI (MUI) in React TypeScript</strong>, enforcing Section 508 accessibility compliance and dark/light modes.</li>
+              <li>Decreased pull request cycle times by <strong class="metric">10%</strong> through a unified Figma-to-code design system and automated repo-level semantic HTML and ARIA linting routines.</li>
+              <li class="bullet-p2-only">Facilitated discovery sessions with container hardeners and vendor contributors using FigJam and Miro, turning behavioral pain points into verified interactive prototypes.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 1-PAGE MODE FOOTER BLOCK: Education & Certifications (Slot: education) -->
+        <section id="education" class="section edu-cert-1page keep" aria-labelledby="sec-educert-1page" data-slot="education">
+          <h2 id="sec-educert-1page" class="sec-label">Education & Certifications</h2>
+          <div class="twocol">
+            <div>
+              <div class="ec tight">
+                <div class="deg">B.S. in Digital Entertainment &amp; Game Design</div>
+                <div class="meta">ITT Tech · Everett, WA</div>
+              </div>
+              <div class="ec tight">
+                <div class="deg">A.A.S. in Multimedia / Design</div>
+                <div class="meta">ITT Tech · Everett, WA</div>
+              </div>
+              <div class="ec tight">
+                <div class="deg">B.S. in Computer Science</div>
+                <div class="meta">Lyceum University · Manila, Philippines</div>
+              </div>
+            </div>
+            <div>
+              <div class="ec tight">
+                <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
+                <div class="meta">Department of Defense / Federal Adjudication (Reinvestigated 2026)</div>
+              </div>
+              <div class="ec tight">
+                <div class="deg">Google UX Design Professional Certificate</div>
+                <div class="meta">Coursera / Google Career Certification</div>
+              </div>
+              <div class="ec tight">
+                <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
+                <div class="meta">Illustrator, InDesign, Photoshop, Premiere Pro, After Effects</div>
+              </div>
+              <div class="ec tight">
+                <div class="deg">Interaction Design Foundation (IxDF) Certificates</div>
+                <div class="meta">UX Management, Accessibility in Practice, HCI, Design Thinking</div>
+              </div>
             </div>
           </div>
-          <ul class="bullets">
-            <li>Increased mobile-order adoption <strong class="metric">16%</strong> and reduced customer order complaints by <strong class="metric">42%</strong> for Burger King by auditing conversion friction and restructuring pickup location selection flows.</li>
-            <li>Delivered comprehensive <strong class="metric">WCAG baseline audits and 6-page heuristic evaluations</strong> against Nielsen standards for EDMO (Edventure More), projecting a 20–35% lift in enrollment conversions.</li>
-            <li>Authored veteran-player retention audit for Niantic's Pokémon GO, identifying critical cognitive overhead, multi-tap interaction friction, and clunky inventory routines driving user churn.</li>
-            <li class="bullet-p2-only">Advise enterprise and agency engineering teams on automated and manual Section 508/WCAG compliance remediation backed by functional code sandboxes.</li>
-          </ul>
-        </div>
+        </section>
+      </article>
+      <span class="sheet-badge no-print">PAGE 1 · 8.5" × 11"</span>
+    </div>
 
-        <!-- Role 3: Oteemo (USAF Platform One) -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">UI Engineer & UX Design Lead</div>
-              <div class="org">Oteemo <span class="sub-org">(United States Air Force – Platform One)</span></div>
-            </div>
-            <div class="role-right">
-              <div class="dates">MAY 2023 – NOV 2025</div>
-              <div class="loc">Reston, VA (Remote)</div>
-            </div>
-          </div>
-          <ul class="bullets">
-            <li>Elevated internal accessibility score from <strong class="metric">62 to 91 points</strong> by directing the UI overhaul and brand transition of the Vulnerability Assessment Tool (VAT) for Iron Bank under Platform One.</li>
-            <li>Rearchitected frontend infrastructure by migrating legacy Bootstrap to <strong class="metric">Material UI (MUI) in React TypeScript</strong>, enforcing Section 508 accessibility compliance and dark/light modes.</li>
-            <li>Decreased pull request cycle times by <strong class="metric">10%</strong> through a unified Figma-to-code design system and automated repo-level semantic HTML and ARIA linting routines.</li>
-            <li class="bullet-p2-only">Facilitated discovery sessions with container hardeners and vendor contributors using FigJam and Miro, turning behavioral pain points into verified interactive prototypes.</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- 1-PAGE MODE FOOTER BLOCK: Education & Certifications (Appears on Sheet 1 only when 1page mode is active) -->
-      <section class="section edu-cert-1page keep" aria-labelledby="sec-educert-1page">
-        <h2 id="sec-educert-1page" class="sec-label">Education & Certifications</h2>
-        <div class="twocol">
-          <div>
-            <div class="ec tight">
-              <div class="deg">B.S. in Digital Entertainment &amp; Game Design</div>
-              <div class="meta">ITT Tech · Everett, WA</div>
-            </div>
-            <div class="ec tight">
-              <div class="deg">A.A.S. in Multimedia / Design</div>
-              <div class="meta">ITT Tech · Everett, WA</div>
-            </div>
-            <div class="ec tight">
-              <div class="deg">B.S. in Computer Science</div>
-              <div class="meta">Lyceum University · Manila, Philippines</div>
-            </div>
-          </div>
-          <div>
-            <div class="ec tight">
-              <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
-              <div class="meta">Department of Defense / Federal Adjudication (Reinvestigated 2026)</div>
-            </div>
-            <div class="ec tight">
-              <div class="deg">Google UX Design Professional Certificate</div>
-              <div class="meta">Coursera / Google Career Certification</div>
-            </div>
-            <div class="ec tight">
-              <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
-              <div class="meta">Illustrator, InDesign, Photoshop, Premiere Pro, After Effects</div>
-            </div>
-            <div class="ec tight">
-              <div class="deg">Interaction Design Foundation (IxDF) Certificates</div>
-              <div class="meta">UX Management, Accessibility in Practice, HCI, Design Thinking</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </article>
-    <span class="sheet-badge no-print">PAGE 1 · 8.5" × 11"</span>
-  </div>
-
-  <!-- ----------------------------------------------------------------------
-       SHEET 2: Full Career Narrative (Active in 2-Page Complete Mode)
-       ---------------------------------------------------------------------- -->
-  <div class="sheet-wrapper">
-    <article id="sheet-2" class="sheet" aria-label="Resume Page 2">
-      <!-- Continuation Header -->
-      <div class="continuation-header">
-        <span class="continuation-title">Vernard Mercader</span>
-        <span class="continuation-meta">Professional Experience (Continued)</span>
-      </div>
-
-      <!-- Professional Background Continued -->
-      <section class="section" aria-labelledby="sec-experience-2">
-        <h2 id="sec-experience-2" class="sec-label">
-          <span>Enterprise & Public-Sector Experience</span>
-          <span class="sec-extra">Continued Timeline</span>
-        </h2>
-
-        <!-- Role 4: M-Corp (California Department of Public Health) -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">Senior UX Designer</div>
-              <div class="org">M-Corp <span class="sub-org">(California Department of Public Health)</span></div>
-            </div>
-            <div class="role-right">
-              <div class="dates">DEC 2021 – APR 2023</div>
-              <div class="loc">Sacramento, CA (Remote)</div>
-            </div>
-          </div>
-          <ul class="bullets">
-            <li>Increased daily active application sessions by <strong class="metric">346%</strong> (from 5 to 22 daily school district operators) by re-architecting the statewide CAIRHub immunization platform and delivering a 0-to-1 design system.</li>
-            <li>Achieved <strong class="metric">100% WCAG 2.1 AA compliance</strong> for all reviewed CAIRHub modules through accessible data table patterns, keyboard-only traversal, and responsive color tokens.</li>
-            <li>Bridged UX discovery with engineering delivery by authoring <strong class="metric">Angular and React TypeScript</strong> component specs, design tokens, and Section 508 audit registers for cross-functional developers.</li>
-            <li>Facilitated statewide stakeholder alignment workshops including Feature Priority Matrices, Service Blueprinting, and Design Thinking sessions to accelerate roadmap delivery.</li>
-          </ul>
+    <!-- ----------------------------------------------------------------------
+         SHEET 2: Full Career Narrative (Active in 2-Page Complete Mode)
+         ---------------------------------------------------------------------- -->
+    <div class="sheet-wrapper">
+      <article id="sheet-2" class="sheet" aria-label="Resume Page 2">
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+          <span class="continuation-title">Vernard Mercader</span>
+          <span class="continuation-meta">Professional Experience (Continued)</span>
         </div>
 
-        <!-- Role 5: SAIC (USAF ShOC, Nellis AFB) -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">Lead UX Designer</div>
-              <div class="org">SAIC <span class="sub-org">(USAF Shadow Operations Center, Nellis AFB)</span></div>
-            </div>
-            <div class="role-right">
-              <div class="dates">APR 2020 – DEC 2021</div>
-              <div class="loc">Nellis AFB, NV (Hybrid / SCIF)</div>
-            </div>
-          </div>
-          <ul class="bullets">
-            <li>Reduced intelligence operator mission task completion times by <strong class="metric">24% to 54%</strong> (60–70 seconds saved per event) by designing the ShROUD GIS coordinate-parsing middleware directly inside the operational chat interface.</li>
-            <li>Redesigned "Hyve" primary operational communications tool within a secure <strong class="metric">SCIF TS/SCI environment</strong>, conducting field discovery via direct floor immersion and pen-and-paper workflow mapping.</li>
-            <li>Spearheaded the ShOC design system as a secure fork of the <strong class="metric">U.S. Web Design System (USWDS)</strong>, translating Figma specifications into functional React TypeScript code.</li>
-            <li>Coached cross-functional engineering teams on military human-computer interaction guidelines, strict accessibility standards, and Agile delivery.</li>
-          </ul>
-        </div>
+        <!-- Professional Background Continued (Slot: experience-continued) -->
+        <section id="experience-continued" class="section" aria-labelledby="sec-experience-2" data-slot="experience-continued">
+          <h2 id="sec-experience-2" class="sec-label">
+            <span>Enterprise & Public-Sector Experience</span>
+            <span class="sec-extra">Continued Timeline</span>
+          </h2>
 
-        <!-- Role 6: GetDocsNow -->
-        <div class="role keep">
-          <div class="role-head">
-            <div class="role-left">
-              <div class="pos">UX Lead & Frontend Developer</div>
-              <div class="org">GetDocsNow</div>
+          <!-- Role 4: M-Corp (California Department of Public Health) -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">Senior UX Designer</div>
+                <div class="org">M-Corp <span class="sub-org">(California Department of Public Health)</span></div>
+              </div>
+              <div class="role-right">
+                <div class="dates">DEC 2021 – APR 2023</div>
+                <div class="loc">Sacramento, CA (Remote)</div>
+              </div>
             </div>
-            <div class="role-right">
-              <div class="dates">JAN 2019 – MAR 2020</div>
-              <div class="loc">Las Vegas, NV</div>
-            </div>
+            <ul class="bullets">
+              <li>Increased daily active application sessions by <strong class="metric">346%</strong> (from 5 to 22 daily school district operators) by re-architecting the statewide CAIRHub immunization platform and delivering a 0-to-1 design system.</li>
+              <li>Achieved <strong class="metric">100% WCAG 2.1 AA compliance</strong> for all reviewed CAIRHub modules through accessible data table patterns, keyboard-only traversal, and responsive color tokens.</li>
+              <li>Bridged UX discovery with engineering delivery by authoring <strong class="metric">Angular and React TypeScript</strong> component specs, design tokens, and Section 508 audit registers for cross-functional developers.</li>
+              <li>Facilitated statewide stakeholder alignment workshops including Feature Priority Matrices, Service Blueprinting, and Design Thinking sessions to accelerate roadmap delivery.</li>
+            </ul>
           </div>
-          <ul class="bullets">
-            <li>Re-engineered customer self-service portal with mobile-first responsive architecture, semantic HTML structure, and modernized CSS typography, boosting HOA member task completion rates.</li>
-            <li>Developed customer-facing interactive features using <strong class="metric">C#, ASP.NET, and modern JavaScript</strong>, tracing complex business logic to resolve production data bottlenecks.</li>
-          </ul>
-        </div>
-      </section>
 
-      <!-- 2-PAGE MODE DETAILED FOOTER BLOCK -->
-      <section class="section edu-cert-2page keep" aria-labelledby="sec-educert-2page">
-        <h2 id="sec-educert-2page" class="sec-label">Education, Certifications & Clearance</h2>
-        <div class="twocol">
-          <div>
-            <div class="ec">
-              <div class="deg">Bachelor of Science in Digital Entertainment &amp; Game Design</div>
-              <div class="meta">ITT Tech · Everett, WA</div>
+          <!-- Role 5: SAIC (USAF ShOC, Nellis AFB) -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">Lead UX Designer</div>
+                <div class="org">SAIC <span class="sub-org">(USAF Shadow Operations Center, Nellis AFB)</span></div>
+              </div>
+              <div class="role-right">
+                <div class="dates">APR 2020 – DEC 2021</div>
+                <div class="loc">Nellis AFB, NV (Hybrid / SCIF)</div>
+              </div>
             </div>
-            <div class="ec">
-              <div class="deg">Associate of Applied Science in Multimedia / Design</div>
-              <div class="meta">ITT Tech-Everett · Everett, WA</div>
+            <ul class="bullets">
+              <li>Reduced intelligence operator mission task completion times by <strong class="metric">24% to 54%</strong> (60–70 seconds saved per event) by designing the ShROUD GIS coordinate-parsing middleware directly inside the operational chat interface.</li>
+              <li>Redesigned "Hyve" primary operational communications tool within a secure <strong class="metric">SCIF TS/SCI environment</strong>, conducting field discovery via direct floor immersion and pen-and-paper workflow mapping.</li>
+              <li>Spearheaded the ShOC design system as a secure fork of the <strong class="metric">U.S. Web Design System (USWDS)</strong>, translating Figma specifications into functional React TypeScript code.</li>
+              <li>Coached cross-functional engineering teams on military human-computer interaction guidelines, strict accessibility standards, and Agile delivery.</li>
+            </ul>
+          </div>
+
+          <!-- Role 6: GetDocsNow -->
+          <div class="role keep">
+            <div class="role-head">
+              <div class="role-left">
+                <div class="pos">UX Lead & Frontend Developer</div>
+                <div class="org">GetDocsNow</div>
+              </div>
+              <div class="role-right">
+                <div class="dates">JAN 2019 – MAR 2020</div>
+                <div class="loc">Las Vegas, NV</div>
+              </div>
             </div>
-            <div class="ec">
-              <div class="deg">Bachelor of Science, Computer Science</div>
-              <div class="meta">Lyceum University · Manila, Philippines</div>
+            <ul class="bullets">
+              <li>Re-engineered customer self-service portal with mobile-first responsive architecture, semantic HTML structure, and modernized CSS typography, boosting HOA member task completion rates.</li>
+              <li>Developed customer-facing interactive features using <strong class="metric">C#, ASP.NET, and modern JavaScript</strong>, tracing complex business logic to resolve production data bottlenecks.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 2-PAGE MODE DETAILED FOOTER BLOCK (Slot: education-complete) -->
+        <section id="education-complete" class="section edu-cert-2page keep" aria-labelledby="sec-educert-2page" data-slot="education-complete">
+          <h2 id="sec-educert-2page" class="sec-label">Education, Certifications & Clearance</h2>
+          <div class="twocol">
+            <div>
+              <div class="ec">
+                <div class="deg">Bachelor of Science in Digital Entertainment &amp; Game Design</div>
+                <div class="meta">ITT Tech · Everett, WA</div>
+              </div>
+              <div class="ec">
+                <div class="deg">Associate of Applied Science in Multimedia / Design</div>
+                <div class="meta">ITT Tech-Everett · Everett, WA</div>
+              </div>
+              <div class="ec">
+                <div class="deg">Bachelor of Science, Computer Science</div>
+                <div class="meta">Lyceum University · Manila, Philippines</div>
+              </div>
+            </div>
+            <div>
+              <div class="ec">
+                <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
+                <div class="meta">Department of Defense / Federal Adjudication (Initial 2021, Reinvestigated 2026)</div>
+              </div>
+              <div class="ec">
+                <div class="deg">Google UX Design Professional Certificate</div>
+                <div class="meta">Coursera / Google Career Certification</div>
+              </div>
+              <div class="ec">
+                <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
+                <div class="meta">Illustrator, InDesign, Photoshop, Express, Premiere Pro, After Effects</div>
+              </div>
+              <div class="ec">
+                <div class="deg">Interaction Design Foundation (IxDF) Certified</div>
+                <div class="meta">UX Management, Accessibility in Practice, HCI, AI for Designers, Design Thinking</div>
+              </div>
             </div>
           </div>
-          <div>
-            <div class="ec">
-              <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
-              <div class="meta">Department of Defense / Federal Adjudication (Initial 2021, Reinvestigated 2026)</div>
-            </div>
-            <div class="ec">
-              <div class="deg">Google UX Design Professional Certificate</div>
-              <div class="meta">Coursera / Google Career Certification</div>
-            </div>
-            <div class="ec">
-              <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
-              <div class="meta">Illustrator, InDesign, Photoshop, Express, Premiere Pro, After Effects</div>
-            </div>
-            <div class="ec">
-              <div class="deg">Interaction Design Foundation (IxDF) Certified</div>
-              <div class="meta">UX Management, Accessibility in Practice, HCI, AI for Designers, Design Thinking</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </article>
-    <span class="sheet-badge no-print">PAGE 2 · 8.5" × 11"</span>
-  </div>
+        </section>
+      </article>
+      <span class="sheet-badge no-print">PAGE 2 · 8.5" × 11"</span>
+    </div>
 
   </main>
 
