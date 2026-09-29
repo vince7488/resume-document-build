@@ -38,7 +38,7 @@ Certificates: UX Management, Accessibility in Practice, Human-Computer Interacti
 
 SUMMARY
 
-Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA & AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures. Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.
+Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible digital products. Specialist in accessibility, visual design and design systems, and modern React/TypeScript architectures. Helped the USAF increase operational tool's task time by up to 54%, and the CDPH increase CAIRHub's engagement by 346%.
 
 
 
@@ -52,7 +52,6 @@ Position: Frontend UI Developer
 
 - Design and build responsive, accessible React and TypeScript interfaces for U.S. Coast Guard applications, translating UX requirements and Figma designs into production-ready components and workflows.
 - Develop and integrate frontend functionality using AWS Amplify, GraphQL, APIs, and modern component architecture in an Agile/DevSecOps environment.
-- Implement mobile-ready and offline-capable interface architectures ensuring compliance with WCAG 2.1 AA accessibility standards and maritime usability baselines.
 - Onboard to the U.S. Coast Guard MISLE/MASS common operating picture platform, engineering frontend workflows in ArcGIS over AWS Lambda backends.
 
 ---
@@ -145,7 +144,6 @@ User Experience & Strategy: Heuristic Evaluation, Journey Mapping, Service Bluep
 Frontend Engineering: React, TypeScript, Next.js, Angular, JavaScript (ES6+), HTML5, CSS3, SCSS, Material UI, Bootstrap, USWDS, Reusable UI Components
 
 Platforms & Cloud: AWS Amplify, GraphQL, REST APIs, Git, GitLab, Docker, CI/CD, DevSecOps, ArcGIS, WordPress Multisite, Linux
-
 
 
 SKILLS (ATS)

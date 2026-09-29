@@ -2,7 +2,7 @@
  * RESUME DOCUMENT BUILD: Interactive Print Studio Controller
  * Handles deterministic page budgeting, paper format switching (Letter & A4),
  * density root token tuning (--body-size, --section-gap), theme/font switching,
- * persona presets, ATS text modal, and multi-format exports.
+ * ATS text modal, and multi-format exports.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const htmlEl = document.documentElement;
   const themeSelect = document.getElementById('theme-select');
   const fontSelect = document.getElementById('font-select');
-  const personaSelect = document.getElementById('persona-select');
   const paperSelect = document.getElementById('paper-select');
   const densitySelect = document.getElementById('density-select');
   const btn1Page = document.getElementById('btn-1page');
@@ -43,22 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const sheet1 = document.getElementById('sheet-1');
   const sheet2 = document.getElementById('sheet-2');
   const sheetBadges = document.querySelectorAll('.sheet-badge');
-
-  // Persona Presets Data
-  const personaData = {
-    hybrid: {
-      tagline: 'Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance',
-      summary: 'Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA & AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures. Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.'
-    },
-    accessibility: {
-      tagline: 'Lead Accessibility (WCAG / Section 508) Specialist & Design Systems Architect',
-      summary: 'Specialist UX Accessibility Consultant and Design Systems Engineer with deep expertise in WCAG 2.1/2.2 AA & AAA compliance, Section 508 remediation, and assistive technology testing (screen readers, keyboard navigability, cognitive load). Proven track record leading accessibility transformations for DoD software factories, statewide public health systems, and commercial enterprises. Experienced in translating complex compliance audit registers into production-ready React, Angular, and USWDS component libraries.'
-    },
-    defense: {
-      tagline: 'Cleared UI/UX Engineer (Active TS/SCI) · DevSecOps & Enterprise DoD Platforms',
-      summary: 'Senior UI/UX Engineer holding active TS/SCI clearance with verified experience delivering secure, mission-critical user interfaces for the Department of Defense, U.S. Air Force (Platform One, Iron Bank, ShOC), and U.S. Coast Guard. Proven success modernizing defense web applications, migrating legacy architectures to Material UI and React TypeScript, establishing USWDS-derived design systems in SCIF environments, and reducing operator mission task completion times by up to 54%.'
-    }
-  };
 
   // --- Paper Format Controller (Letter vs A4) ---
   function setPaperFormat(format) {
@@ -236,21 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setLayoutMode(initialLayout);
   }
 
-  // --- Persona Preset Controller ---
-  if (personaSelect) {
-    personaSelect.addEventListener('change', (e) => {
-      const preset = personaData[e.target.value];
-      if (preset) {
-        const taglineEl = document.querySelector('.tagline');
-        const summaryEls = document.querySelectorAll('.summary-text');
-        
-        if (taglineEl) taglineEl.textContent = preset.tagline;
-        summaryEls.forEach(el => { el.textContent = preset.summary; });
-
-        setTimeout(checkPageOverflow, 50);
-      }
-    });
-  }
 
   // --- Margin Guides Toggle ---
   let guidesActive = false;
@@ -603,4 +571,295 @@ document.addEventListener('DOMContentLoaded', () => {
       // Standard browser print will naturally occur
     }
   });
+
+  // --- ATS Upload & Parsing Controller ---
+  function parseATSData(text) {
+    if (!text) return {};
+    
+    const data = {
+      name: '', tagline: '', email: '', phone: '', sites: [], location: '',
+      certifications: [], summary: '', experience: [], education: [], skills: []
+    };
+
+    const lines = text.split('\n').map(l => l.trim());
+    let currentSection = 'header';
+    let currentObj = null;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line) continue;
+
+      if (line === 'CERTIFICATIONS') { currentSection = 'certifications'; currentObj = null; continue; }
+      if (line === 'SUMMARY') { currentSection = 'summary'; continue; }
+      if (line === 'PROFESSIONAL BACKGROUND') { currentSection = 'experience'; currentObj = null; continue; }
+      if (line === 'EDUCATION') { currentSection = 'education'; currentObj = null; continue; }
+      if (line === 'SKILLS (FORMAL)') { currentSection = 'skills'; continue; }
+      if (line === 'SKILLS (ATS)') { currentSection = 'skills_ats'; continue; }
+
+      if (currentSection === 'header') {
+        if (line.startsWith('Name:')) data.name = line.substring(5).trim();
+        else if (line.startsWith('Email:')) data.email = line.substring(6).trim();
+        else if (line.startsWith('Phone:')) data.phone = line.substring(6).trim();
+        else if (line.startsWith('Site ')) {
+           const parts = line.split(':');
+           if (parts.length > 1) {
+              data.sites.push(parts.slice(1).join(':').trim());
+           }
+        }
+        else if (line.startsWith('Location:')) data.location = line.substring(9).trim();
+        else if (!line.startsWith('==') && !line.toLowerCase().includes('ats resume template')) {
+           if (!data.tagline && data.name && !line.startsWith('Name:')) {
+              data.tagline = line;
+           }
+        }
+      }
+      else if (currentSection === 'certifications') {
+        if (line.startsWith('Institution:')) {
+           currentObj = { institution: line.substring(12).trim(), certificates: '' };
+           data.certifications.push(currentObj);
+        } else if (line.startsWith('Certificates:') && currentObj) {
+           currentObj.certificates = line.substring(13).trim();
+        }
+      }
+      else if (currentSection === 'summary') {
+        data.summary += (data.summary ? ' ' : '') + line;
+      }
+      else if (currentSection === 'experience') {
+        if (line === '---') { currentObj = null; continue; }
+        
+        if (line.startsWith('Position:')) {
+           currentObj = { position: line.substring(9).trim(), company: '', subOrg: '', location: '', startDate: '', endDate: '', bullets: [] };
+           data.experience.push(currentObj);
+        } else if (currentObj) {
+           if (line.startsWith('- Company:')) {
+               let c = line.substring(10).trim();
+               let match = c.match(/(.*?)\s*\((.*?)\)$/);
+               if (match) {
+                   currentObj.company = match[1].trim();
+                   currentObj.subOrg = match[2].trim();
+               } else {
+                   currentObj.company = c;
+                   currentObj.subOrg = '';
+               }
+           }
+           else if (line.startsWith('- Location:')) currentObj.location = line.substring(11).trim();
+           else if (line.startsWith('- Start Date:')) currentObj.startDate = line.substring(13).trim();
+           else if (line.startsWith('- End Date:')) currentObj.endDate = line.substring(11).trim();
+           else if (line.startsWith('- ')) currentObj.bullets.push(line.substring(2).trim());
+        }
+      }
+      else if (currentSection === 'education') {
+        if (line.startsWith('Institution:')) {
+           currentObj = { institution: line.substring(12).trim(), major: '', course: '' };
+           data.education.push(currentObj);
+        } else if (currentObj) {
+           if (line.startsWith('Major:')) currentObj.major = line.substring(6).trim();
+           else if (line.startsWith('Course:')) currentObj.course = line.substring(7).trim();
+        }
+      }
+      else if (currentSection === 'skills') {
+        const parts = line.split(':');
+        if (parts.length >= 2) {
+           data.skills.push({ cat: parts[0].trim(), items: parts.slice(1).join(':').trim() });
+        }
+      }
+    }
+
+    return data;
+  }
+
+  function applyATSDataToDOM(data) {
+    const badDataSpan = '<span style="background-color: rgba(255,15,10,0.9); color: white; font-weight: bold; padding: 2px 4px; border-radius: 2px;">Bad ATS data</span>';
+    const getVal = (v) => (v && v.trim()) ? v : badDataSpan;
+
+    // Header
+    const nameEl = document.querySelector('.name');
+    if (nameEl) nameEl.innerHTML = getVal(data.name);
+
+    const taglineEl = document.querySelector('.tagline');
+    if (taglineEl) taglineEl.innerHTML = getVal(data.tagline);
+
+    const contactEl = document.querySelector('.contact');
+    if (contactEl) {
+      let contactHtml = [];
+      if (data.location) contactHtml.push(`<span>${getVal(data.location)}</span>`);
+      else contactHtml.push(`<span>${badDataSpan}</span>`);
+      
+      if (data.phone) contactHtml.push(`<span>${getVal(data.phone)}</span>`);
+      else contactHtml.push(`<span>${badDataSpan}</span>`);
+
+      if (data.email) contactHtml.push(`<a href="mailto:${data.email}">${getVal(data.email)}</a>`);
+      else contactHtml.push(`<span>${badDataSpan}</span>`);
+
+      if (data.sites && data.sites.length > 0) {
+        data.sites.forEach(site => {
+          let display = site.replace(/^https?:\/\/(www\.)?/, '');
+          contactHtml.push(`<a href="${site}" target="_blank" rel="noopener">${getVal(display)}</a>`);
+        });
+      } else {
+        contactHtml.push(`<span>${badDataSpan}</span>`);
+      }
+
+      contactEl.innerHTML = contactHtml.join('<span class="sep">·</span>');
+    }
+
+    // Summary
+    const summaryEl = document.querySelector('.summary-text');
+    if (summaryEl) {
+      summaryEl.innerHTML = getVal(data.summary);
+    }
+
+    // Core Competencies
+    const skillsContainer = document.querySelector('.skill-grid');
+    if (skillsContainer) {
+      if (data.skills && data.skills.length > 0) {
+        skillsContainer.innerHTML = data.skills.map(skill => `
+          <div class="skill-row">
+            <span class="skill-cat">${getVal(skill.cat)}</span>
+            <span class="skill-items">${getVal(skill.items)}</span>
+          </div>
+        `).join('');
+      } else {
+        skillsContainer.innerHTML = badDataSpan;
+      }
+    }
+
+    // Experience
+    const expContainer1 = document.querySelector('#experience');
+    const expContainer2 = document.querySelector('#experience-continued');
+
+    if (expContainer1) {
+      const h2 = expContainer1.querySelector('h2');
+      expContainer1.innerHTML = '';
+      if (h2) expContainer1.appendChild(h2);
+
+      if (expContainer2) {
+        const h2_2 = expContainer2.querySelector('h2');
+        expContainer2.innerHTML = '';
+        if (h2_2) expContainer2.appendChild(h2_2);
+      }
+
+      if (data.experience && data.experience.length > 0) {
+         data.experience.forEach((job, index) => {
+           const isFirstPage = index < 3;
+           const container = isFirstPage ? expContainer1 : expContainer2;
+           if (!container) return;
+
+           const subOrgHtml = job.subOrg ? ` <span class="sub-org">(${getVal(job.subOrg)})</span>` : '';
+           
+           const roleHtml = `
+            <div class="role keep">
+              <div class="role-head">
+                <div class="role-left">
+                  <div class="pos">${getVal(job.position)}</div>
+                  <div class="org">${getVal(job.company)}${subOrgHtml}</div>
+                </div>
+                <div class="role-right">
+                  <div class="dates">${getVal(job.startDate)} – ${getVal(job.endDate)}</div>
+                  <div class="loc">${getVal(job.location)}</div>
+                </div>
+              </div>
+              <ul class="bullets">
+                ${job.bullets && job.bullets.length > 0 ? job.bullets.map(b => `<li>${getVal(b)}</li>`).join('') : `<li>${badDataSpan}</li>`}
+              </ul>
+            </div>
+           `;
+           container.insertAdjacentHTML('beforeend', roleHtml);
+         });
+      } else {
+         expContainer1.insertAdjacentHTML('beforeend', `<div class="role keep">${badDataSpan}</div>`);
+      }
+    }
+
+    // Education
+    const populateEdu = (containerSelector) => {
+       const eduContainer = document.querySelector(containerSelector);
+       if (!eduContainer) return;
+
+       const h2 = eduContainer.querySelector('h2');
+       eduContainer.innerHTML = '';
+       if (h2) eduContainer.appendChild(h2);
+
+       const twoCol = document.createElement('div');
+       twoCol.className = 'twocol';
+       
+       const leftCol = document.createElement('div');
+       if (data.education && data.education.length > 0) {
+         leftCol.innerHTML = data.education.map(edu => `
+           <div class="ec tight">
+             <div class="deg">${getVal(edu.course)} in ${getVal(edu.major)}</div>
+             <div class="meta">${getVal(edu.institution)}</div>
+           </div>
+         `).join('');
+       } else {
+         leftCol.innerHTML = badDataSpan;
+       }
+
+       const rightCol = document.createElement('div');
+       if (data.certifications && data.certifications.length > 0) {
+         rightCol.innerHTML = data.certifications.map(cert => {
+           let degVal = cert.certificates;
+           if (degVal && degVal.toLowerCase().includes('clearance')) {
+             degVal = `<span class="clearance-badge">${degVal}</span>`;
+           }
+           return `
+             <div class="ec tight">
+               <div class="deg">${degVal || badDataSpan}</div>
+               <div class="meta">${getVal(cert.institution)}</div>
+             </div>
+           `;
+         }).join('');
+       } else {
+         rightCol.innerHTML = badDataSpan;
+       }
+
+       twoCol.appendChild(leftCol);
+       twoCol.appendChild(rightCol);
+       eduContainer.appendChild(twoCol);
+    };
+
+    populateEdu('#education');
+    populateEdu('#education-complete');
+    
+    if (typeof checkPageOverflow === 'function') {
+      setTimeout(checkPageOverflow, 100);
+    }
+  }
+
+  // Handle auto-load of ATS
+  fetch('ats_resume.txt')
+    .then(res => {
+      if (!res.ok) throw new Error('Not found');
+      return res.text();
+    })
+    .then(text => {
+      const parsedData = parseATSData(text);
+      applyATSDataToDOM(parsedData);
+    })
+    .catch(err => {
+      console.warn('Failed to load pre-loaded ats_resume.txt', err);
+      // Fill with bad data
+      applyATSDataToDOM({});
+    });
+
+  // Handle ATS user upload
+  const atsUploadInput = document.getElementById('ats-upload-input');
+  if (atsUploadInput) {
+    atsUploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target.result;
+        const parsedData = parseATSData(text);
+        applyATSDataToDOM(parsedData);
+        
+        // Also update ATS text area if it exists
+        const atsTextarea = document.getElementById('ats-textarea');
+        if (atsTextarea) atsTextarea.value = text;
+      };
+      reader.readAsText(file);
+    });
+  }
 });
