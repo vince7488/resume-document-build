@@ -1,0 +1,953 @@
+/* ==========================================================================
+   RESUME DOCUMENT BUILD: Deterministic Print Scaffold (US Letter 8.5" x 11")
+   House Style Specification: Spectral (Serif) + Public Sans / Source Sans 3 (Sans)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+
+:root {
+  /* --- Default House Color Palette --- */
+  --ink: #231F20;
+  --accent: #594B2F;
+  --accent2: #591236;
+  --muted: #6d666a;
+  --faint: #777074;
+  --hair: #e4dee1;
+  --page-bg: #ffffff;
+
+  /* --- Default Typography --- */
+  --display-font: 'Spectral', Georgia, 'Times New Roman', serif;
+  --body-font: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* --- Print Calibration Constants (US Letter at 96 DPI) --- */
+  --page-width: 8.5in;
+  --page-height: 11in;
+  --margin-top: 0.5in;
+  --margin-right: 0.62in;
+  --margin-bottom: 0.46in;
+  --margin-left: 0.62in;
+
+  /* --- Studio Workspace UI (Screen only) --- */
+  --studio-bg: #090d16;
+  --studio-panel: #111827;
+  --studio-panel-border: #1f2937;
+  --studio-text: #9ca3af;
+  --studio-text-bright: #f3f4f6;
+  --studio-primary: #2563eb;
+  --studio-primary-hover: #1d4ed8;
+  --studio-accent-cyan: #06b6d4;
+  --studio-success: #10b981;
+  --studio-warning: #f59e0b;
+  --studio-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* --- Theme Overrides --- */
+[data-theme="federal-navy"] {
+  --ink: #111827;
+  --accent: #910045;
+  --accent2: #1e3a8a;
+  --muted: #4b5563;
+  --faint: #6b7280;
+  --hair: #e5e7eb;
+}
+
+[data-theme="modern-obsidian"] {
+  --ink: #0f172a;
+  --accent: #0f766e;
+  --accent2: #0284c7;
+  --muted: #475569;
+  --faint: #64748b;
+  --hair: #cbd5e1;
+}
+
+[data-theme="monochrome"] {
+  --ink: #000000;
+  --accent: #262626;
+  --accent2: #404040;
+  --muted: #525252;
+  --faint: #737373;
+  --hair: #d4d4d4;
+}
+
+/* --- Font Preset Overrides --- */
+[data-font="spectral-source"] {
+  --display-font: 'Spectral', Georgia, serif;
+  --body-font: 'Source Sans 3', sans-serif;
+}
+
+[data-font="serif-poppins"] {
+  --display-font: 'Spectral', Georgia, serif;
+  --body-font: 'Poppins', sans-serif;
+}
+
+/* ==========================================================================
+   Base & Reset
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--studio-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--ink);
+  line-height: 1.42;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Screen Workspace & Studio Controls (Non-printing UI)
+   ========================================================================== */
+.studio-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--studio-panel-border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.studio-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studio-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.studio-title-group h1 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--studio-text-bright);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-format {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--studio-accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.studio-subtitle {
+  font-size: 11px;
+  color: var(--studio-text);
+}
+
+.studio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  background: var(--studio-panel);
+  border: 1px solid var(--studio-panel-border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.control-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--studio-text);
+  padding: 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.control-btn {
+  background: transparent;
+  border: none;
+  color: var(--studio-text);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.control-btn:hover {
+  color: var(--studio-text-bright);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.control-btn.active {
+  background: var(--studio-primary);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.control-select {
+  background: transparent;
+  border: none;
+  color: var(--studio-text-bright);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.control-select option {
+  background: var(--studio-panel);
+  color: var(--studio-text-bright);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.35);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+  transform: translateY(-1px);
+}
+
+/* --- Status / Overflow HUD (Screen only) --- */
+.studio-hud {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 24px;
+  background: rgba(15, 23, 42, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+  color: var(--studio-text);
+}
+
+.hud-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--studio-success);
+  box-shadow: 0 0 8px var(--studio-success);
+}
+
+.hud-dot.warning {
+  background: var(--studio-warning);
+  box-shadow: 0 0 8px var(--studio-warning);
+}
+
+.hud-tip {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   Document Container & Printable Sheets
+   ========================================================================== */
+.document-viewport {
+  padding: 32px 16px 64px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* 
+   THE SHEET: Exact US Letter dimensions (8.5in x 11in)
+   Screen view simulates the printed paper.
+   Print media overrides to zero-margin sheet or native @page.
+*/
+.sheet {
+  width: var(--page-width);
+  min-height: var(--page-height);
+  height: var(--page-height);
+  padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+  background: var(--page-bg);
+  box-shadow: var(--studio-shadow);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Editable mode visual hint */
+body.is-editing .sheet [contenteditable="true"] {
+  outline: 1px dashed rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+body.is-editing .sheet [contenteditable="true"]:focus {
+  outline: 2px solid #2563eb;
+  background: rgba(37, 99, 235, 0.04);
+}
+
+/* Visual Print Margin Guides Overlay */
+.sheet.show-guides::after {
+  content: "";
+  position: absolute;
+  top: var(--margin-top);
+  left: var(--margin-left);
+  right: var(--margin-right);
+  bottom: var(--margin-bottom);
+  border: 1px dashed rgba(239, 68, 68, 0.45);
+  pointer-events: none;
+  z-index: 999;
+}
+
+.sheet.show-guides::before {
+  content: "8.5\" × 11\" Print-Safe Bounding Box";
+  position: absolute;
+  top: calc(var(--margin-top) - 18px);
+  right: var(--margin-right);
+  font-family: -apple-system, sans-serif;
+  font-size: 9px;
+  color: #ef4444;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.sheet-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+[data-layout="1page"] .sheet-wrapper:nth-of-type(2) {
+  display: none !important;
+}
+
+.sheet-badge {
+  position: absolute;
+  bottom: -22px;
+  right: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Deterministic Resume House Typography & Component Styles
+   Based on user canonical specifications:
+   - Name: ~31px (23.5pt) Spectral 600
+   - Tagline: ~12.6px (9.5pt) Spectral Italic
+   - Contact: 8.7px (8pt) Public Sans 500 / 600
+   - Section Label: 8.8px (8pt) Public Sans 700 UPPERCASE
+   - Body/Summary: 9.2pt - 9.5px Public Sans 400
+   - Role Title: 13px (10.2pt) Spectral 600
+   - Employer: 9.1px (8.6pt) Public Sans 600
+   - Bullets: 9.15px (8.8pt) Public Sans 400, line-height 1.42
+   ========================================================================== */
+
+.resume-header {
+  margin-bottom: 2px;
+}
+
+.name {
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-size: 23.5pt;
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.tagline {
+  font-family: var(--display-font);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 9.5pt;
+  color: var(--accent);
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+
+.contact {
+  font-family: var(--body-font);
+  font-weight: 500;
+  font-size: 8pt;
+  color: var(--muted);
+  letter-spacing: 0.025em;
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.contact .sep {
+  color: var(--accent);
+  margin: 0 6px;
+  font-weight: 700;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+  color: var(--ink);
+}
+
+.rule-top {
+  height: 2px;
+  background: var(--ink);
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.section {
+  margin-top: 10px;
+}
+
+.sec-label {
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: 8pt;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  padding-bottom: 3px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--hair);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.sec-label .sec-extra {
+  font-size: 7.2pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  text-transform: none;
+}
+
+.summary {
+  font-family: var(--body-font);
+  font-size: 9.2pt;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* Skill Grid: Fixed category column ~24%, clean items list */
+.skill-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+}
+
+.skill-row {
+  display: flex;
+  align-items: baseline;
+}
+
+.skill-cat {
+  flex: 0 0 24%;
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: 7.6pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  padding-right: 12px;
+}
+
+.skill-items {
+  flex: 1;
+  font-family: var(--body-font);
+  font-size: 8.6pt;
+  color: var(--muted);
+  line-height: 1.34;
+}
+
+/* Professional Role Entries */
+.role {
+  margin-bottom: 8.5px;
+}
+
+.role.tight {
+  margin-bottom: 6px;
+}
+
+.role-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.role-left {
+  flex: 1;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.pos {
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-size: 10.2pt;
+  line-height: 1.16;
+  color: var(--ink);
+}
+
+.org {
+  font-family: var(--body-font);
+  font-weight: 600;
+  font-size: 8.6pt;
+  color: var(--accent);
+  margin-top: 1px;
+}
+
+.org .sub-org {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.role-right {
+  flex: 0 0 auto;
+  text-align: right;
+  padding-top: 1px;
+}
+
+.dates {
+  font-family: var(--body-font);
+  font-weight: 600;
+  font-size: 7.6pt;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.loc {
+  font-family: var(--body-font);
+  font-size: 7.4pt;
+  color: var(--faint);
+  margin-top: 0.5px;
+  white-space: nowrap;
+}
+
+/* Bullets: Custom 3.5px accent square marker */
+ul.bullets {
+  list-style: none;
+  margin-top: 3.5px;
+  padding-left: 0;
+}
+
+ul.bullets li {
+  position: relative;
+  padding-left: 11px;
+  margin-bottom: 2.2px;
+  font-size: 8.8pt;
+  line-height: 1.39;
+  color: var(--ink);
+}
+
+ul.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.48em;
+  width: 3.5px;
+  height: 3.5px;
+  background: var(--accent);
+  border-radius: 0.5px;
+}
+
+/* Highlighted numbers, metrics, or achievements */
+.metric {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Two-column layout for Education & Certifications */
+.twocol {
+  display: flex;
+  gap: 22px;
+}
+
+.twocol > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.ec {
+  margin-bottom: 5px;
+}
+
+.ec.tight {
+  margin-bottom: 3.5px;
+}
+
+.ec .deg {
+  font-family: var(--body-font);
+  font-weight: 600;
+  font-size: 8.6pt;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.ec .meta {
+  font-size: 7.9pt;
+  color: var(--muted);
+  margin-top: 0.5px;
+  line-height: 1.3;
+}
+
+.ec .yr {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.clearance-badge {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--accent2);
+}
+
+/* Avoid page split inside critical elements */
+.keep, .role, .skill-row, .ec, .sec-label {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Continuation Header for Page 2 */
+.continuation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.continuation-title {
+  font-family: var(--display-font);
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.continuation-meta {
+  font-family: var(--body-font);
+  font-size: 7.5pt;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Layout Modes: 1-Page vs 2-Page
+   ========================================================================== */
+/* In 1-Page mode, hide sheet 2 and 2-page-only content */
+[data-layout="1page"] #sheet-1 {
+  padding-top: 0.42in !important;
+  padding-bottom: 0.40in !important;
+}
+
+[data-layout="1page"] #sheet-2 {
+  display: none !important;
+}
+
+[data-layout="1page"] .edu-cert-1page {
+  display: block;
+}
+
+[data-layout="1page"] .bullet-p2-only {
+  display: none !important;
+}
+
+[data-layout="1page"] .summary-p2-only {
+  display: none !important;
+}
+
+[data-layout="1page"] .section {
+  margin-top: 6.5px;
+}
+
+[data-layout="1page"] .sec-label {
+  margin-bottom: 3.5px;
+  padding-bottom: 2px;
+}
+
+[data-layout="1page"] .role {
+  margin-bottom: 4.5px;
+}
+
+[data-layout="1page"] ul.bullets li {
+  margin-bottom: 1.2px;
+  line-height: 1.34;
+}
+
+[data-layout="1page"] .summary {
+  line-height: 1.38;
+}
+
+[data-layout="1page"] .ec.tight {
+  margin-bottom: 1.5px;
+}
+
+/* In 2-Page mode, display both sheets */
+[data-layout="2page"] #sheet-1 {
+  padding-top: 0.44in !important;
+  padding-bottom: 0.42in !important;
+}
+
+[data-layout="2page"] #sheet-2 {
+  display: block;
+}
+
+[data-layout="2page"] .edu-cert-1page {
+  display: none !important;
+}
+
+[data-layout="2page"] .bullet-p2-only {
+  display: list-item !important;
+}
+
+[data-layout="2page"] .summary-p2-only {
+  display: inline !important;
+}
+
+[data-layout="2page"] .section {
+  margin-top: 8px;
+}
+
+[data-layout="2page"] .sec-label {
+  margin-bottom: 4px;
+  padding-bottom: 2px;
+}
+
+[data-layout="2page"] .role {
+  margin-bottom: 6px;
+}
+
+[data-layout="2page"] ul.bullets li {
+  margin-bottom: 1.6px;
+  line-height: 1.36;
+}
+
+/* ==========================================================================
+   ATS Plain Text Modal / Drawer
+   ========================================================================== */
+.ats-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ats-modal-backdrop.is-open {
+  display: flex;
+}
+
+.ats-modal-window {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 820px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  color: #f3f4f6;
+  overflow: hidden;
+}
+
+.ats-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ats-modal-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ats-modal-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ats-textarea {
+  width: 100%;
+  height: 380px;
+  background: #090d16;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #e5e7eb;
+  resize: vertical;
+  outline: none;
+  white-space: pre;
+}
+
+.ats-modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   PRINT MEDIA RULES (Deterministic 8.5 x 11 output)
+   ========================================================================== */
+@media print {
+  /* Enforce exact US Letter size and suppress browser margins */
+  @page {
+    size: letter portrait;
+    margin: 0;
+  }
+
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Completely hide all screen studio controls, toolbars, HUDs, modals */
+  .no-print,
+  .studio-topbar,
+  .studio-hud,
+  .sheet-badge,
+  .sheet::after,
+  .sheet::before,
+  .ats-modal-backdrop {
+    display: none !important;
+  }
+
+  .document-viewport {
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    display: block !important;
+  }
+
+  .sheet-wrapper {
+    display: contents !important;
+  }
+
+  /* Each sheet represents exactly one physical 8.5 x 11 page */
+  .sheet {
+    width: 8.5in !important;
+    height: 11in !important;
+    min-height: 11in !important;
+    max-height: 11in !important;
+    padding: 0.5in 0.62in 0.46in 0.62in !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    position: relative !important;
+  }
+
+  /* The last sheet must not force a blank trailing page */
+  .sheet:last-of-type {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  /* Strict anti-orphan styling */
+  .keep, .role, .skill-row, .ec, .sec-label, .role-head, .twocol {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Ensure text selections and edit outlines are clear on paper */
+  [contenteditable="true"] {
+    outline: none !important;
+  }
+}

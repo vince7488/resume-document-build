@@ -1,0 +1,153 @@
+== ATS text-only resume format guide ==
+
+ATS Resume template format
+
+Name: Vernard Mercader
+
+Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance
+
+Email: talkto@vernard.net
+
+Phone: 413-354-9506
+
+Site 1: https://vernard.net
+
+Site 2: https://www.linkedin.com/in/vjmercader
+
+Site 3: https://github.com/vince7488
+
+Location: Western Massachusetts
+
+
+
+CERTIFICATIONS
+
+Institution: Department of Defense / Federal Adjudication
+Certificates: Active TS/SCI Security Clearance (Reinvestigated 2026)
+
+Institution: Google / Coursera
+Certificates: Google UX Design Professional Certificate
+
+Institution: Adobe Certified Professional
+Certificates: Adobe Certified Expert (ACE) - Illustrator, InDesign, Photoshop, Premiere Pro, After Effects
+
+Institution: Interaction Design Foundation (IxDF)
+Certificates: UX Management, Accessibility in Practice, Human-Computer Interaction, Design Thinking
+
+
+
+SUMMARY
+
+Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA & AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures. Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.
+
+
+
+PROFESSIONAL BACKGROUND
+
+Position: Frontend UI Developer
+- Company: Krozak Technologies (United States Coast Guard)
+- Location: Silver Spring, MD (Remote)
+- Start Date: JUL 2026
+- End Date: PRESENT
+
+- Design and build responsive, accessible React and TypeScript interfaces for U.S. Coast Guard applications, translating UX requirements and Figma designs into production-ready components and workflows.
+- Develop and integrate frontend functionality using AWS Amplify, GraphQL, APIs, and modern component architecture in an Agile/DevSecOps environment.
+- Implement mobile-ready and offline-capable interface architectures ensuring compliance with WCAG 2.1 AA accessibility standards and maritime usability baselines.
+- Onboard to the U.S. Coast Guard MISLE/MASS common operating picture platform, engineering frontend workflows in ArcGIS over AWS Lambda backends.
+
+---
+
+Position: Independent Consultant & Founder
+- Company: Logias
+- Location: Western Massachusetts
+- Start Date: NOV 2025
+- End Date: PRESENT
+
+- Increased mobile-order adoption 16% and reduced customer complaint volume 42% for Burger King by auditing conversion friction and restructuring the mobile pickup location selection flow.
+- Completed comprehensive WCAG baseline audits and 6-page heuristic evaluations against Nielsen standards for EDMO (Edventure More), targeting 20-35% conversion lifts and 25% increase in partner inquiries.
+- Formulated retention and interaction audit for Niantic's Pokémon GO, identifying critical cognitive debt and multi-tap friction in veteran player inventory management.
+- Provide direct expert accessibility and UX audits for organizations navigating WCAG 2.1/2.2 AA and ADA compliance obligations.
+
+---
+
+Position: UI Engineer & UX Design Lead
+- Company: Oteemo (United States Air Force – Platform One)
+- Location: Reston, VA (Remote)
+- Start Date: MAY 2023
+- End Date: NOV 2025
+
+- Elevated internal rubric accessibility score from 62 to 91 points by leading the UI overhaul and brand transition of the Vulnerability Assessment Tool (VAT) for Iron Bank under Platform One.
+- Migrated legacy Bootstrap frontend architecture to Material UI (MUI) in React TypeScript, enforcing Section 508 and WCAG 2.1 AA compliance across all container security workflows.
+- Decreased pull request cycle times by 10% through a centralized Figma-to-code design system and automated repo-level semantic HTML and ARIA linting routines.
+- Conducted discovery sessions with DoD container hardeners and vendor contributors using FigJam and Miro, translating behavioral pain points into verified prototypes.
+
+---
+
+Position: Senior UX Designer
+- Company: M-Corp (California Department of Public Health)
+- Location: Sacramento, CA (Remote)
+- Start Date: DEC 2021
+- End Date: APR 2023
+
+- Increased daily active application sessions by 346% (from 5 to 22 daily district users) by rearchitecting the statewide CAIRHub immunization platform and delivering an end-to-end 0-to-1 design system.
+- Achieved 100% WCAG 2.1 AA compliance for reviewed modules through accessible table architectures, keyboard navigation flows, and responsive CSS token systems.
+- Bridged UX discovery with engineering delivery by authoring Angular and React TypeScript component specs, design tokens, and Section 508 audit registers for cross-functional teams.
+- Led cross-functional design workshops including Feature Priority Matrices and Design Thinking sessions to accelerate statewide product delivery.
+
+---
+
+Position: Lead UX Designer
+- Company: SAIC (USAF ShOC, Nellis AFB)
+- Location: Nellis AFB, NV (Hybrid)
+- Start Date: APR 2020
+- End Date: DEC 2021
+
+- Reduced intelligence operator task completion times by 24% to 54% (60–70 second reduction per task) by designing the ShROUD GIS coordinate-parsing middleware directly inside the operational chat interface.
+- Redesigned "Hyve" primary operational communications tool within a secure SCIF TS/SCI environment, conducting discovery through in-person observation and pen-and-paper workflow mapping.
+- Spearheaded the ShOC design system as a secure fork of the U.S. Web Design System (USWDS), translating Figma specifications into functional React TypeScript code.
+- Mentored cross-functional team members on design thinking, strict accessibility standards, and Agile delivery.
+
+---
+
+Position: UX Lead & Frontend Developer
+- Company: GetDocsNow
+- Location: Las Vegas, NV
+- Start Date: JAN 2019
+- End Date: MAR 2020
+
+- Re-engineered customer portal with mobile-first responsive architecture and semantic HTML/CSS, boosting HOA self-service completion and client engagement.
+- Developed interactive customer features using C#, ASP.NET, and modern JavaScript, resolving production data bottlenecks and reducing support escalation time.
+
+
+
+EDUCATION
+
+Institution: ITT Tech
+Major: Digital Entertainment and Game Design
+Course: Bachelor of Science
+
+Institution: ITT Tech-Everett
+Major: Multimedia/Design
+Course: Associate of Applied Science
+
+Institution: Lyceum University
+Major: Computer Science
+Course: Bachelor of Science
+
+
+
+SKILLS (FORMAL)
+
+Accessibility & Compliance: WCAG 2.1/2.2 AA & AAA, Section 508, ARIA Semantics, Assistive Technology Testing, Screen Reader Audits, Keyboard Navigation, Contrast Calibration
+
+User Experience & Strategy: Heuristic Evaluation, Journey Mapping, Service Blueprinting, Information Architecture, Usability Testing, Rapid Prototyping, Wireframing, User Research
+
+Frontend Engineering: React, TypeScript, Next.js, Angular, JavaScript (ES6+), HTML5, CSS3, SCSS, Material UI, Bootstrap, USWDS, Reusable UI Components
+
+Platforms & Cloud: AWS Amplify, GraphQL, REST APIs, Git, GitLab, Docker, CI/CD, DevSecOps, ArcGIS, WordPress Multisite, Linux
+
+
+
+SKILLS (ATS)
+
+React, TypeScript, Next.js, Angular, JavaScript, HTML5, CSS3, SCSS, Material UI, MUI, USWDS, Bootstrap, WCAG 2.1 AA, WCAG 2.2 AA, Section 508, ARIA, Accessibility Auditing, Screen Readers, Keyboard Navigation, Figma, FigJam, Miro, Sketch, UX Design, UI Design, Interaction Design, Information Architecture, Usability Testing, Heuristic Evaluation, Service Blueprinting, Journey Mapping, AWS Amplify, GraphQL, REST APIs, Git, GitLab, Docker, DevSecOps, ArcGIS, WordPress, PHP, C#, ASP.NET, Agile, Scrum, TS/SCI Clearance

@@ -1,0 +1,24 @@
+{
+  "name": "resume-document-build",
+  "version": "1.0.0",
+  "description": "A deterministic, print-ready HTML and CSS scaffold built as the render target for agentic AI resume pipelines.",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "export-pdf": "node export-pdf.mjs",
+    "export-pdf:1page": "node export-pdf.mjs --page 1",
+    "export-pdf:2page": "node export-pdf.mjs --page 2"
+  },
+  "keywords": [
+    "resume",
+    "cv",
+    "print-ready",
+    "html-resume",
+    "weasyprint",
+    "puppeteer",
+    "agentic-ai",
+    "us-letter"
+  ],
+  "author": "Vernard Mercader <talkto@vernard.net>",
+  "license": "MIT"
+}

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="house-bronze" data-font="spectral-public" data-layout="1page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vernard Mercader - Hybrid UX Designer & Frontend UI Engineer. Deterministic print-ready resume engineered for US Letter 8.5x11 printing.">
+  <title>Vernard Mercader | Resume (Print-Ready US Letter 8.5" × 11")</title>
+  <link rel="stylesheet" href="resume.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       STUDIO WORKSPACE CONTROLS (Screen-Only Floating Header)
+       ======================================================================== -->
+  <header class="studio-topbar no-print">
+    <div class="studio-brand">
+      <div class="studio-logo">VM</div>
+      <div class="studio-title-group">
+        <h1>
+          Vernard Mercader
+          <span class="badge-format">US Letter · 8.5" × 11"</span>
+        </h1>
+        <div class="studio-subtitle">Deterministic Print-Ready Resume Scaffold</div>
+      </div>
+    </div>
+
+    <div class="studio-controls">
+      <!-- Layout Page Mode -->
+      <div class="control-group">
+        <button id="btn-1page" class="control-btn active" title="Strict single-page resume layout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
+          1-Page Compact
+        </button>
+        <button id="btn-2page" class="control-btn" title="Comprehensive 2-page career history">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h12v16H4v-3"/><rect x="8" y="7" width="12" height="14" rx="2"/></svg>
+          2-Page Complete
+        </button>
+      </div>
+
+      <!-- Persona Switcher -->
+      <div class="control-group">
+        <span class="control-label">Target:</span>
+        <select id="persona-select" class="control-select" aria-label="Target Persona">
+          <option value="hybrid">Hybrid UX / Frontend (Default)</option>
+          <option value="accessibility">Accessibility & WCAG Lead</option>
+          <option value="defense">Federal & Cleared Defense (TS/SCI)</option>
+        </select>
+      </div>
+
+      <!-- Theme / Palette Switcher -->
+      <div class="control-group">
+        <span class="control-label">Palette:</span>
+        <select id="theme-select" class="control-select" aria-label="Color Palette">
+          <option value="house-bronze">House Bronze & Ink (Default)</option>
+          <option value="federal-navy">Federal Crimson & Navy</option>
+          <option value="modern-obsidian">Obsidian & Emerald</option>
+          <option value="monochrome">Classic Monochrome</option>
+        </select>
+      </div>
+
+      <!-- Font Pairing Switcher -->
+      <div class="control-group">
+        <span class="control-label">Typography:</span>
+        <select id="font-select" class="control-select" aria-label="Font Pairing">
+          <option value="spectral-public">Spectral + Public Sans (Federal/House)</option>
+          <option value="spectral-source">Spectral + Source Sans 3 (Commercial)</option>
+          <option value="serif-poppins">Spectral + Poppins (Modern)</option>
+        </select>
+      </div>
+
+      <!-- Live Edit Toggle -->
+      <button id="btn-edit-toggle" class="control-btn" title="Click to edit text directly on paper">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Live Edit
+      </button>
+
+      <!-- Print Guides Toggle -->
+      <button id="btn-guides-toggle" class="control-btn" title="Toggle visual 8.5x11 print margin lines">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Guides
+      </button>
+
+      <!-- ATS Plain Text Modal Trigger -->
+      <button id="btn-ats-open" class="control-btn" title="View & Copy ATS Plain Text Version">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        ATS Text
+      </button>
+
+      <!-- Print Trigger -->
+      <button id="btn-print" class="control-btn btn-primary" title="Print or save as PDF (Cmd+P)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- Deterministic HUD / Overflow Monitor -->
+  <div class="studio-hud no-print">
+    <div id="hud-page-1" class="hud-item">
+      <span class="hud-dot"></span> Page 1: Calculating...
+    </div>
+    <div id="hud-page-2" class="hud-item">
+      <span class="hud-dot"></span> Page 2: Calculating...
+    </div>
+    <div class="hud-item hud-tip">
+      💡 In print preview: set <strong>Destination: Save as PDF</strong>, <strong>Margins: None / Default</strong>, <strong>Background Graphics: Checked</strong>.
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       PRINTABLE DOCUMENT VIEWPORT
+       ======================================================================== -->
+  <main class="document-viewport">
+
+    <!-- ----------------------------------------------------------------------
+         SHEET 1: Executive Opening & Flagship Experience
+         ---------------------------------------------------------------------- -->
+    <div class="sheet-wrapper">
+      <article id="sheet-1" class="sheet" aria-label="Resume Page 1">
+        <!-- Primary Candidate Header -->
+      <header class="resume-header">
+        <h1 class="name">Vernard Mercader</h1>
+        <div class="tagline">Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance</div>
+        <div class="contact">
+          <span>Western Massachusetts</span>
+          <span class="sep">·</span>
+          <span>413-354-9506</span>
+          <span class="sep">·</span>
+          <a href="mailto:talkto@vernard.net">talkto@vernard.net</a>
+          <span class="sep">·</span>
+          <a href="https://vernard.net" target="_blank" rel="noopener">vernard.net</a>
+          <span class="sep">·</span>
+          <a href="https://www.linkedin.com/in/vjmercader" target="_blank" rel="noopener">linkedin.com/in/vjmercader</a>
+          <span class="sep">·</span>
+          <a href="https://github.com/vince7488" target="_blank" rel="noopener">github.com/vince7488</a>
+        </div>
+        <div class="rule-top" role="separator"></div>
+      </header>
+
+      <!-- Professional Summary -->
+      <section class="section" aria-labelledby="sec-summary">
+        <h2 id="sec-summary" class="sec-label">Summary</h2>
+        <p class="summary summary-text">
+          Hybrid UX Designer and Frontend UI Engineer with over 10 years of cross-functional experience delivering accessible, high-consequence digital products across defense, public-sector, and commercial platforms. Specialist in WCAG 2.1/2.2 AA &amp; AAA compliance, Section 508 accessibility remediation, design system governance, and modern React/TypeScript architectures.<span class="summary-p2-only"> Proven track record increasing operational task speed up to 54% in defense intelligence, lifting statewide platform engagement 346% for public health, and reducing production conversion friction for enterprise commercial brands.</span>
+        </p>
+      </section>
+
+      <!-- Core Competencies / Categorized Skills -->
+      <section class="section" aria-labelledby="sec-skills">
+        <h2 id="sec-skills" class="sec-label">Core Competencies</h2>
+        <div class="skill-grid">
+          <div class="skill-row">
+            <span class="skill-cat">Accessibility & Standards</span>
+            <span class="skill-items">WCAG 2.1/2.2 AA &amp; AAA, Section 508, ARIA Semantics, Assistive Tech Audits (Screen Readers, Voice Control), Color Contrast Calibration</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-cat">UX & Product Design</span>
+            <span class="skill-items">Heuristic Evaluation, Journey Mapping, Service Blueprinting, Information Architecture, Usability Testing, Rapid Prototyping, Figma, Miro</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-cat">Frontend Engineering</span>
+            <span class="skill-items">React, TypeScript, Next.js, Angular, JavaScript (ES6+), HTML5, CSS3/SCSS, Material UI (MUI), Bootstrap, U.S. Web Design System (USWDS)</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-cat">Cloud & Platforms</span>
+            <span class="skill-items">AWS Amplify, GraphQL, REST APIs, Git/GitLab, Docker, DevSecOps, ArcGIS Geospatial COP, WordPress Multisite, Linux</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Professional Background (Sheet 1 Roles) -->
+      <section class="section" aria-labelledby="sec-experience-1">
+        <h2 id="sec-experience-1" class="sec-label">Professional Background</h2>
+
+        <!-- Role 1: Krozak Technologies (US Coast Guard) -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">Frontend UI Developer</div>
+              <div class="org">Krozak Technologies <span class="sub-org">(United States Coast Guard)</span></div>
+            </div>
+            <div class="role-right">
+              <div class="dates">JUL 2026 – PRESENT</div>
+              <div class="loc">Silver Spring, MD (Remote)</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Design and engineer responsive, accessible <strong class="metric">React and TypeScript</strong> user interfaces for Coast Guard applications, translating complex operational UX requirements and Figma wireframes into production component libraries.</li>
+            <li>Develop and integrate frontend data workflows utilizing <strong class="metric">AWS Amplify, GraphQL, and REST APIs</strong> within an Agile/DevSecOps delivery pipeline.</li>
+            <li>Architect mobile-ready and offline-capable interface experiences while enforcing strict adherence to <strong class="metric">WCAG 2.1 AA</strong> accessibility standards and military usability baselines.</li>
+            <li class="bullet-p2-only">Support frontend feature implementation for the U.S. Coast Guard MISLE/MASS common operating picture platform, interfacing <strong class="metric">ArcGIS</strong> geospatial layers with AWS Lambda services.</li>
+          </ul>
+        </div>
+
+        <!-- Role 2: Logias -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">Independent Consultant & Founder</div>
+              <div class="org">Logias <span class="sub-org">(UX & Accessibility Consultancy)</span></div>
+            </div>
+            <div class="role-right">
+              <div class="dates">NOV 2025 – PRESENT</div>
+              <div class="loc">Western Massachusetts</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Increased mobile-order adoption <strong class="metric">16%</strong> and reduced customer order complaints by <strong class="metric">42%</strong> for Burger King by auditing conversion friction and restructuring pickup location selection flows.</li>
+            <li>Delivered comprehensive <strong class="metric">WCAG baseline audits and 6-page heuristic evaluations</strong> against Nielsen standards for EDMO (Edventure More), projecting a 20–35% lift in enrollment conversions.</li>
+            <li>Authored veteran-player retention audit for Niantic's Pokémon GO, identifying critical cognitive overhead, multi-tap interaction friction, and clunky inventory routines driving user churn.</li>
+            <li class="bullet-p2-only">Advise enterprise and agency engineering teams on automated and manual Section 508/WCAG compliance remediation backed by functional code sandboxes.</li>
+          </ul>
+        </div>
+
+        <!-- Role 3: Oteemo (USAF Platform One) -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">UI Engineer & UX Design Lead</div>
+              <div class="org">Oteemo <span class="sub-org">(United States Air Force – Platform One)</span></div>
+            </div>
+            <div class="role-right">
+              <div class="dates">MAY 2023 – NOV 2025</div>
+              <div class="loc">Reston, VA (Remote)</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Elevated internal accessibility score from <strong class="metric">62 to 91 points</strong> by directing the UI overhaul and brand transition of the Vulnerability Assessment Tool (VAT) for Iron Bank under Platform One.</li>
+            <li>Rearchitected frontend infrastructure by migrating legacy Bootstrap to <strong class="metric">Material UI (MUI) in React TypeScript</strong>, enforcing Section 508 accessibility compliance and dark/light modes.</li>
+            <li>Decreased pull request cycle times by <strong class="metric">10%</strong> through a unified Figma-to-code design system and automated repo-level semantic HTML and ARIA linting routines.</li>
+            <li class="bullet-p2-only">Facilitated discovery sessions with container hardeners and vendor contributors using FigJam and Miro, turning behavioral pain points into verified interactive prototypes.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 1-PAGE MODE FOOTER BLOCK: Education & Certifications (Appears on Sheet 1 only when 1page mode is active) -->
+      <section class="section edu-cert-1page keep" aria-labelledby="sec-educert-1page">
+        <h2 id="sec-educert-1page" class="sec-label">Education & Certifications</h2>
+        <div class="twocol">
+          <div>
+            <div class="ec tight">
+              <div class="deg">B.S. in Digital Entertainment &amp; Game Design</div>
+              <div class="meta">ITT Tech · Everett, WA</div>
+            </div>
+            <div class="ec tight">
+              <div class="deg">A.A.S. in Multimedia / Design</div>
+              <div class="meta">ITT Tech · Everett, WA</div>
+            </div>
+            <div class="ec tight">
+              <div class="deg">B.S. in Computer Science</div>
+              <div class="meta">Lyceum University · Manila, Philippines</div>
+            </div>
+          </div>
+          <div>
+            <div class="ec tight">
+              <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
+              <div class="meta">Department of Defense / Federal Adjudication (Reinvestigated 2026)</div>
+            </div>
+            <div class="ec tight">
+              <div class="deg">Google UX Design Professional Certificate</div>
+              <div class="meta">Coursera / Google Career Certification</div>
+            </div>
+            <div class="ec tight">
+              <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
+              <div class="meta">Illustrator, InDesign, Photoshop, Premiere Pro, After Effects</div>
+            </div>
+            <div class="ec tight">
+              <div class="deg">Interaction Design Foundation (IxDF) Certificates</div>
+              <div class="meta">UX Management, Accessibility in Practice, HCI, Design Thinking</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+    <span class="sheet-badge no-print">PAGE 1 · 8.5" × 11"</span>
+  </div>
+
+  <!-- ----------------------------------------------------------------------
+       SHEET 2: Full Career Narrative (Active in 2-Page Complete Mode)
+       ---------------------------------------------------------------------- -->
+  <div class="sheet-wrapper">
+    <article id="sheet-2" class="sheet" aria-label="Resume Page 2">
+      <!-- Continuation Header -->
+      <div class="continuation-header">
+        <span class="continuation-title">Vernard Mercader</span>
+        <span class="continuation-meta">Professional Experience (Continued)</span>
+      </div>
+
+      <!-- Professional Background Continued -->
+      <section class="section" aria-labelledby="sec-experience-2">
+        <h2 id="sec-experience-2" class="sec-label">
+          <span>Enterprise & Public-Sector Experience</span>
+          <span class="sec-extra">Continued Timeline</span>
+        </h2>
+
+        <!-- Role 4: M-Corp (California Department of Public Health) -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">Senior UX Designer</div>
+              <div class="org">M-Corp <span class="sub-org">(California Department of Public Health)</span></div>
+            </div>
+            <div class="role-right">
+              <div class="dates">DEC 2021 – APR 2023</div>
+              <div class="loc">Sacramento, CA (Remote)</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Increased daily active application sessions by <strong class="metric">346%</strong> (from 5 to 22 daily school district operators) by re-architecting the statewide CAIRHub immunization platform and delivering a 0-to-1 design system.</li>
+            <li>Achieved <strong class="metric">100% WCAG 2.1 AA compliance</strong> for all reviewed CAIRHub modules through accessible data table patterns, keyboard-only traversal, and responsive color tokens.</li>
+            <li>Bridged UX discovery with engineering delivery by authoring <strong class="metric">Angular and React TypeScript</strong> component specs, design tokens, and Section 508 audit registers for cross-functional developers.</li>
+            <li>Facilitated statewide stakeholder alignment workshops including Feature Priority Matrices, Service Blueprinting, and Design Thinking sessions to accelerate roadmap delivery.</li>
+          </ul>
+        </div>
+
+        <!-- Role 5: SAIC (USAF ShOC, Nellis AFB) -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">Lead UX Designer</div>
+              <div class="org">SAIC <span class="sub-org">(USAF Shadow Operations Center, Nellis AFB)</span></div>
+            </div>
+            <div class="role-right">
+              <div class="dates">APR 2020 – DEC 2021</div>
+              <div class="loc">Nellis AFB, NV (Hybrid / SCIF)</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Reduced intelligence operator mission task completion times by <strong class="metric">24% to 54%</strong> (60–70 seconds saved per event) by designing the ShROUD GIS coordinate-parsing middleware directly inside the operational chat interface.</li>
+            <li>Redesigned "Hyve" primary operational communications tool within a secure <strong class="metric">SCIF TS/SCI environment</strong>, conducting field discovery via direct floor immersion and pen-and-paper workflow mapping.</li>
+            <li>Spearheaded the ShOC design system as a secure fork of the <strong class="metric">U.S. Web Design System (USWDS)</strong>, translating Figma specifications into functional React TypeScript code.</li>
+            <li>Coached cross-functional engineering teams on military human-computer interaction guidelines, strict accessibility standards, and Agile delivery.</li>
+          </ul>
+        </div>
+
+        <!-- Role 6: GetDocsNow -->
+        <div class="role keep">
+          <div class="role-head">
+            <div class="role-left">
+              <div class="pos">UX Lead & Frontend Developer</div>
+              <div class="org">GetDocsNow</div>
+            </div>
+            <div class="role-right">
+              <div class="dates">JAN 2019 – MAR 2020</div>
+              <div class="loc">Las Vegas, NV</div>
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>Re-engineered customer self-service portal with mobile-first responsive architecture, semantic HTML structure, and modernized CSS typography, boosting HOA member task completion rates.</li>
+            <li>Developed customer-facing interactive features using <strong class="metric">C#, ASP.NET, and modern JavaScript</strong>, tracing complex business logic to resolve production data bottlenecks.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 2-PAGE MODE DETAILED FOOTER BLOCK -->
+      <section class="section edu-cert-2page keep" aria-labelledby="sec-educert-2page">
+        <h2 id="sec-educert-2page" class="sec-label">Education, Certifications & Clearance</h2>
+        <div class="twocol">
+          <div>
+            <div class="ec">
+              <div class="deg">Bachelor of Science in Digital Entertainment &amp; Game Design</div>
+              <div class="meta">ITT Tech · Everett, WA</div>
+            </div>
+            <div class="ec">
+              <div class="deg">Associate of Applied Science in Multimedia / Design</div>
+              <div class="meta">ITT Tech-Everett · Everett, WA</div>
+            </div>
+            <div class="ec">
+              <div class="deg">Bachelor of Science, Computer Science</div>
+              <div class="meta">Lyceum University · Manila, Philippines</div>
+            </div>
+          </div>
+          <div>
+            <div class="ec">
+              <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
+              <div class="meta">Department of Defense / Federal Adjudication (Initial 2021, Reinvestigated 2026)</div>
+            </div>
+            <div class="ec">
+              <div class="deg">Google UX Design Professional Certificate</div>
+              <div class="meta">Coursera / Google Career Certification</div>
+            </div>
+            <div class="ec">
+              <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
+              <div class="meta">Illustrator, InDesign, Photoshop, Express, Premiere Pro, After Effects</div>
+            </div>
+            <div class="ec">
+              <div class="deg">Interaction Design Foundation (IxDF) Certified</div>
+              <div class="meta">UX Management, Accessibility in Practice, HCI, AI for Designers, Design Thinking</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+    <span class="sheet-badge no-print">PAGE 2 · 8.5" × 11"</span>
+  </div>
+
+  </main>
+
+  <!-- ========================================================================
+       ATS PLAIN TEXT MODAL DRAWER
+       ======================================================================== -->
+  <div id="ats-modal" class="ats-modal-backdrop no-print" role="dialog" aria-modal="true" aria-labelledby="ats-modal-title">
+    <div class="ats-modal-window">
+      <div class="ats-modal-header">
+        <h3 id="ats-modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          ATS Plain Text Format (Pre-Parsed &amp; Tagged)
+        </h3>
+        <button id="btn-ats-close" class="control-btn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="ats-modal-body">
+        <textarea id="ats-textarea" class="ats-textarea" readonly aria-label="ATS Plain Text Content">Loading ATS plain text...</textarea>
+      </div>
+      <div class="ats-modal-footer">
+        <span style="font-size: 11px; color: #9ca3af;">Complies with ATS parsing standards and prompt specifications.</span>
+        <button id="btn-ats-copy" class="control-btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="resume.js"></script>
+</body>
+</html>
