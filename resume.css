@@ -23,9 +23,9 @@
   --page-width: 8.5in;
   --page-height: 11in;
   --margin-top: 0.5in;
-  --margin-right: 0.62in;
+  --margin-right: 0.5in;
   --margin-bottom: 0.46in;
-  --margin-left: 0.62in;
+  --margin-left: 0.5in;
 
   /* --- Studio Workspace UI (Screen only) --- */
   --studio-bg: #090d16;
@@ -629,6 +629,13 @@ body.is-editing .sheet [contenteditable="true"]:focus {
 /* Professional Role Entries */
 .role {
   margin-bottom: 8.5px;
+  border-bottom: 1px dotted var(--hair);
+  padding-bottom: 7px;
+}
+
+.role:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .role.tight {
@@ -1021,7 +1028,7 @@ ul.bullets li::before {
     height: 11in !important;
     min-height: 11in !important;
     max-height: 11in !important;
-    padding: 0.5in 0.62in 0.46in 0.62in !important;
+    padding: 0.5in 0.5in 0.46in 0.5in !important;
     margin: 0 !important;
     box-shadow: none !important;
     border: none !important;
