@@ -185,9 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(checkPageOverflow, 150);
     });
     const savedFont = localStorage.getItem('resume_font');
-    if (savedFont) {
+    if (savedFont && Array.from(fontSelect.options).some(o => o.value === savedFont)) {
       fontSelect.value = savedFont;
       htmlEl.setAttribute('data-font', savedFont);
+    } else {
+      fontSelect.value = 'playfair-rubik';
+      htmlEl.setAttribute('data-font', 'playfair-rubik');
     }
   }
 
@@ -410,7 +413,23 @@ document.addEventListener('DOMContentLoaded', () => {
           if (atsRes.ok) buildFolder.file('ats_resume.txt', await atsRes.text());
         } catch (e) {}
 
-        fontsFolder.file('README.md', `# Offline Font Files Directory\n\nPlace offline TTF/OTF font files in this folder (assets/fonts/).\nCSS @font-face rules in resume.css automatically bind local files.\n`);
+        fontsFolder.file('README.md', `# Offline Font Files Directory\n\nContains offline WOFF2 variable font files:\n- Playfair-Variable.woff2\n- Playfair-Italic-Variable.woff2\n- Rubik-Variable.woff2\n- Rubik-Italic-Variable.woff2\n\nCSS @font-face rules in resume.css automatically bind these local files.\n`);
+
+        const fontList = [
+          'Playfair-Variable.woff2',
+          'Playfair-Italic-Variable.woff2',
+          'Rubik-Variable.woff2',
+          'Rubik-Italic-Variable.woff2'
+        ];
+        for (const fontName of fontList) {
+          try {
+            const fontRes = await fetch(`assets/fonts/${fontName}`);
+            if (fontRes.ok) {
+              const fontBlob = await fontRes.blob();
+              fontsFolder.file(fontName, fontBlob);
+            }
+          } catch (e) {}
+        }
 
         // Add SVGs and Sprite
         const svgList = [

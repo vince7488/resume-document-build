@@ -27,7 +27,7 @@
     "us-letter",
     "iso-a4"
   ],
-  "author": "Vernard Mercader <talkto@vernard.net>",
+  "author": "Vernard Mercader <team@logias.org>",
   "license": "MIT",
   "dependencies": {
     "jszip": "^3.10.1"
