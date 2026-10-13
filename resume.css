@@ -73,6 +73,89 @@
     url('assets/fonts/Rubik-Italic-Variable.woff2') format('woff2');
 }
 
+/* Offline Typography Hooks for Modern Template (Source Sans 3 + Spectral) */
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 1 1000;
+  font-display: swap;
+  src:
+    local('Source Sans 3'),
+    local('Source Sans 3 Regular'),
+    url('assets/fonts/SourceSans3-VF.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 1 1000;
+  font-display: swap;
+  src:
+    local('Source Sans 3 Italic'),
+    url('assets/fonts/SourceSans3-Italic-VF.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Spectral Regular'),
+    local('Spectral'),
+    url('assets/fonts/Spectral-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local('Spectral Medium'),
+    url('assets/fonts/Spectral-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local('Spectral SemiBold'),
+    url('assets/fonts/Spectral-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local('Spectral Bold'),
+    url('assets/fonts/Spectral-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local('Spectral Italic'),
+    url('assets/fonts/Spectral-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local('Spectral SemiBold Italic'),
+    url('assets/fonts/Spectral-SemiBoldItalic.ttf') format('truetype');
+}
+
 :root {
   /* --- Default House Color Palette --- */
   --ink: #231f20;
@@ -212,6 +295,364 @@
 [data-font='rubik-all'] {
   --display-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --body-font: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   Template Switcher Visibility & Modern Template Architecture
+   - Tagged: "Classic Template" (default) & "Modern Template"
+   - Yellow header band (#D1D528) with 2-line wrapped bold name on top-left
+   - Multi-column contact block on top-right
+   - CMYK pure black ink and clean white paper
+   - Max 0.7cm margins around paper
+   - Solid black pill badges for section headings
+   - Standard resume sections and concise skill category table (no progress bars)
+   - Source Sans 3 + Spectral typography
+   ========================================================================== */
+
+/* Template Switcher Visibility */
+html:not([data-template='modern']) .template-modern-only {
+  display: none !important;
+}
+
+html[data-template='modern'] .template-classic-only {
+  display: none !important;
+}
+
+/* Modern Template Tokens & Overrides */
+[data-template='modern'] {
+  --ink: #000000;
+  --accent: #000000;
+  --accent2: #222222;
+  --muted: #444444;
+  --faint: #666666;
+  --hair: #dddddd;
+  --page-bg: #ffffff;
+  --heading-bg: #D1D528;
+
+  --display-font: 'Spectral', Georgia, serif;
+  --body-font: 'Source Sans 3', sans-serif;
+
+  --margin-top: 0.7cm;
+  --margin-right: 0.7cm;
+  --margin-bottom: 0.7cm;
+  --margin-left: 0.7cm;
+
+  --body-size: 8.8pt;
+  --body-line-height: 1.40;
+  --section-gap: 9px;
+  --role-gap: 6.5px;
+  --bullet-gap: 1.8px;
+}
+
+[data-template='modern'] body,
+[data-template='modern'] .sheet {
+  font-family: var(--body-font);
+  color: var(--ink);
+  background: var(--page-bg);
+}
+
+/* Modern Header Band */
+[data-template='modern'] .modern-header {
+  display: block;
+}
+
+[data-template='modern'] .header-band {
+  background: var(--heading-bg);
+  margin: calc(-1 * var(--margin-top)) calc(-1 * var(--margin-right)) 0 calc(-1 * var(--margin-left));
+  padding: var(--margin-top) var(--margin-right) 14px var(--margin-left);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+[data-template='modern'] .name-block {
+  flex: 0 0 auto;
+}
+
+[data-template='modern'] .header-band .name {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+
+[data-template='modern'] .contact-block {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  text-align: right;
+  font-size: 8.6px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.65;
+  padding-top: 4px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+[data-template='modern'] .contact-block a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+[data-template='modern'] .contact-block a:hover {
+  text-decoration: underline;
+}
+
+[data-template='modern'] .contact-grid {
+  display: flex;
+  justify-content: flex-end;
+  gap: 22px;
+  text-align: left;
+}
+
+[data-template='modern'] .contact-col div {
+  white-space: nowrap;
+}
+
+[data-template='modern'] .headline {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 600;
+  font-size: 10.5px;
+  color: var(--ink);
+  margin-top: 7px;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* Modern Section Labels (Black badge with white text) */
+[data-template='modern'] .sec-label {
+  display: inline-block;
+  background: var(--ink);
+  color: #ffffff;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 2.5px 7px 2px 7px;
+  margin-bottom: 5px;
+  margin-top: var(--section-gap);
+  border-bottom: none;
+  border-radius: 0;
+}
+
+[data-template='modern'] .sec-label .sec-extra {
+  display: none;
+}
+
+/* Modern Summary */
+[data-template='modern'] .summary {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 9px;
+  line-height: 1.45;
+  color: var(--ink);
+  margin-top: 3px;
+}
+
+/* Modern Core Competencies (Concise Skill Category Table, No Progress Bars) */
+[data-template='modern'] .skills-section,
+[data-template='modern'] .skill-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+[data-template='modern'] .skill-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 2.5px;
+}
+
+[data-template='modern'] .skill-cat {
+  flex: 0 0 26%;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-right: 8px;
+  color: var(--ink);
+}
+
+[data-template='modern'] .skill-items {
+  flex: 1;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 8.8px;
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+/* Modern Experience / Roles */
+[data-template='modern'] .role {
+  margin-bottom: var(--role-gap);
+  border-bottom: none;
+  padding-bottom: 0;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+[data-template='modern'] .role-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+[data-template='modern'] .role-left {
+  flex: 1;
+  padding-right: 12px;
+}
+
+[data-template='modern'] .pos {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 10.3px;
+  line-height: 1.18;
+  color: var(--ink);
+}
+
+[data-template='modern'] .org {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 400;
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+[data-template='modern'] .org .sub-org {
+  color: var(--muted);
+}
+
+[data-template='modern'] .role-right {
+  flex: 0 0 auto;
+  text-align: right;
+  padding-top: 1px;
+}
+
+[data-template='modern'] .dates {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 7.8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--faint);
+}
+
+[data-template='modern'] .loc {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 7.6px;
+  color: var(--faint);
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+[data-template='modern'] .sheet {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-template='modern'] #header-modern { order: 1; }
+[data-template='modern'] #summary { order: 2; }
+[data-template='modern'] #skills { order: 3; }
+[data-template='modern'] #experience { order: 4; }
+[data-template='modern'] #education { order: 5; }
+
+[data-template='modern'] ul.bullets {
+  list-style: disc !important;
+  margin-top: 2.5px;
+  padding-left: 14px;
+}
+
+[data-template='modern'] ul.bullets li {
+  position: static !important;
+  padding-left: 0 !important;
+  margin-bottom: 1.5px;
+  font-size: 8.8px;
+  line-height: 1.40;
+  color: var(--ink);
+}
+
+[data-template='modern'] ul.bullets li::before {
+  content: none !important;
+}
+
+[data-template='modern'] ul.bullets li::marker {
+  color: var(--ink);
+  font-size: 7px;
+}
+
+[data-template='modern'] .metric {
+  font-weight: 700;
+}
+
+/* Modern Education & Certifications */
+[data-template='modern'] .edu-cert-1page,
+[data-template='modern'] .edu-cert-2page {
+  margin-top: calc(var(--section-gap) * 0.85);
+}
+
+[data-template='modern'] .ec {
+  margin-bottom: 3px;
+}
+
+[data-template='modern'] .deg {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 9.2px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+[data-template='modern'] .meta {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 8.6px;
+  color: var(--muted);
+  line-height: 1.25;
+}
+
+[data-template='modern'] .clearance-badge {
+  font-weight: 700;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  padding: 1px 4px;
+  font-size: 7.8px;
+  display: inline-block;
+}
+
+/* Modern Page 2: Continuation Header (Clean narrative, no yellow band) */
+[data-template='modern'] .continuation-header {
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+[data-template='modern'] .continuation-title {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+[data-template='modern'] .continuation-meta {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* ==========================================================================
@@ -1418,5 +1859,21 @@ p,
   /* Ensure text selections and edit outlines are clear on paper */
   [contenteditable='true'] {
     outline: none !important;
+  }
+
+  /* Modern Template Header Band & Badge in Print */
+  [data-template='modern'] .header-band {
+    margin: calc(-1 * var(--margin-top)) calc(-1 * var(--margin-right)) 0 calc(-1 * var(--margin-left)) !important;
+    padding: var(--margin-top) var(--margin-right) 14px var(--margin-left) !important;
+    background: #D1D528 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  [data-template='modern'] .sec-label {
+    background: #000000 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

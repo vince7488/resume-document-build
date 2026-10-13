@@ -14,7 +14,9 @@
     "export:pdf:2page": "node export-pdf.mjs --page 2 --paper letter",
     "export:pdf:2page:letter": "node export-pdf.mjs --page 2 --paper letter",
     "export:pdf:2page:a4": "node export-pdf.mjs --page 2 --paper a4",
-    "export:all": "node export-html.mjs && node export-pdf.mjs --page 1 --paper letter && node export-pdf.mjs --page 1 --paper a4 && node export-pdf.mjs --page 2 --paper letter && node export-pdf.mjs --page 2 --paper a4"
+    "export:pdf:modern:1page": "node export-pdf.mjs --template modern --page 1 --paper letter",
+    "export:pdf:modern:2page": "node export-pdf.mjs --template modern --page 2 --paper letter",
+    "export:all": "node export-html.mjs && node export-pdf.mjs --template classic --page 1 --paper letter && node export-pdf.mjs --template classic --page 1 --paper a4 && node export-pdf.mjs --template classic --page 2 --paper letter && node export-pdf.mjs --template classic --page 2 --paper a4 && node export-pdf.mjs --template modern --page 1 --paper letter && node export-pdf.mjs --template modern --page 2 --paper letter"
   },
   "keywords": [
     "resume",

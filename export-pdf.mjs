@@ -67,11 +67,24 @@ if (args.includes('--density')) {
   if (match) density = match.split('=')[1].toLowerCase();
 }
 
+// Template Type: classic or modern
+let templateType = 'classic';
+if (args.includes('--template')) {
+  templateType = args[args.indexOf('--template') + 1]?.toLowerCase() || 'classic';
+} else {
+  const match = args.find(a => a.startsWith('--template='));
+  if (match) templateType = match.split('=')[1].toLowerCase();
+}
+if (!['classic', 'modern'].includes(templateType)) {
+  templateType = 'classic';
+}
+
 const is2Page = pageMode === '2';
 const targetLayout = is2Page ? '2page' : '1page';
 
 console.log(`\n=== Resume PDF Exporter ===`);
 console.log(`Using Chrome: ${chromeBin}`);
+console.log(`Template    : ${templateType.toUpperCase()}`);
 console.log(`Layout Mode : ${targetLayout.toUpperCase()} (${is2Page ? '2-Page Narrative' : '1-Page Executive'})`);
 console.log(`Paper Format: ${paperFormat.toUpperCase()} (${paperFormat === 'a4' ? '210 × 297mm' : '8.5" × 11"'})`);
 console.log(`Density     : ${density}`);
@@ -79,12 +92,13 @@ console.log(`Density     : ${density}`);
 // Determine Output Filenames
 let primaryPdfName = '';
 let aliasPdfName = '';
+const prefix = templateType === 'modern' ? 'vmercader-resume-modern' : 'vmercader-resume';
 
 if (paperFormat === 'a4') {
-  primaryPdfName = is2Page ? 'vmercader-resume-complete-a4.pdf' : 'vmercader-resume-executive-a4.pdf';
+  primaryPdfName = is2Page ? `${prefix}-complete-a4.pdf` : `${prefix}-executive-a4.pdf`;
 } else {
-  primaryPdfName = is2Page ? 'vmercader-resume-complete.pdf' : 'vmercader-resume-executive.pdf';
-  aliasPdfName = is2Page ? 'vmercader-resume-complete-letter.pdf' : 'vmercader-resume-executive-letter.pdf';
+  primaryPdfName = is2Page ? `${prefix}-complete.pdf` : `${prefix}-executive.pdf`;
+  aliasPdfName = is2Page ? `${prefix}-complete-letter.pdf` : `${prefix}-executive-letter.pdf`;
 }
 
 const outputPdfPath = resolve(DOCS_DIR, primaryPdfName);
@@ -93,11 +107,15 @@ const outputPdfPath = resolve(DOCS_DIR, primaryPdfName);
 const sourceHtml = readFileSync(resolve(__dirname, 'index.html'), 'utf-8');
 
 let stagedHtml = sourceHtml
+  .replace(/data-template="[^"]*"/, `data-template="${templateType}"`)
   .replace(/data-layout="[^"]*"/, `data-layout="${targetLayout}"`)
   .replace(/data-paper="[^"]*"/, `data-paper="${paperFormat}"`)
   .replace(/data-density="[^"]*"/, `data-density="${density}"`);
 
 // Ensure attributes are present if not found
+if (!stagedHtml.includes(`data-template=`)) {
+  stagedHtml = stagedHtml.replace('<html ', `<html data-template="${templateType}" `);
+}
 if (!stagedHtml.includes(`data-paper=`)) {
   stagedHtml = stagedHtml.replace('<html ', `<html data-paper="${paperFormat}" `);
 }

@@ -43,6 +43,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const sheet2 = document.getElementById('sheet-2');
   const sheetBadges = document.querySelectorAll('.sheet-badge');
 
+  // --- Template Switcher Controller (Classic vs Modern) ---
+  const templateSelect = document.getElementById('template-select');
+
+  function setTemplate(template) {
+    htmlEl.setAttribute('data-template', template);
+    localStorage.setItem('resume_template', template);
+
+    if (themeSelect) {
+      themeSelect.disabled = (template === 'modern');
+      if (template === 'modern') {
+        themeSelect.title = 'Color palette is fixed to Modern style (#D1D528 & CMYK Black)';
+      } else {
+        themeSelect.title = 'Color Palette';
+      }
+    }
+
+    if (fontSelect) {
+      fontSelect.disabled = (template === 'modern');
+      if (template === 'modern') {
+        fontSelect.title = 'Typography is fixed to Spectral + Source Sans 3 in Modern Template';
+      } else {
+        fontSelect.title = 'Font Pairing';
+      }
+    }
+
+    setTimeout(checkPageOverflow, 120);
+  }
+
+  if (templateSelect) {
+    templateSelect.addEventListener('change', (e) => {
+      setTemplate(e.target.value);
+    });
+    const savedTemplate = localStorage.getItem('resume_template') || htmlEl.getAttribute('data-template') || 'classic';
+    templateSelect.value = savedTemplate;
+    setTemplate(savedTemplate);
+  }
+
   // --- Paper Format Controller (Letter vs A4) ---
   function setPaperFormat(format) {
     htmlEl.setAttribute('data-paper', format);
@@ -244,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnEditToggle.classList.toggle('active', isEditing);
 
       const editableTargets = document.querySelectorAll(
-        '.name, .tagline, .contact, .summary, .sec-label, .pos, .org, .dates, .loc, ul.bullets li, .skill-cat, .skill-items, .deg, .meta'
+        '.name, .tagline, .contact, .headline, .contact-col div, .summary, .sec-label, .pos, .org, .dates, .loc, ul.bullets li, .skill-cat, .skill-items, .deg, .meta'
       );
 
       editableTargets.forEach(el => {
@@ -419,7 +456,15 @@ document.addEventListener('DOMContentLoaded', () => {
           'Playfair-Variable.woff2',
           'Playfair-Italic-Variable.woff2',
           'Rubik-Variable.woff2',
-          'Rubik-Italic-Variable.woff2'
+          'Rubik-Italic-Variable.woff2',
+          'SourceSans3-VF.ttf',
+          'SourceSans3-Italic-VF.ttf',
+          'Spectral-Regular.ttf',
+          'Spectral-Medium.ttf',
+          'Spectral-SemiBold.ttf',
+          'Spectral-Bold.ttf',
+          'Spectral-Italic.ttf',
+          'Spectral-SemiBoldItalic.ttf'
         ];
         for (const fontName of fontList) {
           try {
@@ -449,7 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Include compiled PDFs if present in build output
         const pdfFiles = [
           'vmercader-resume-executive.pdf', 'vmercader-resume-executive-a4.pdf',
-          'vmercader-resume-complete.pdf', 'vmercader-resume-complete-a4.pdf'
+          'vmercader-resume-complete.pdf', 'vmercader-resume-complete-a4.pdf',
+          'vmercader-resume-modern-executive.pdf', 'vmercader-resume-modern-complete.pdf'
         ];
         for (const pdfName of pdfFiles) {
           try {
@@ -479,16 +525,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper to resolve PDF path whether running from root studio or exported build
   async function downloadPdf(filename) {
-    const directPath = `assets/documents/${filename}`;
-    const buildPath = `resume-build/assets/documents/${filename}`;
+    const activeTemplate = htmlEl.getAttribute('data-template') || 'classic';
+    let targetFile = filename;
+    if (activeTemplate === 'modern') {
+      targetFile = filename.replace('vmercader-resume-', 'vmercader-resume-modern-');
+    }
+
+    const directPath = `assets/documents/${targetFile}`;
+    const buildPath = `resume-build/assets/documents/${targetFile}`;
     try {
       const res = await fetch(directPath, { method: 'HEAD' });
       if (res.ok) {
-        triggerDownload(directPath, filename);
+        triggerDownload(directPath, targetFile);
         return;
       }
     } catch (e) {}
-    triggerDownload(buildPath, filename);
+
+    try {
+      const resBuild = await fetch(buildPath, { method: 'HEAD' });
+      if (resBuild.ok) {
+        triggerDownload(buildPath, targetFile);
+        return;
+      }
+    } catch (e) {}
+
+    // Fallback if template specific file is not yet built
+    triggerDownload(directPath, filename);
   }
 
   // Bind Export PDF items (both Letter and A4)
@@ -691,15 +753,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const badDataSpan = '<span style="background-color: rgba(255,15,10,0.9); color: white; font-weight: bold; padding: 2px 4px; border-radius: 2px;">Bad ATS data</span>';
     const getVal = (v) => (v && v.trim()) ? v : badDataSpan;
 
-    // Header
-    const nameEl = document.querySelector('.name');
-    if (nameEl) nameEl.innerHTML = getVal(data.name);
+    // Classic Header
+    const classicNameEl = document.querySelector('#header .name');
+    if (classicNameEl) classicNameEl.innerHTML = getVal(data.name);
 
-    const taglineEl = document.querySelector('.tagline');
-    if (taglineEl) taglineEl.innerHTML = getVal(data.tagline);
+    const classicTaglineEl = document.querySelector('#header .tagline');
+    if (classicTaglineEl) classicTaglineEl.innerHTML = getVal(data.tagline);
 
-    const contactEl = document.querySelector('.contact');
-    if (contactEl) {
+    const classicContactEl = document.querySelector('#header .contact');
+    if (classicContactEl) {
       let contactHtml = [];
       if (data.location) contactHtml.push(`<span>${getVal(data.location)}</span>`);
       else contactHtml.push(`<span>${badDataSpan}</span>`);
@@ -719,7 +781,45 @@ document.addEventListener('DOMContentLoaded', () => {
         contactHtml.push(`<span>${badDataSpan}</span>`);
       }
 
-      contactEl.innerHTML = contactHtml.join('<span class="sep">·</span>');
+      classicContactEl.innerHTML = contactHtml.join('<span class="sep">·</span>');
+    }
+
+    // Modern Header Band (#D1D528 band & columns)
+    const modernNameEl = document.querySelector('#header-modern .name');
+    if (modernNameEl) {
+      if (data.name && data.name.trim()) {
+        const parts = data.name.trim().toUpperCase().split(/\s+/);
+        modernNameEl.innerHTML = parts.length >= 2 ? `${parts[0]}<br>${parts.slice(1).join(' ')}` : data.name.toUpperCase();
+      } else {
+        modernNameEl.innerHTML = badDataSpan;
+      }
+    }
+
+    const modernHeadlineEl = document.querySelector('#header-modern .headline');
+    if (modernHeadlineEl) {
+      modernHeadlineEl.innerHTML = getVal(data.tagline);
+    }
+
+    const modernContactCols = document.querySelectorAll('#header-modern .contact-col');
+    if (modernContactCols.length >= 2) {
+      let col1Html = [];
+      if (data.phone) col1Html.push(`<div>${getVal(data.phone)}</div>`);
+      else col1Html.push(`<div>${badDataSpan}</div>`);
+
+      if (data.email) col1Html.push(`<div><a href="mailto:${data.email}">${getVal(data.email)}</a></div>`);
+      else col1Html.push(`<div>${badDataSpan}</div>`);
+      modernContactCols[0].innerHTML = col1Html.join('');
+
+      let col2Html = [];
+      if (data.sites && data.sites.length > 0) {
+        data.sites.forEach(site => {
+          let display = site.replace(/^https?:\/\/(www\.)?/, '');
+          col2Html.push(`<div><a href="${site}" target="_blank" rel="noopener">${getVal(display)}</a></div>`);
+        });
+      } else {
+        col2Html.push(`<div>${badDataSpan}</div>`);
+      }
+      modernContactCols[1].innerHTML = col2Html.join('');
     }
 
     // Summary
@@ -853,12 +953,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(text => {
       const parsedData = parseATSData(text);
-      applyATSDataToDOM(parsedData);
+      if (parsedData && parsedData.name) {
+        applyATSDataToDOM(parsedData);
+      }
     })
     .catch(err => {
-      console.warn('Failed to load pre-loaded ats_resume.txt', err);
-      // Fill with bad data
-      applyATSDataToDOM({});
+      console.warn('Could not auto-fetch ats_resume.txt (normal for local file:// protocols). Preserving static HTML markup.', err);
     });
 
   // Handle ATS user upload

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="house-bronze" data-font="playfair-rubik" data-layout="1page" data-paper="letter" data-density="normal">
+<html lang="en" data-template="classic" data-theme="house-bronze" data-font="playfair-rubik" data-layout="1page" data-paper="letter" data-density="normal">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,6 +66,15 @@
     </div>
 
     <div class="studio-controls">
+      <!-- Template Type Switcher -->
+      <div class="control-group">
+        <span class="control-label">Template:</span>
+        <select id="template-select" class="control-select" aria-label="Resume Template">
+          <option value="classic">Classic Template</option>
+          <option value="modern">Modern Template</option>
+        </select>
+      </div>
+
       <!-- Layout Page Mode -->
       <div class="control-group">
         <button id="btn-1page" class="control-btn active" title="Strict single-page resume layout">
@@ -268,8 +277,8 @@
          ---------------------------------------------------------------------- -->
     <div class="sheet-wrapper">
       <article id="sheet-1" class="sheet" aria-label="Resume Page 1">
-        <!-- Primary Candidate Header (Slot: header) -->
-        <header id="header" class="resume-header" data-slot="header">
+        <!-- Primary Candidate Header (Classic Template) -->
+        <header id="header" class="resume-header template-classic-only" data-slot="header">
           <h1 class="name">Vernard Mercader</h1>
           <div class="tagline">Hybrid UX Designer & Frontend UI Engineer · Active TS/SCI Clearance</div>
           <div class="contact">
@@ -286,6 +295,28 @@
             <a href="https://github.com/vince7488" target="_blank" rel="noopener">github.com/vince7488</a>
           </div>
           <div class="rule-top" role="separator"></div>
+        </header>
+
+        <!-- Modern Candidate Header Band (Modern Template) -->
+        <header id="header-modern" class="modern-header template-modern-only" data-slot="header-modern">
+          <div class="header-band">
+            <div class="name-block">
+              <div class="name">VERNARD<br>MERCADER</div>
+            </div>
+            <div class="contact-block">
+              <div class="contact-grid">
+                <div class="contact-col">
+                  <div>413-354-9506</div>
+                  <div><a href="mailto:talkto@vernard.net">talkto@vernard.net</a></div>
+                </div>
+                <div class="contact-col">
+                  <div><a href="https://vernard.net" target="_blank" rel="noopener">vernard.net</a></div>
+                  <div><a href="https://www.linkedin.com/in/vjmercader" target="_blank" rel="noopener">linkedin.com/in/vjmercader</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="headline">Senior UX Designer in Behavioral Design, Systems Thinking, and End-to-End Craft</div>
         </header>
 
         <!-- Professional Summary (Slot: summary) -->
@@ -386,38 +417,40 @@
 
         <!-- 1-PAGE MODE FOOTER BLOCK: Education & Certifications (Slot: education) -->
         <section id="education" class="section edu-cert-1page keep" aria-labelledby="sec-educert-1page" data-slot="education">
-          <h2 id="sec-educert-1page" class="sec-label">Education & Certifications</h2>
+          <h2 id="sec-educert-1page" class="sec-label template-classic-only">Education & Certifications</h2>
           <div class="twocol">
             <div>
+              <h2 class="sec-label template-modern-only">Education</h2>
               <div class="ec tight">
-                <div class="deg">B.S. in Digital Entertainment &amp; Game Design</div>
-                <div class="meta">ITT Tech · Everett, WA</div>
+                <div class="deg">Bachelor of Science, Digital Entertainment and Game Design</div>
+                <div class="meta">ITT Technical Institute</div>
               </div>
               <div class="ec tight">
-                <div class="deg">A.A.S. in Multimedia / Design</div>
-                <div class="meta">ITT Tech · Everett, WA</div>
+                <div class="deg">Associate of Applied Science, Multimedia and Design</div>
+                <div class="meta">ITT Technical Institute, Everett</div>
               </div>
               <div class="ec tight">
-                <div class="deg">B.S. in Computer Science</div>
-                <div class="meta">Lyceum University · Manila, Philippines</div>
+                <div class="deg">Bachelor of Science, Computer Science</div>
+                <div class="meta">Lyceum of the Philippines University</div>
               </div>
             </div>
             <div>
+              <h2 class="sec-label template-modern-only">Certifications</h2>
               <div class="ec tight">
-                <div class="deg"><span class="clearance-badge">Active TS/SCI Security Clearance</span></div>
-                <div class="meta">Department of Defense / Federal Adjudication (Reinvestigated 2026)</div>
+                <div class="deg"><span class="clearance-badge template-classic-only">Active TS/SCI Security Clearance</span></div>
+                <div class="meta template-classic-only">Department of Defense / Federal Adjudication (Reinvestigated 2026)</div>
               </div>
               <div class="ec tight">
                 <div class="deg">Google UX Design Professional Certificate</div>
-                <div class="meta">Coursera / Google Career Certification</div>
+                <div class="meta template-classic-only">Coursera / Google Career Certification</div>
               </div>
               <div class="ec tight">
-                <div class="deg">Adobe Certified Expert (ACE) &amp; Professional (ACP)</div>
-                <div class="meta">Illustrator, InDesign, Photoshop, Premiere Pro, After Effects</div>
+                <div class="deg">Interaction Design Foundation (IxDF) Certified</div>
+                <div class="meta template-classic-only">UX Management, Accessibility in Practice, HCI, Design Thinking</div>
               </div>
               <div class="ec tight">
-                <div class="deg">Interaction Design Foundation (IxDF) Certificates</div>
-                <div class="meta">UX Management, Accessibility in Practice, HCI, Design Thinking</div>
+                <div class="deg">Adobe Certified Expert</div>
+                <div class="meta template-classic-only">Illustrator, InDesign, Photoshop, Premiere Pro, After Effects</div>
               </div>
             </div>
           </div>
