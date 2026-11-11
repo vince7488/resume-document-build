@@ -19,6 +19,11 @@ if (!existsSync(DOCS_DIR)) {
   mkdirSync(DOCS_DIR, { recursive: true });
 }
 
+const ROOT_DOCS_DIR = resolve(__dirname, 'assets/documents');
+if (!existsSync(ROOT_DOCS_DIR)) {
+  mkdirSync(ROOT_DOCS_DIR, { recursive: true });
+}
+
 const CHROME_PATHS = [
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
@@ -150,10 +155,14 @@ try {
     console.log(`\n✅ Successfully generated: ${primaryPdfName}`);
     console.log(`Path: ${outputPdfPath}`);
 
+    // Mirror to root assets/documents as well
+    copyFileSync(outputPdfPath, resolve(ROOT_DOCS_DIR, primaryPdfName));
+
     // If Letter, copy to letter alias as well for clear pairing
     if (aliasPdfName) {
       const aliasPath = resolve(DOCS_DIR, aliasPdfName);
       copyFileSync(outputPdfPath, aliasPath);
+      copyFileSync(outputPdfPath, resolve(ROOT_DOCS_DIR, aliasPdfName));
       console.log(`✅ Also mirrored to: ${aliasPdfName}`);
     }
     console.log('');

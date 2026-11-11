@@ -43,6 +43,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const sheet2 = document.getElementById('sheet-2');
   const sheetBadges = document.querySelectorAll('.sheet-badge');
 
+  // --- Dynamic Specced PDF Info (Matches Active UI Controls) ---
+  function getSpeccedPdfInfo() {
+    const activeTemplate = htmlEl.getAttribute('data-template') || 'classic';
+    const activeLayout = htmlEl.getAttribute('data-layout') || '1page';
+    const activePaper = htmlEl.getAttribute('data-paper') || 'letter';
+
+    const isModern = activeTemplate === 'modern';
+    const is2Page = activeLayout === '2page';
+    const isA4 = activePaper === 'a4';
+
+    const prefix = isModern ? 'vmercader-resume-modern' : 'vmercader-resume';
+    const pagePart = is2Page ? 'complete' : 'executive';
+    const paperPart = isA4 ? '-a4' : '';
+    const filename = `${prefix}-${pagePart}${paperPart}.pdf`;
+
+    const templateName = isModern ? 'Modern' : 'Classic';
+    const layoutName = is2Page ? '2-Page' : '1-Page';
+    const paperName = isA4 ? 'A4' : 'Letter';
+    const label = `${templateName} · ${layoutName} · ${paperName}`;
+
+    return { filename, label, isModern, is2Page, isA4 };
+  }
+
+  function updateExportPdfSpecLabel() {
+    const specLabelEl = document.getElementById('export-pdf-current-spec');
+    if (specLabelEl) {
+      const { label } = getSpeccedPdfInfo();
+      specLabelEl.textContent = label;
+    }
+  }
+
   // --- Template Switcher Controller (Classic vs Modern) ---
   const templateSelect = document.getElementById('template-select');
 
@@ -68,7 +99,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // Update density popover slider readouts based on active template tokens
+    const computed = window.getComputedStyle(htmlEl);
+    const bodySize = computed.getPropertyValue('--body-size').trim();
+    const sectionGap = computed.getPropertyValue('--section-gap').trim();
+    const roleGap = computed.getPropertyValue('--role-gap').trim();
+
+    if (inputBodySize && bodySize) {
+      inputBodySize.value = parseFloat(bodySize);
+      if (valBodySize) valBodySize.textContent = bodySize;
+    }
+    if (inputSectionGap && sectionGap) {
+      inputSectionGap.value = parseFloat(sectionGap);
+      if (valSectionGap) valSectionGap.textContent = sectionGap;
+    }
+    if (inputRoleGap && roleGap) {
+      inputRoleGap.value = parseFloat(roleGap);
+      if (valRoleGap) valRoleGap.textContent = roleGap;
+    }
+
     setTimeout(checkPageOverflow, 120);
+    updateExportPdfSpecLabel();
   }
 
   if (templateSelect) {
@@ -95,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setTimeout(checkPageOverflow, 120);
+    updateExportPdfSpecLabel();
   }
 
   if (paperSelect) {
@@ -249,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setTimeout(checkPageOverflow, 100);
+    updateExportPdfSpecLabel();
   }
 
   if (btn1Page && btn2Page) {
@@ -258,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialLayout = htmlEl.getAttribute('data-layout') || localStorage.getItem('resume_layout') || '1page';
     setLayoutMode(initialLayout);
   }
+  updateExportPdfSpecLabel();
 
 
   // --- Margin Guides Toggle ---
@@ -354,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnExportDropdown = document.getElementById('btn-export-dropdown');
   const exportMenu = document.getElementById('export-menu');
   const btnExportHtmlZip = document.getElementById('export-html-zip');
+  const btnExportPdf = document.getElementById('export-pdf');
   const btnExportBrowserPrint = document.getElementById('export-browser-print');
   const btnExportAtsTxt = document.getElementById('export-ats-txt');
 
@@ -367,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnExportDropdown && exportMenu) {
     btnExportDropdown.addEventListener('click', (e) => {
       e.stopPropagation();
+      updateExportPdfSpecLabel();
       const isOpen = exportMenu.classList.toggle('is-open');
       btnExportDropdown.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
@@ -495,7 +551,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const pdfFiles = [
           'vmercader-resume-executive.pdf', 'vmercader-resume-executive-a4.pdf',
           'vmercader-resume-complete.pdf', 'vmercader-resume-complete-a4.pdf',
-          'vmercader-resume-modern-executive.pdf', 'vmercader-resume-modern-complete.pdf'
+          'vmercader-resume-modern-executive.pdf', 'vmercader-resume-modern-executive-a4.pdf',
+          'vmercader-resume-modern-complete.pdf', 'vmercader-resume-modern-complete-a4.pdf'
         ];
         for (const pdfName of pdfFiles) {
           try {
@@ -525,18 +582,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper to resolve PDF path whether running from root studio or exported build
   async function downloadPdf(filename) {
-    const activeTemplate = htmlEl.getAttribute('data-template') || 'classic';
-    let targetFile = filename;
-    if (activeTemplate === 'modern') {
-      targetFile = filename.replace('vmercader-resume-', 'vmercader-resume-modern-');
-    }
-
-    const directPath = `assets/documents/${targetFile}`;
-    const buildPath = `resume-build/assets/documents/${targetFile}`;
+    const directPath = `assets/documents/${filename}`;
+    const buildPath = `resume-build/assets/documents/${filename}`;
     try {
       const res = await fetch(directPath, { method: 'HEAD' });
       if (res.ok) {
-        triggerDownload(directPath, targetFile);
+        triggerDownload(directPath, filename);
         return;
       }
     } catch (e) {}
@@ -544,16 +595,26 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const resBuild = await fetch(buildPath, { method: 'HEAD' });
       if (resBuild.ok) {
-        triggerDownload(buildPath, targetFile);
+        triggerDownload(buildPath, filename);
         return;
       }
     } catch (e) {}
 
-    // Fallback if template specific file is not yet built
-    triggerDownload(directPath, filename);
+    // Fallback if template specific file is not yet built:
+    // Launch print dialog where @page rules and live edits are active
+    window.print();
   }
 
-  // Bind Export PDF items (both Letter and A4)
+  // Bind Export PDF (configured to active UI specs)
+  if (btnExportPdf) {
+    btnExportPdf.addEventListener('click', () => {
+      closeExportMenu();
+      const { filename } = getSpeccedPdfInfo();
+      downloadPdf(filename);
+    });
+  }
+
+  // Bind Export PDF items fallback for legacy IDs
   const pdfItemBindings = [
     { id: 'export-pdf-1page-letter', file: 'vmercader-resume-executive.pdf' },
     { id: 'export-pdf-1page-a4', file: 'vmercader-resume-executive-a4.pdf' },

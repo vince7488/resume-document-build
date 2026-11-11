@@ -120,7 +120,7 @@
                 <label for="input-body-size">Body Font Size <code>--body-size</code></label>
                 <span id="val-body-size" class="popover-val">8.8pt</span>
               </div>
-              <input type="range" id="input-body-size" min="7.6" max="10.2" step="0.1" value="8.8">
+              <input type="range" id="input-body-size" min="7.0" max="10.5" step="0.1" value="8.8">
             </div>
             <div class="popover-row">
               <div class="popover-label-group">
@@ -200,53 +200,24 @@
         </button>
         <div id="export-menu" class="dropdown-menu" role="menu">
           <button class="dropdown-item" id="export-html-zip" role="menuitem">
-            <span class="item-badge">HTML Build</span>
+            <span class="item-badge">ZIP</span>
             <div class="item-details">
-              <strong class="item-title">📦 HTML Build Package (.zip)</strong>
-              <span class="item-desc">Self-contained <code>resume-build/</code> folder with HTML, CSS, SVG sprite &amp; assets</span>
+              <strong class="item-title">📦 Export as: HTML+ CSS (Zipped)</strong>
+              <span class="item-desc">Self-contained package with HTML, CSS, assets &amp; offline fonts</span>
             </div>
           </button>
-          <button class="dropdown-item" id="export-pdf-1page-letter" role="menuitem">
-            <span class="item-badge">PDF · Letter</span>
+          <button class="dropdown-item" id="export-pdf" role="menuitem">
+            <span class="item-badge">PDF</span>
             <div class="item-details">
-              <strong class="item-title">📄 1-Page Executive PDF (Letter)</strong>
-              <span class="item-desc">Strict 8.5" × 11" single-page executive download</span>
-            </div>
-          </button>
-          <button class="dropdown-item" id="export-pdf-1page-a4" role="menuitem">
-            <span class="item-badge">PDF · A4</span>
-            <div class="item-details">
-              <strong class="item-title">📄 1-Page Executive PDF (A4)</strong>
-              <span class="item-desc">Strict 210 × 297mm single-page executive download</span>
-            </div>
-          </button>
-          <button class="dropdown-item" id="export-pdf-2page-letter" role="menuitem">
-            <span class="item-badge">PDF · Letter</span>
-            <div class="item-details">
-              <strong class="item-title">📑 2-Page Complete PDF (Letter)</strong>
-              <span class="item-desc">Comprehensive 8.5" × 11" 2-page chronological PDF</span>
-            </div>
-          </button>
-          <button class="dropdown-item" id="export-pdf-2page-a4" role="menuitem">
-            <span class="item-badge">PDF · A4</span>
-            <div class="item-details">
-              <strong class="item-title">📑 2-Page Complete PDF (A4)</strong>
-              <span class="item-desc">Comprehensive 210 × 297mm 2-page chronological PDF</span>
-            </div>
-          </button>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-item" id="export-browser-print" role="menuitem">
-            <span class="item-badge">Print</span>
-            <div class="item-details">
-              <strong class="item-title">🖨️ Browser Print / Save PDF...</strong>
-              <span class="item-desc">System print dialog with @page rules pre-applied (Cmd+P)</span>
+              <strong class="item-title">📄 Export as: PDF</strong>
+              <span class="item-desc">Configured PDF matching UI specs (<span id="export-pdf-current-spec">Classic · 1-Page · Letter</span>)</span>
             </div>
           </button>
           <button class="dropdown-item" id="export-ats-txt" role="menuitem">
-            <span class="item-badge">ATS</span>
+            <span class="item-badge">TXT</span>
             <div class="item-details">
-              <strong class="item-title">📋 ATS Plain Text (.txt)</strong>
-              <span class="item-desc">Download formatted ATS text file directly</span>
+              <strong class="item-title">📋 Export ATS friendly TXT file</strong>
+              <span class="item-desc">Clean, ATS parser-optimized plain text resume</span>
             </div>
           </button>
         </div>
@@ -621,7 +592,7 @@
         <textarea id="ats-textarea" class="ats-textarea" readonly aria-label="ATS Plain Text Content">Loading ATS plain text...</textarea>
       </div>
       <div class="ats-modal-footer">
-        <span style="font-size: 11px; color: #9ca3af;">Complies with ATS parsing standards and prompt specifications.</span>
+        <span style="font-size: 8.25pt; color: #9ca3af;">Complies with ATS parsing standards and prompt specifications.</span>
         <button id="btn-ats-copy" class="control-btn btn-primary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy to Clipboard
